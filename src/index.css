@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary-50: #eaf0ff;
+  --color-primary-100: #dce6ff;
+  --color-primary-400: #4e78ff;
+  --color-primary-500: #2d5bff;
+  --color-primary-600: #1e40d6;
+
+  --color-success-50: #e3f8ee;
+  --color-success-100: #bce9d1;
+  --color-success-500: #18c26b;
+  --color-success-600: #18a85b;
+
+  --color-warning-50: #fff3d6;
+  --color-warning-500: #ffb020;
+  --color-warning-600: #e5a100;
+
+  --color-danger-50: #ffe9e1;
+  --color-danger-500: #ff5a2c;
+  --color-danger-600: #e5451c;
+
+  --color-ink-900: #12141a;
+  --color-ink-800: #181b22;
+  --color-ink-700: #3a4252;
+  --color-ink-600: #5a6171;
+  --color-ink-500: #6b7280;
+  --color-ink-400: #8a909c;
+  --color-ink-300: #9aa0ad;
+  --color-ink-200: #a2a8b4;
+  --color-ink-100: #c7ccd6;
+
+  --color-surface: #ffffff;
+  --color-surface-muted: #f6f7fb;
+  --color-surface-soft: #f4f5f8;
+  --color-border: #eceef3;
+
+  --color-sidebar: #14161d;
+  --color-sidebar-border: #23262f;
+  --color-sidebar-hover: #2b2e39;
+
+  --radius-lg: 11px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+  --radius-3xl: 22px;
+}
+
+body {
+  background: var(--color-surface-muted);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+dialog::backdrop {
+  background: rgba(12, 14, 20, 0.45);
+}
