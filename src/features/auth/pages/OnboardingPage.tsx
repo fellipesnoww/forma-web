@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ClipboardList, Dumbbell, TrendingUp } from 'lucide-react'
 import { Button } from '@/shared/ui/Button'
+import { useOnboardingCompleted } from '@/features/auth/hooks/useOnboardingCompleted'
 
 const steps = [
   {
@@ -24,13 +25,12 @@ const steps = [
 export function OnboardingPage() {
   const [step, setStep] = useState(0)
   const navigate = useNavigate()
+  const { markCompleted } = useOnboardingCompleted()
   const isLast = step === steps.length - 1
   const { icon: Icon, title, desc } = steps[step]
 
   const finish = () => {
-    // ponytail: PATCH /profile (onboardingCompletedAt) not built yet (1.2 pending) — flagged locally so this
-    // screen doesn't loop every login; swap for a real profile update once the backend ships it.
-    localStorage.setItem('forma.onboardingSeen', '1')
+    markCompleted()
     navigate('/app', { replace: true })
   }
 

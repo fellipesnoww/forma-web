@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { loginSchema, type LoginInput } from '@/features/auth/schemas'
 import { useAuth } from '@/shared/auth/AuthContext'
 import { ApiError } from '@/shared/api/client'
 import { Input } from '@/shared/ui/Input'
+import { PasswordInput } from '@/features/auth/components/PasswordInput'
 import { Button } from '@/shared/ui/Button'
 import { GoogleButton } from '@/features/auth/components/GoogleButton'
 
@@ -20,11 +21,7 @@ export function LoginForm() {
     formState: { errors, isSubmitting },
   } = useForm<LoginInput>({ resolver: zodResolver(loginSchema) })
 
-  const afterAuth = (profile: { onboardingCompletedAt: string | null }) => {
-    if (!profile.onboardingCompletedAt) {
-      navigate('/onboarding')
-      return
-    }
+  const afterAuth = () => {
     const from = (location.state as { from?: { pathname: string } })?.from?.pathname ?? '/app'
     navigate(from, { replace: true })
   }
@@ -32,7 +29,8 @@ export function LoginForm() {
   const onSubmit = async (data: LoginInput) => {
     setFormError(null)
     try {
-      afterAuth(await login(data.email, data.password))
+      await login(data.email, data.password)
+      afterAuth()
     } catch (err) {
       setFormError(err instanceof ApiError ? err.message : 'Não foi possível entrar. Tente novamente.')
     }
@@ -40,37 +38,42 @@ export function LoginForm() {
 
   return (
     <div className="flex flex-col gap-5">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <Input label="Email" type="email" autoComplete="email" error={errors.email?.message} {...register('email')} />
-        <Input
-          label="Senha"
-          type="password"
-          autoComplete="current-password"
-          error={errors.password?.message}
-          {...register('password')}
-        />
-        {formError && <p className="text-sm font-semibold text-danger-500">{formError}</p>}
-        <Button type="submit" loading={isSubmitting} fullWidth>
-          Entrar
-        </Button>
-      </form>
-
-      <div className="flex items-center gap-3 text-xs font-semibold text-ink-300">
-        <div className="h-px flex-1 bg-border" />
-        ou
-        <div className="h-px flex-1 bg-border" />
-      </div>
-
       <GoogleButton
         onIdToken={async (idToken) => {
           setFormError(null)
           try {
-            afterAuth(await loginWithGoogle(idToken))
+            await loginWithGoogle(idToken)
+            afterAuth()
           } catch (err) {
             setFormError(err instanceof ApiError ? err.message : 'Não foi possível entrar com Google.')
           }
         }}
       />
+
+      <div className="flex items-center gap-3 text-xs font-bold text-ink-200">
+        <div className="h-px flex-1 bg-border" />
+        ou com e-mail
+        <div className="h-px flex-1 bg-border" />
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <Input label="Email" type="email" autoComplete="email" error={errors.email?.message} {...register('email')} />
+        <div className="flex flex-col gap-2">
+          <PasswordInput
+            label="Senha"
+            autoComplete="current-password"
+            error={errors.password?.message}
+            {...register('password')}
+          />
+          <Link to="/forgot-password" className="self-end text-xs font-bold text-primary-500">
+            Esqueci minha senha
+          </Link>
+        </div>
+        {formError && <p className="text-sm font-semibold text-danger-500">{formError}</p>}
+        <Button type="submit" loading={isSubmitting} fullWidth>
+          Entrar
+        </Button>
+      </form>
     </div>
   )
 }
