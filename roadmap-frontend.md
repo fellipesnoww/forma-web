@@ -14,8 +14,8 @@
 
 | Fase | Status |
 |---|---|
-| 0 — Fundação técnica | ⬜ |
-| 1 — MVP Core | ⬜ |
+| 0 — Fundação técnica | ✅ |
+| 1 — MVP Core | 🟡 (1.1, 1.2 feitos) |
 | 2 — Completude do usuário | ⬜ |
 | 3 — Painel administrativo | ⬜ |
 | 4 — Gamificação | ⬜ |
@@ -113,13 +113,13 @@ sdd/
 
 > Pré-requisito para as demais fases. **Estimativa:** 1 semana
 
-- [ ] `create-vite` (React + TypeScript) + Tailwind + React Router
-- [ ] Cliente HTTP (`shared/api/client.ts`) com interceptor de auth + refresh
-- [ ] Contexto/store de sessão (usuário, role, token) + guard de rota autenticada + guard por role
-- [ ] Design system base: Button, Input, Card, Modal, Toast, Spinner — responsivos desde o primeiro componente
-- [ ] Variáveis de ambiente por ambiente (`.env.local`, `.env.staging`, `.env.production`)
-- [ ] Error boundary global
-- [ ] `sdd/fase-0-fundacao-tecnica.md`
+- [x] `create-vite` (React + TypeScript) + Tailwind + React Router
+- [x] Cliente HTTP (`shared/api/client.ts`) com interceptor de auth + refresh
+- [x] Contexto/store de sessão (usuário, role, token) + guard de rota autenticada + guard por role
+- [x] Design system base: Button, Input, Card, Modal, Toast, Spinner — responsivos desde o primeiro componente
+- [x] Variáveis de ambiente por ambiente (`.env.local`, `.env.staging`, `.env.production`)
+- [x] Error boundary global
+- [x] `sdd/fase-0-fundacao-tecnica.md`
 
 ---
 
@@ -129,13 +129,13 @@ sdd/
 
 ### 1.1 Autenticação e onboarding
 
-- [ ] `/login`, `/register`, callback OAuth Google
-- [ ] Onboarding pós-login (apresentação das funcionalidades principais)
-- [ ] Redirecionamento pós-login conforme `onboarding_completed_at`
-- [ ] `POST /auth/register`, `/auth/login`, `/auth/google`
-- [ ] `POST /auth/refresh` automático via interceptor; `POST /auth/logout` limpa sessão
-- [ ] `GET /auth/me` hidrata sessão no boot do app
-- [ ] `sdd/1.1-autenticacao.md`
+- [x] `/login`, `/register`, callback OAuth Google
+- [x] Onboarding pós-login (apresentação das funcionalidades principais)
+- [x] Redirecionamento pós-login conforme `onboarding_completed_at`
+- [x] `POST /auth/register`, `/auth/login`, `/auth/google`
+- [x] `POST /auth/refresh` automático via interceptor; `POST /auth/logout` limpa sessão
+- [x] `GET /auth/me` hidrata sessão no boot do app
+- [x] `sdd/1.1-autenticacao.md`
 
 > Login com Apple (`POST /auth/apple`) depende de fluxo nativo Sign in with Apple JS — avaliar se faz sentido fora de app nativo antes de implementar.
 
@@ -143,11 +143,11 @@ sdd/
 
 ### 1.2 Perfil do usuário
 
-- [ ] Tela de perfil (peso, altura, cintura, peitoral) + edição + upload de avatar
-- [ ] Histórico de medidas (lista + gráfico simples)
-- [ ] `GET/PATCH /profile`, `POST /profile/avatar`, `GET/POST /profile/measurements`
-- [ ] Validação client-side espelhando regras do backend (valores > 0)
-- [ ] `sdd/1.2-perfil.md`
+- [x] Tela de perfil (peso, altura, cintura, peitoral) + edição + upload de avatar
+- [x] Histórico de medidas (lista + gráfico simples)
+- [x] `GET/PATCH /profile`, `POST /profile/avatar`, `GET/POST /profile/measurements`
+- [x] Validação client-side espelhando regras do backend (valores > 0)
+- [x] `sdd/1.2-perfil.md`
 
 ---
 
