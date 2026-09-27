@@ -7,6 +7,8 @@ import { OnboardingPage } from '@/features/auth/pages/OnboardingPage'
 import { OnboardingGate } from '@/features/auth/components/OnboardingGate'
 import { HomePage } from '@/app/pages/HomePage'
 import { ProfilePage } from '@/features/profile/pages/ProfilePage'
+import { ExercisesPage } from '@/features/exercises'
+import { WorkoutSheetsListPage, WorkoutSheetFormPage } from '@/features/workout-sheets'
 import { ComingSoon } from '@/app/pages/ComingSoon'
 import { NotFoundPage } from '@/app/pages/NotFoundPage'
 
@@ -24,9 +26,10 @@ export function App() {
           <Route path="/app" element={<AppLayout />}>
             <Route index element={<HomePage />} />
             <Route path="profile" element={<ProfilePage />} />
-            <Route path="exercises" element={<ComingSoon title="Biblioteca de exercícios" />} />
-            <Route path="sheets" element={<ComingSoon title="Planilhas de treino" />} />
-            <Route path="sheets/:id" element={<ComingSoon title="Planilha" />} />
+            <Route path="exercises" element={<ExercisesPage />} />
+            <Route path="sheets" element={<WorkoutSheetsListPage />} />
+            <Route path="sheets/new" element={<WorkoutSheetFormPage />} />
+            <Route path="sheets/:id" element={<WorkoutSheetFormPage />} />
             <Route path="sheets/:id/run" element={<ComingSoon title="Execução de treino" />} />
             <Route path="sessions" element={<ComingSoon title="Histórico de sessões" />} />
           </Route>

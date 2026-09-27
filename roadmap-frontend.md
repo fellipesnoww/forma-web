@@ -15,7 +15,7 @@
 | Fase | Status |
 |---|---|
 | 0 — Fundação técnica | ✅ |
-| 1 — MVP Core | 🟡 (1.1, 1.2 feitos) |
+| 1 — MVP Core | 🟡 (1.1, 1.2, 1.3, 1.4 feitos) |
 | 2 — Completude do usuário | ⬜ |
 | 3 — Painel administrativo | ⬜ |
 | 4 — Gamificação | ⬜ |
@@ -153,19 +153,19 @@ sdd/
 
 ### 1.3 Exercícios
 
-- [ ] Biblioteca de exercícios com busca e filtro por grupo muscular
-- [ ] Criação/edição/exclusão de exercício personalizado (só do próprio usuário)
-- [ ] `GET /exercises?muscle_group=&q=`, `POST /exercises/custom`, `PATCH/DELETE /exercises/custom/:id`
-- [ ] `sdd/1.3-exercicios.md`
+- [x] Biblioteca de exercícios com busca e filtro por grupo muscular
+- [x] Criação/edição/exclusão de exercício personalizado (só do próprio usuário)
+- [x] `GET /exercises?muscle_group=&q=`, `POST /exercises/custom`, `PATCH/DELETE /exercises/custom/:id`
+- [x] `sdd/1.3-exercicios.md`
 
 ---
 
 ### 1.4 Planilha de treino
 
-- [ ] Listagem, criação (nome + dias da semana + exercícios por dia), edição, exclusão
-- [ ] Reordenação de exercícios (drag and drop mouse **e** touch — usar lib com suporte a Pointer Events, ex. `@dnd-kit`, não `react-beautiful-dnd`)
-- [ ] `GET/POST /workout-sheets`, `GET/PATCH/DELETE /workout-sheets/:id`, `PATCH /workout-sheets/:id/reorder`
-- [ ] `sdd/1.4-planilhas.md`
+- [x] Listagem, criação (nome + dias da semana + exercícios por dia), edição, exclusão
+- [x] Reordenação de exercícios (drag and drop mouse **e** touch — usar lib com suporte a Pointer Events, ex. `@dnd-kit`, não `react-beautiful-dnd`)
+- [x] `GET/POST /workout-sheets`, `GET/PATCH/DELETE /workout-sheets/:id`, `PATCH /workout-sheets/:id/reorder`
+- [x] `sdd/1.4-planilhas.md`
 
 ---
 
