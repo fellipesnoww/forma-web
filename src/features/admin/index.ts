@@ -1,0 +1,7 @@
+export { AdminLayout } from '@/features/admin/components/AdminLayout'
+export { AdminExercisesPage } from '@/features/admin/pages/AdminExercisesPage'
+export { AdminUsersPage } from '@/features/admin/pages/AdminUsersPage'
+export { AdminAdminsPage } from '@/features/admin/pages/AdminAdminsPage'
+export { AdminAuditPage } from '@/features/admin/pages/AdminAuditPage'
+export { AdminGamificationPage } from '@/features/admin/pages/AdminGamificationPage'
+export { adminApi } from '@/features/admin/api'

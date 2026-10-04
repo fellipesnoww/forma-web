@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from '@/app/layouts/AppLayout'
 import { RequireAuth } from '@/shared/auth/RequireAuth'
+import { RequireRole } from '@/shared/auth/RequireRole'
 import { LoginPage } from '@/features/auth/pages/LoginPage'
 import { RegisterPage } from '@/features/auth/pages/RegisterPage'
 import { OnboardingPage } from '@/features/auth/pages/OnboardingPage'
@@ -12,6 +13,14 @@ import { WorkoutSheetsListPage, WorkoutSheetFormPage } from '@/features/workout-
 import { WorkoutRunPage, SessionDetailPage, SessionHistoryPage } from '@/features/workout-sessions'
 import { ActivitiesPage } from '@/features/activities'
 import { CalendarPage } from '@/features/calendar'
+import {
+  AdminLayout,
+  AdminExercisesPage,
+  AdminUsersPage,
+  AdminAdminsPage,
+  AdminAuditPage,
+  AdminGamificationPage,
+} from '@/features/admin'
 import { ComingSoon } from '@/app/pages/ComingSoon'
 import { NotFoundPage } from '@/app/pages/NotFoundPage'
 
@@ -38,6 +47,19 @@ export function App() {
             <Route path="sessions/:id" element={<SessionDetailPage />} />
             <Route path="activities" element={<ActivitiesPage />} />
             <Route path="calendar" element={<CalendarPage />} />
+          </Route>
+        </Route>
+
+        <Route element={<RequireRole allow={['admin', 'super_user']} />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="exercises" replace />} />
+            <Route path="exercises" element={<AdminExercisesPage />} />
+            <Route path="users" element={<AdminUsersPage />} />
+            <Route path="gamification" element={<AdminGamificationPage />} />
+            <Route element={<RequireRole allow={['super_user']} redirectTo="/admin/exercises" />}>
+              <Route path="admins" element={<AdminAdminsPage />} />
+              <Route path="audit" element={<AdminAuditPage />} />
+            </Route>
           </Route>
         </Route>
       </Route>

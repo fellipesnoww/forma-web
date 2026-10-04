@@ -7,6 +7,7 @@ import { API_URL } from './env'
 export const TEST_PASSWORD = 'Senha1234'
 
 export interface TestUser {
+  id: string
   email: string
   password: string
   displayName: string
@@ -60,7 +61,17 @@ export class Api {
     private token?: string,
   ) {}
 
-  private async call<T>(method: string, path: string, data?: unknown): Promise<T> {
+  /** Raw status, for asserting refusals (403/409) without failing on them. */
+  async status(method: string, path: string, data?: unknown): Promise<number> {
+    const res = await this.request.fetch(`${API_URL}${path}`, {
+      method,
+      data,
+      headers: this.token ? { authorization: `Bearer ${this.token}` } : undefined,
+    })
+    return res.status()
+  }
+
+  async call<T>(method: string, path: string, data?: unknown): Promise<T> {
     const res = await this.request.fetch(`${API_URL}${path}`, {
       method,
       data,
@@ -72,13 +83,20 @@ export class Api {
 
   async createUser(displayName = 'Ana Teste'): Promise<TestUser> {
     const email = uniqueEmail()
-    const body = await this.call<{ accessToken: string; refreshToken: string }>('POST', '/auth', {
+    const body = await this.call<{ accessToken: string; refreshToken: string; user: { id: string } }>('POST', '/auth', {
       email,
       password: TEST_PASSWORD,
       displayName,
     })
     this.token = body.accessToken
-    return { email, password: TEST_PASSWORD, displayName, ...body }
+    return {
+      id: body.user.id,
+      email,
+      password: TEST_PASSWORD,
+      displayName,
+      accessToken: body.accessToken,
+      refreshToken: body.refreshToken,
+    }
   }
 
   async catalog(): Promise<CatalogExercise[]> {
@@ -192,4 +210,102 @@ export class Api {
   me() {
     return this.call<{ profile: { displayName: string | null; avatarUrl: string | null } }>('GET', '/auth/me')
   }
+
+  // ---------- Admin (Fase 3) — the token must belong to an admin/super_user ----------
+
+  adminSetRole(id: string, role: 'user' | 'admin' | 'super_user') {
+    return role === 'admin'
+      ? this.call<unknown>('PATCH', `/admin/users/${id}/role`, { role })
+      : this.call<unknown>('PATCH', `/admin/admins/${id}/role`, { role })
+  }
+
+  adminSetStatus(id: string, status: 'active' | 'inactive' | 'banned', reason?: string) {
+    return this.call<unknown>('PATCH', `/admin/users/${id}/status`, { status, reason })
+  }
+
+  async adminMuscleGroups() {
+    return (await this.call<{ items: SeedMuscleGroup[] }>('GET', '/admin/muscle-groups')).items
+  }
+
+  adminCreateExercise(body: { name: string; muscleGroupSlug?: string; isActive?: boolean }) {
+    return this.call<SeedAdminExercise>('POST', '/admin/exercises', body)
+  }
+
+  adminGetExercises(q: string) {
+    return this.call<{ items: SeedAdminExercise[]; total: number }>(
+      'GET',
+      `/admin/exercises?q=${encodeURIComponent(q)}&status=all`,
+    )
+  }
+
+  adminCreateChallenge(body: {
+    name: string
+    goal: { type: 'workout_count'; count: number } | { type: 'activity_minutes'; minutes: number; activityTypeId?: string }
+    startsAt: string
+    endsAt: string
+    reward?: string
+    isActive?: boolean
+  }) {
+    return this.call<SeedChallenge>('POST', '/admin/challenges', body)
+  }
+
+  adminGetChallenge(id: string) {
+    return this.call<SeedChallenge>('GET', `/admin/challenges/${id}`)
+  }
+
+  adminCreateAchievement(body: {
+    name: string
+    description?: string
+    criteria: { type: 'workout_count'; count: number } | { type: 'streak_days'; days: number }
+    isActive?: boolean
+  }) {
+    return this.call<SeedAchievement>('POST', '/admin/achievements', body)
+  }
+
+  adminGetAchievement(id: string) {
+    return this.call<SeedAchievement>('GET', `/admin/achievements/${id}`)
+  }
+
+  adminAuditLogs(query: string) {
+    return this.call<{ items: { action: string; targetId: string | null; metadata: Record<string, unknown> | null }[] }>(
+      'GET',
+      `/admin/audit-logs?${query}`,
+    )
+  }
+
+  adminGetUser(id: string) {
+    return this.call<{ id: string; role: string; status: string }>('GET', `/admin/users/${id}`)
+  }
+}
+
+export interface SeedMuscleGroup {
+  id: string
+  slug: string
+  name: string
+  exerciseCount: number
+}
+
+export interface SeedAdminExercise {
+  id: string
+  name: string
+  isActive: boolean
+  mediaUrl: string | null
+  muscleGroup: { id: string; slug: string; name: string } | null
+}
+
+export interface SeedChallenge {
+  id: string
+  name: string
+  isActive: boolean
+  reward: string | null
+  goal: Record<string, unknown>
+  participantCount: number
+}
+
+export interface SeedAchievement {
+  id: string
+  name: string
+  isActive: boolean
+  iconUrl: string | null
+  criteria: Record<string, unknown>
 }

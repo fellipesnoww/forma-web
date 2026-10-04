@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { Home, Dumbbell, ClipboardList, History, Activity, CalendarDays, LogOut } from 'lucide-react'
+import { Home, Dumbbell, ClipboardList, History, Activity, CalendarDays, LogOut, ShieldCheck } from 'lucide-react'
 import { useAuth } from '@/shared/auth/AuthContext'
+import { useForbiddenNotice } from '@/shared/auth/useForbiddenNotice'
 import { cn } from '@/shared/lib/cn'
 
 const navItems = [
@@ -62,7 +63,15 @@ function SidebarFooter() {
   )
 }
 
+function useIsAdmin() {
+  const { user } = useAuth()
+  return user?.role === 'admin' || user?.role === 'super_user'
+}
+
 export function AppLayout() {
+  const isAdmin = useIsAdmin()
+  useForbiddenNotice()
+
   return (
     <div className="flex min-h-screen">
       <aside className="hidden w-60 shrink-0 flex-col bg-sidebar p-4 text-white md:flex">
@@ -74,6 +83,15 @@ export function AppLayout() {
         </div>
         <NavLinks />
         <div className="flex-1" />
+        {isAdmin && (
+          <NavLink
+            to="/admin"
+            className="mb-2.5 flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-warning-500 hover:bg-sidebar-hover"
+          >
+            <ShieldCheck size={20} />
+            Painel admin
+          </NavLink>
+        )}
         <SidebarFooter />
       </aside>
 
@@ -89,6 +107,7 @@ export function AppLayout() {
 }
 
 function MobileHeader() {
+  const isAdmin = useIsAdmin()
   return (
     <header className="flex h-14 items-center justify-between border-b border-border bg-white px-4 md:hidden">
       <div className="flex items-center gap-2">
@@ -97,9 +116,20 @@ function MobileHeader() {
         </div>
         <span className="text-base font-extrabold">Forma</span>
       </div>
-      <NavLink to="/app/profile" aria-label="Perfil" className="flex h-11 w-11 items-center justify-center">
-        <div className="h-8 w-8 rounded-full bg-surface-soft" />
-      </NavLink>
+      <div className="flex items-center">
+        {isAdmin && (
+          <NavLink
+            to="/admin"
+            aria-label="Painel admin"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-warning-600"
+          >
+            <ShieldCheck size={20} />
+          </NavLink>
+        )}
+        <NavLink to="/app/profile" aria-label="Perfil" className="flex h-11 w-11 items-center justify-center">
+          <div className="h-8 w-8 rounded-full bg-surface-soft" />
+        </NavLink>
+      </div>
     </header>
   )
 }

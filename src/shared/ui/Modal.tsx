@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useRef } from 'react'
+import { type ReactNode, useEffect, useId, useRef } from 'react'
 import { X } from 'lucide-react'
 
 interface ModalProps {
@@ -10,6 +10,7 @@ interface ModalProps {
 
 export function Modal({ open, onClose, title, children }: ModalProps) {
   const ref = useRef<HTMLDialogElement>(null)
+  const titleId = useId()
 
   useEffect(() => {
     const dialog = ref.current
@@ -21,15 +22,23 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
   return (
     <dialog
       ref={ref}
-      onClose={onClose}
-      onCancel={onClose}
+      aria-labelledby={titleId}
+      // React propagates a nested dialog's close/cancel through the component tree; only react to our own.
+      onClose={(e) => {
+        if (e.target === ref.current) onClose()
+      }}
+      onCancel={(e) => {
+        if (e.target === ref.current) onClose()
+      }}
       onClick={(e) => {
         if (e.target === ref.current) onClose()
       }}
       className="w-[min(480px,calc(100vw-32px))] rounded-2xl border border-border p-0 shadow-2xl backdrop:backdrop-blur-sm"
     >
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
-        <h2 className="text-base font-extrabold text-ink-900">{title}</h2>
+        <h2 id={titleId} className="text-base font-extrabold text-ink-900">
+          {title}
+        </h2>
         <button
           type="button"
           onClick={onClose}

@@ -1,6 +1,5 @@
-import { fileURLToPath } from 'node:url'
 import { defineConfig, devices } from '@playwright/test'
-import { API_PORT, API_URL, WEB_PORT, WEB_URL } from './e2e/support/env'
+import { API_PORT, API_URL, SERVER_DIR, WEB_PORT, WEB_URL } from './e2e/support/env'
 
 /**
  * E2E suite against the real API.
@@ -10,8 +9,6 @@ import { API_PORT, API_URL, WEB_PORT, WEB_URL } from './e2e/support/env'
  * would throttle a full run. It shares the dev database; every test creates its own user, so
  * runs don't collide. Point `E2E_API_URL` at an already running API to skip booting one.
  */
-const SERVER_DIR = process.env.FORMA_SERVER_DIR ?? fileURLToPath(new URL('../forma-server', import.meta.url))
-
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,

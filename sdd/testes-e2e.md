@@ -2,7 +2,7 @@
 
 ## Escopo entregue
 
-Suíte Playwright cobrindo tudo o que está implementado (Fase 0, 1.1–1.5, 2.1 e 2.2), rodando em dois projetos, `desktop` (Chrome 1280×800) e `mobile` (Pixel 7, touch), contra a **API real**.
+Suíte Playwright cobrindo tudo o que está implementado (Fase 0, 1.1–1.5, 2.1, 2.2 e Fase 3), rodando em dois projetos, `desktop` (Chrome 1280×800) e `mobile` (Pixel 7, touch), contra a **API real**.
 
 | Spec | Cobre |
 |---|---|
@@ -15,7 +15,13 @@ Suíte Playwright cobrindo tudo o que está implementado (Fase 0, 1.1–1.5, 2.1
 | `e2e/activities.spec.ts` | 2.1: estado vazio, registro (tipo padrão, duração, comentário), validações (tipo, duração 0/1441, data futura), `max` do input de data, retroativo, tipo personalizado inline (criado e selecionado, repetido → 409, vazio), edição (tipo, duração, comentário → `null`, data preservada), exclusão com confirmação, foto (upload, remoção, arquivo inválido), ordem, filtros por período na URL, paginação |
 | `e2e/calendar.spec.ts` | 2.2: grade em todos os tamanhos (células altas no desktop, compactas no mobile), indicadores de treino/atividade e miniatura, detalhe do dia, dia vazio, link direto `?month=&day=`, "Lançar atividade livre" com a data do dia, navegação entre meses, edição de atividade pelo dia, agrupamento no dia local, sync do fuso do navegador (`Asia/Tokyo`), sem rolagem horizontal |
 
-Resultado atual: **184 passed, 2 skipped** (≈1 min). Os skips são intencionais: no `mobile`, logout (o botão Sair só existe na sidebar desktop) e drag and drop (arrasto por toque do `TouchSensor` não é simulável de forma confiável; a lógica é a mesma coberta pelo mouse no desktop). `sessions` + `sheets` com `--repeat-each=3`: 183/183.
+| `e2e/admin/infra.spec.ts` | 3.1: guard por role (sem login, usuário, admin vs. super user), atalho "Painel admin", rebaixado perde o painel no reload, busca/filtro na URL, sem rolagem horizontal |
+| `e2e/admin/exercises.spec.ts` | 3.2: totais, cadastro com grupo + imagem, nome obrigatório/duplicado, edição, switch + filtro de status, filtro por grupo, grupos musculares, auditoria |
+| `e2e/admin/users.spec.ts` | 3.3: perfil + estatísticas, link direto, desativar/reativar com motivo, banir (403 imediato), cancelar, abas, regras de admin, promoção por super user |
+| `e2e/admin/super-user.spec.ts` | 3.4: lista de admins, promover/rebaixar/revogar, filtro por papel, cartão de auditoria, filtros do log, link do alvo |
+| `e2e/admin/achievements-challenges.spec.ts` | 3.5: CRUD de desafios (meta, datas, período, switch, exclusão) e conquistas (critérios, ícone, nome duplicado, switch, exclusão, "ver usuários") |
+
+Resultado atual: **268 passed, 2 skipped** (≈1,5 min). Os skips são intencionais: no `mobile`, logout (o botão Sair só existe na sidebar desktop) e drag and drop (arrasto por toque do `TouchSensor` não é simulável de forma confiável; a lógica é a mesma coberta pelo mouse no desktop). `sessions` + `sheets` com `--repeat-each=3`: 183/183.
 
 ## Como rodar
 
@@ -35,6 +41,7 @@ Pré-requisitos: Postgres do `forma-server` rodando (o mesmo banco de dev, com m
 - **Front servido como build de produção** (`vite build` + `vite preview` na porta 4174, saída em `node_modules/.e2e-dist`), não o dev server: o pre-bundling sob demanda do Vite recarrega a página no meio do teste em cold start, o que causava falhas intermitentes.
 - **Um usuário novo por teste** (fixture `user`, via `POST /auth`), com dados semeados direto pela API (`e2e/support/api.ts`). A UI só é dirigida no que o teste verifica. Testes rodam em paralelo sem colidir e sem limpeza.
 - **Login por `localStorage`** (fixture `authedPage`): os tokens e a flag de onboarding são gravados antes do app carregar, só uma vez por página, para que reloads vejam o que o próprio app gravou (ex.: depois do logout).
+- **Contas admin (Fase 3)** (`e2e/support/admin.ts`): pela API só um super user promove alguém, então cada worker cria um super user "root" com o CLI do backend (`npx tsx src/scripts/set-role.ts` em `forma-server`), e ele promove as contas de cada teste via API (fixtures `admin`, `superUser`, `adminPage`, `superPage`, `makeUser`). No teardown, tudo volta a `user`, para não acumular admins no banco de dev. Exercícios de catálogo criados nos testes nascem **inativos**, para não mudar as contagens que `exercises.spec.ts` faz em paralelo.
 - **Timezone e locale fixos** (`America/Sao_Paulo`, `pt-BR`), já que execução e histórico dependem do dia da semana e das datas locais.
 
 ## Estrutura criada
@@ -49,6 +56,9 @@ e2e/
   navigation.spec.ts  auth.spec.ts  profile.spec.ts
   exercises.spec.ts   sheets.spec.ts  sessions.spec.ts
   activities.spec.ts  calendar.spec.ts
+  support/admin.ts              # fixtures admin/superUser (bootstrap via CLI do backend)
+  admin/infra.spec.ts  admin/exercises.spec.ts  admin/users.spec.ts
+  admin/super-user.spec.ts  admin/achievements-challenges.spec.ts
 ```
 
 `.gitignore`: `test-results`, `playwright-report`, `playwright/.cache`.
@@ -63,6 +73,8 @@ e2e/
 | 1.2 · histórico | Front esperava array com `recordedAt`; API devolve `{ items, total, page, limit }` com `createdAt` e campos anuláveis. O histórico nunca aparecia | `listMeasurements` lê `items`; tipo `Measurement` espelha a API; gráfico ordena e ignora peso nulo |
 
 ## Pendências
+
+- Fase 3 deixa no banco de dev o que a API não deixa apagar: exercícios inativos, grupos musculares, desafios e conquistas com sufixo `E2E <tag>`.
 
 - Nenhum pipeline de CI ainda. A config já trata `CI` (retries, `forbidOnly`, reporter `github`), mas o job precisa de Postgres + `forma-server` disponíveis.
 - No cadastro, "Nome" é opcional na API mas o formulário exige (string vazia não passa em `min(1)`). Os testes preenchem o nome; mudar isso é decisão de produto.

@@ -17,7 +17,7 @@
 | 0 — Fundação técnica | ✅ |
 | 1 — MVP Core | 🟡 (1.1–1.5 feitos) |
 | 2 — Completude do usuário | 🟡 (2.1–2.2 feitos) |
-| 3 — Painel administrativo | ⬜ |
+| 3 — Painel administrativo | 🟡 (3.1–3.5 feitos; falta o teste manual da 3.6) |
 | 4 — Gamificação | ⬜ |
 | 5 — Experiência avançada | ⬜ |
 | 6 — Integrações e expansão | ⬜ |
@@ -190,7 +190,7 @@ sdd/
 ### 1.6 Entrega Fase 1
 
 - [x] Testes de guard de rota — não autenticado (`e2e/auth.spec.ts`)
-- [ ] Testes de guard de rota — role incorreta (nenhuma rota exige role antes da Fase 3; coberto em `e2e/admin/infra.spec.ts`)
+- [x] Testes de guard de rota — role incorreta (coberto em `e2e/admin/infra.spec.ts`)
 - [x] Smoke test end-to-end: login → planilha → sessão → histórico, em viewport desktop e mobile (`e2e/`, projetos `desktop` e `mobile`)
 - [x] Atualizar `sdd/README.md` com links das etapas 1.1–1.5
 
@@ -254,46 +254,46 @@ sdd/
 
 ### 3.1 Infra admin
 
-- [ ] Layout admin (`/admin/*`) com navegação própria; guard `requireRole('admin')` no layout, `requireRole('super_user')` nas rotas exclusivas
-- [ ] Tabela genérica com paginação/busca/filtro reutilizável entre telas admin
-- [ ] Testes E2E (Playwright, desktop + mobile): `e2e/admin/infra.spec.ts` — guard por role: user → 403/redirect, admin vs. super_user
-- [ ] `sdd/3.1-infra-admin.md`
+- [x] Layout admin (`/admin/*`) com navegação própria; guard `requireRole('admin')` no layout, `requireRole('super_user')` nas rotas exclusivas
+- [x] Tabela genérica com paginação/busca/filtro reutilizável entre telas admin
+- [x] Testes E2E (Playwright, desktop + mobile): `e2e/admin/infra.spec.ts` — guard por role: user → 403/redirect, admin vs. super_user
+- [x] `sdd/3.1-infra-admin.md`
 
 ### 3.2 Gestão de exercícios (admin)
 
-- [ ] Listagem com filtros (inclui inativos), criação com upload de imagem/GIF, edição, ativação/desativação
-- [ ] Gestão de grupos musculares (CRUD)
-- [ ] `GET/POST/PATCH /admin/exercises`, `PATCH /admin/exercises/:id/status`, `GET/POST/PATCH /admin/muscle-groups`
-- [ ] Testes E2E (Playwright, desktop + mobile): `e2e/admin/exercises.spec.ts`
-- [ ] `sdd/3.2-admin-exercicios.md`
+- [x] Listagem com filtros (inclui inativos), criação com upload de imagem/GIF, edição, ativação/desativação
+- [x] Gestão de grupos musculares (CRUD)
+- [x] `GET/POST/PATCH /admin/exercises`, `PATCH /admin/exercises/:id/status`, `GET/POST/PATCH /admin/muscle-groups`
+- [x] Testes E2E (Playwright, desktop + mobile): `e2e/admin/exercises.spec.ts`
+- [x] `sdd/3.2-admin-exercicios.md`
 
 ### 3.3 Gestão de usuários (admin)
 
-- [ ] Listagem paginada com busca/filtro (`status`, `role`), perfil individual (dados + estatísticas)
-- [ ] Ativar/desativar/banir; promoção para admin (visível só para `super_user`)
-- [ ] `GET /admin/users`, `GET /admin/users/:id`, `PATCH /admin/users/:id/status`, `PATCH /admin/users/:id/role`
-- [ ] Testes E2E (Playwright, desktop + mobile): `e2e/admin/users.spec.ts`
-- [ ] `sdd/3.3-admin-usuarios.md`
+- [x] Listagem paginada com busca/filtro (`status`, `role`), perfil individual (dados + estatísticas)
+- [x] Ativar/desativar/banir; promoção para admin (visível só para `super_user`)
+- [x] `GET /admin/users`, `GET /admin/users/:id`, `PATCH /admin/users/:id/status`, `PATCH /admin/users/:id/role`
+- [x] Testes E2E (Playwright, desktop + mobile): `e2e/admin/users.spec.ts`
+- [x] `sdd/3.3-admin-usuarios.md`
 
 ### 3.4 Gestão de administradores (super user)
 
-- [ ] Listagem de admins/super users, promoção/rebaixamento, log de auditoria (`?actor_id=&action=&from=&to=`)
-- [ ] `GET /admin/admins`, `PATCH /admin/admins/:id/role`, `GET /admin/audit-logs`
-- [ ] Testes E2E (Playwright, desktop + mobile): `e2e/admin/super-user.spec.ts`
-- [ ] `sdd/3.4-admin-super-user.md`
+- [x] Listagem de admins/super users, promoção/rebaixamento, log de auditoria (`?actor_id=&action=&from=&to=`)
+- [x] `GET /admin/admins`, `PATCH /admin/admins/:id/role`, `GET /admin/audit-logs`
+- [x] Testes E2E (Playwright, desktop + mobile): `e2e/admin/super-user.spec.ts`
+- [x] `sdd/3.4-admin-super-user.md`
 
 ### 3.5 Conquistas e desafios (admin)
 
-- [ ] CRUD de conquistas (nome, descrição, ícone, critério) e desafios (nome, descrição, período, meta, recompensa)
-- [ ] Ativação/desativação de desafio; visualização de quem desbloqueou cada conquista
-- [ ] CRUD `/admin/achievements`, CRUD `/admin/challenges`, `GET /admin/achievements/:id/unlocks`
-- [ ] Testes E2E (Playwright, desktop + mobile): `e2e/admin/achievements-challenges.spec.ts`
-- [ ] `sdd/3.5-admin-conquistas-desafios.md`
+- [x] CRUD de conquistas (nome, descrição, ícone, critério) e desafios (nome, descrição, período, meta, recompensa)
+- [x] Ativação/desativação de desafio; visualização de quem desbloqueou cada conquista
+- [x] CRUD `/admin/achievements`, CRUD `/admin/challenges`, `GET /admin/achievements/:id/unlocks`
+- [x] Testes E2E (Playwright, desktop + mobile): `e2e/admin/achievements-challenges.spec.ts`
+- [x] `sdd/3.5-admin-conquistas-desafios.md`
 
 ### 3.6 Entrega Fase 3
 
-- [ ] Teste manual: usuário não-admin não acessa `/admin/*` (redirect/403)
-- [ ] Atualizar `sdd/README.md` com links das etapas 3.1–3.5
+- [ ] Teste manual: usuário não-admin não acessa `/admin/*` (redirect/403). Já coberto automaticamente em `e2e/admin/infra.spec.ts`
+- [x] Atualizar `sdd/README.md` com links das etapas 3.1–3.5
 
 ---
 
