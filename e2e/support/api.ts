@@ -34,6 +34,22 @@ export interface SeedSheet {
   days: { id: string; weekday: number; exercises: { id: string; name: string }[] }[]
 }
 
+export interface SeedActivityType {
+  id: string
+  name: string
+  source: 'default' | 'custom'
+}
+
+export interface SeedActivity {
+  id: string
+  activityTypeId: string
+  activityTypeName: string
+  performedAt: string
+  durationMinutes: number
+  comment: string | null
+  photoUrl: string | null
+}
+
 export function uniqueEmail(prefix = 'e2e') {
   return `${prefix}+${Date.now()}-${randomUUID().slice(0, 8)}@example.com`
 }
@@ -127,6 +143,34 @@ export class Api {
 
   listMeasurements() {
     return this.call<{ items: { weightKg: number | null }[] }>('GET', '/profile/measurements')
+  }
+
+  async activityTypes() {
+    return (await this.call<{ items: SeedActivityType[] }>('GET', '/activity-types')).items
+  }
+
+  createActivityType(name: string) {
+    return this.call<SeedActivityType>('POST', '/activity-types/custom', { name })
+  }
+
+  createActivity(body: { activityTypeId: string; durationMinutes: number; performedAt?: string; comment?: string }) {
+    return this.call<SeedActivity>('POST', '/activities', body)
+  }
+
+  uploadActivityPhoto(id: string, png: Buffer) {
+    return this.call<{ photoUrl: string }>('POST', `/activities/${id}/photo`, {
+      data: png.toString('base64'),
+      mimeType: 'image/png',
+      filename: 'foto.png',
+    })
+  }
+
+  getActivity(id: string) {
+    return this.call<SeedActivity>('GET', `/activities/${id}`)
+  }
+
+  listActivities() {
+    return this.call<{ items: SeedActivity[]; total: number }>('GET', '/activities?limit=100')
   }
 
   me() {

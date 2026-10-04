@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ClipboardList, Dumbbell, UserRound } from 'lucide-react'
+import { Activity, ClipboardList, Dumbbell, UserRound } from 'lucide-react'
 import { useAuth } from '@/shared/auth/AuthContext'
 import { Card } from '@/shared/ui/Card'
 
@@ -13,6 +13,7 @@ function greeting() {
 const quickLinks = [
   { to: '/app/sheets', label: 'Minhas planilhas', desc: 'Ver ou criar um treino', icon: ClipboardList },
   { to: '/app/exercises', label: 'Biblioteca de exercícios', desc: 'Buscar por grupo muscular', icon: Dumbbell },
+  { to: '/app/activities', label: 'Atividades livres', desc: 'Corrida, futebol, natação…', icon: Activity },
   { to: '/app/profile', label: 'Meu perfil', desc: 'Medidas e dados pessoais', icon: UserRound },
 ]
 
@@ -29,7 +30,7 @@ export function HomePage() {
         <p className="mt-1 text-sm font-medium text-ink-500">O que você quer fazer hoje?</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {quickLinks.map(({ to, label, desc, icon: Icon }) => (
           <Link key={to} to={to}>
             <Card className="flex h-full flex-col gap-3 transition-shadow hover:shadow-md">

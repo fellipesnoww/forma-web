@@ -2,7 +2,7 @@
 
 ## Escopo entregue
 
-Suíte Playwright cobrindo tudo o que está implementado (Fase 0 e 1.1–1.5), rodando em dois projetos, `desktop` (Chrome 1280×800) e `mobile` (Pixel 7, touch), contra a **API real**.
+Suíte Playwright cobrindo tudo o que está implementado (Fase 0, 1.1–1.5 e 2.1), rodando em dois projetos, `desktop` (Chrome 1280×800) e `mobile` (Pixel 7, touch), contra a **API real**.
 
 | Spec | Cobre |
 |---|---|
@@ -12,8 +12,9 @@ Suíte Playwright cobrindo tudo o que está implementado (Fase 0 e 1.1–1.5), r
 | `e2e/exercises.spec.ts` | 1.3: catálogo, busca, estado vazio, filtro por grupo, criar/editar/excluir personalizado, nome obrigatório, catálogo não editável |
 | `e2e/sheets.spec.ts` | 1.4: estado vazio, criar com 2 dias, dia sem exercício, nome obrigatório, desmarcar dia, remover exercício, editar, excluir, drag and drop com `PATCH /reorder` persistido, botão Iniciar |
 | `e2e/sessions.spec.ts` | 1.5: dia de hoje + alvos, troca de dia, criação da sessão na 1ª série, herança de carga, vírgula decimal, sync via `PATCH`, desfazer, adicionar/remover série, navegação (rail desktop, barra mobile), reload retoma, offline → "salvo no aparelho" → sincroniza ao voltar, finalizar sem série, finalizar com foto + comentário, arquivo inválido, "Voltar ao treino" sem rascunho local, histórico (status, ordem, filtros por planilha/período, filtros na URL, paginação, detalhe) |
+| `e2e/activities.spec.ts` | 2.1: estado vazio, registro (tipo padrão, duração, comentário), validações (tipo, duração 0/1441, data futura), `max` do input de data, retroativo, tipo personalizado inline (criado e selecionado, repetido → 409, vazio), edição (tipo, duração, comentário → `null`, data preservada), exclusão com confirmação, foto (upload, remoção, arquivo inválido), ordem, filtros por período na URL, paginação |
 
-Resultado atual: **126 passed, 2 skipped** (≈35 s). Os skips são intencionais e só no `mobile`: logout (o botão Sair só existe na sidebar desktop) e drag and drop (arrasto por toque do `TouchSensor` não é simulável de forma confiável; a lógica é a mesma coberta pelo mouse no desktop). `sessions` + `sheets` com `--repeat-each=3`: 183/183.
+Resultado atual: **156 passed, 2 skipped** (≈50 s). Os skips são intencionais e só no `mobile`: logout (o botão Sair só existe na sidebar desktop) e drag and drop (arrasto por toque do `TouchSensor` não é simulável de forma confiável; a lógica é a mesma coberta pelo mouse no desktop). `sessions` + `sheets` com `--repeat-each=3`: 183/183.
 
 ## Como rodar
 
@@ -24,7 +25,7 @@ npm run test:e2e:ui         # modo interativo
 npm run test:e2e:report     # abre o último relatório HTML
 ```
 
-Pré-requisitos: Postgres do `forma-server` rodando (o mesmo banco de dev) e o checkout do backend em `../forma-server` (ou `FORMA_SERVER_DIR=<caminho>`). Na primeira vez: `npx playwright install chromium`.
+Pré-requisitos: Postgres do `forma-server` rodando (o mesmo banco de dev, com migrations e `yarn db:seed` aplicados — catálogo de exercícios e tipos de atividade) e o checkout do backend em `../forma-server` (ou `FORMA_SERVER_DIR=<caminho>`). Na primeira vez: `npx playwright install chromium`.
 
 ## Decisões técnicas
 
@@ -46,6 +47,7 @@ e2e/
   support/fixtures.ts           # fixtures api/user/authedPage, signIn, helpers (dia de hoje, PNG)
   navigation.spec.ts  auth.spec.ts  profile.spec.ts
   exercises.spec.ts   sheets.spec.ts  sessions.spec.ts
+  activities.spec.ts
 ```
 
 `.gitignore`: `test-results`, `playwright-report`, `playwright/.cache`.

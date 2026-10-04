@@ -16,7 +16,7 @@
 |---|---|
 | 0 — Fundação técnica | ✅ |
 | 1 — MVP Core | 🟡 (1.1–1.5 feitos) |
-| 2 — Completude do usuário | ⬜ |
+| 2 — Completude do usuário | 🟡 (2.1 feito) |
 | 3 — Painel administrativo | ⬜ |
 | 4 — Gamificação | ⬜ |
 | 5 — Experiência avançada | ⬜ |
@@ -202,10 +202,10 @@ sdd/
 
 ### 2.1 Atividades livres
 
-- [ ] Listagem (`?from=&to=`), registro (tipo, duração, comentário, foto), criação de tipo custom, edição/exclusão
-- [ ] `GET/POST /activity-types`, `/activity-types/custom`, `GET/POST/PATCH/DELETE /activities`, `POST /activities/:id/photo`
-- [ ] Testes E2E (Playwright, desktop + mobile): `e2e/activities.spec.ts`
-- [ ] `sdd/2.1-atividades-livres.md`
+- [x] Listagem (`?from=&to=`), registro (tipo, duração, comentário, foto), criação de tipo custom, edição/exclusão
+- [x] `GET/POST /activity-types`, `/activity-types/custom`, `GET/POST/PATCH/DELETE /activities`, `POST /activities/:id/photo`
+- [x] Testes E2E (Playwright, desktop + mobile): `e2e/activities.spec.ts`
+- [x] `sdd/2.1-atividades-livres.md`
 
 ---
 
@@ -411,7 +411,7 @@ sdd/
 4. [ ] **1.4** — Planilhas
 5. [x] **1.5** — Sessões de treino
 6. [ ] **1.2** — Perfil e medidas
-7. [ ] **2.1** — Atividades livres
+7. [x] **2.1** — Atividades livres
 8. [ ] **2.2–2.3** — Calendário + retroativo
 9. [ ] **2.4** — Progressão (gráficos)
 10. [ ] **Fase 3** — Admin

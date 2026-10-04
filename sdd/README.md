@@ -10,6 +10,7 @@ Registro de implementação por etapa, seguindo `roadmap-frontend.md`.
 - [1.3 — Exercícios](1.3-exercicios.md)
 - [1.4 — Planilha de treino](1.4-planilhas.md)
 - [1.5 — Execução de treino](1.5-sessoes-treino.md)
+- [2.1 — Atividades livres](2.1-atividades-livres.md)
 - [Testes E2E (Playwright)](testes-e2e.md)
 
 ## Corrigido: CORS no backend

@@ -5,6 +5,7 @@ test.describe('Fase 0 · Layout e navegação', () => {
     { link: 'Biblioteca', url: /\/app\/exercises$/, heading: 'Biblioteca' },
     { link: 'Planilhas', url: /\/app\/sheets$/, heading: 'Planilhas' },
     { link: 'Histórico', url: /\/app\/sessions$/, heading: 'Histórico' },
+    { link: 'Atividades', url: /\/app\/activities$/, heading: 'Atividades' },
     { link: 'Início', url: /\/app$/, heading: /Bom dia|Boa tarde|Boa noite/ },
   ]
 
@@ -38,6 +39,9 @@ test.describe('Fase 0 · Layout e navegação', () => {
     await page.goBack()
     await page.getByRole('link', { name: /Biblioteca de exercícios/ }).click()
     await expect(page).toHaveURL(/\/app\/exercises$/)
+    await page.goBack()
+    await page.getByRole('link', { name: /Atividades livres/ }).click()
+    await expect(page).toHaveURL(/\/app\/activities$/)
     await page.goBack()
     await page.getByRole('link', { name: /Meu perfil/ }).click()
     await expect(page).toHaveURL(/\/app\/profile$/)

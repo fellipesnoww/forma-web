@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { Home, Dumbbell, ClipboardList, History, LogOut } from 'lucide-react'
+import { Home, Dumbbell, ClipboardList, History, Activity, LogOut } from 'lucide-react'
 import { useAuth } from '@/shared/auth/AuthContext'
 import { cn } from '@/shared/lib/cn'
 
@@ -8,6 +8,7 @@ const navItems = [
   { to: '/app/exercises', label: 'Biblioteca', icon: Dumbbell },
   { to: '/app/sheets', label: 'Planilhas', icon: ClipboardList },
   { to: '/app/sessions', label: 'Histórico', icon: History },
+  { to: '/app/activities', label: 'Atividades', icon: Activity },
 ]
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {

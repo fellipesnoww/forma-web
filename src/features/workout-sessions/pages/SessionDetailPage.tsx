@@ -10,9 +10,9 @@ import { useToast } from '@/shared/ui/Toast'
 import { ApiError } from '@/shared/api/client'
 import { workoutSessionsApi, type WorkoutSession } from '@/features/workout-sessions/api'
 import { draftStorage, sessionToDraft } from '@/features/workout-sessions/lib/draft'
-import { compressImage } from '@/features/workout-sessions/lib/image'
+import { compressImage } from '@/shared/lib/image'
 import { computeStats, formatKg, formatLongDate, formatTime } from '@/features/workout-sessions/lib/format'
-import { PhotoDropzone } from '@/features/workout-sessions/components/PhotoDropzone'
+import { PhotoDropzone } from '@/shared/ui/PhotoDropzone'
 import { SessionStatsRow } from '@/features/workout-sessions/components/SessionStatsRow'
 
 const COMMENT_MAX = 1000

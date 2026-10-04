@@ -2,7 +2,7 @@ const MAX_EDGE = 1600
 const QUALITY = 0.82
 
 /**
- * `POST /workout-sessions/:id/photo` doesn't compress server-side and caps at 5 MB,
+ * Photo uploads (sessions, activities) aren't compressed server-side and cap at 5 MB,
  * so phone photos are downscaled to JPEG before upload. Returns base64 without the data-URL prefix.
  */
 export async function compressImage(file: File): Promise<{ data: string; mimeType: string; filename: string }> {

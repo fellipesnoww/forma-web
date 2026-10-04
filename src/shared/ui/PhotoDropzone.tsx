@@ -9,10 +9,12 @@ export function PhotoDropzone({
   file,
   onChange,
   onReject,
+  previewAlt = 'Foto do treino selecionada',
 }: {
   file: File | null
   onChange: (file: File | null) => void
   onReject: (message: string) => void
+  previewAlt?: string
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [dragging, setDragging] = useState(false)
@@ -39,7 +41,7 @@ export function PhotoDropzone({
   if (file && preview) {
     return (
       <div className="relative mt-3.5 h-[200px] overflow-hidden rounded-2xl bg-surface-soft sm:h-[260px]">
-        <img src={preview} alt="Foto do treino selecionada" className="h-full w-full object-cover" />
+        <img src={preview} alt={previewAlt} className="h-full w-full object-cover" />
         <button
           type="button"
           onClick={() => {
