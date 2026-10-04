@@ -121,6 +121,14 @@ export class Api {
     })
   }
 
+  uploadSessionPhoto(id: string, png: Buffer) {
+    return this.call<{ photoUrl: string }>('POST', `/workout-sessions/${id}/photo`, {
+      data: png.toString('base64'),
+      mimeType: 'image/png',
+      filename: 'treino.png',
+    })
+  }
+
   completeSession(id: string) {
     return this.call<unknown>('POST', `/workout-sessions/${id}/complete`)
   }
@@ -171,6 +179,14 @@ export class Api {
 
   listActivities() {
     return this.call<{ items: SeedActivity[]; total: number }>('GET', '/activities?limit=100')
+  }
+
+  profile() {
+    return this.call<{ timezone: string }>('GET', '/profile')
+  }
+
+  setTimezone(timezone: string) {
+    return this.call<{ timezone: string }>('PATCH', '/profile', { timezone })
   }
 
   me() {

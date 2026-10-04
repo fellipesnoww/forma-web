@@ -151,7 +151,7 @@ function ActivityRow({ activity, onOpen }: { activity: Activity; onOpen: () => v
       aria-label={`Editar ${activity.activityTypeName} de ${date.toLocaleDateString('pt-BR')}`}
       className="flex w-full items-center gap-4 rounded-[18px] border border-border bg-white p-3.5 text-left transition-shadow hover:shadow-md sm:p-4"
     >
-      <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-[14px] bg-success-50 text-success-600">
+      <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-[14px] bg-activity-50 text-activity-500">
         <span className="text-lg leading-none font-extrabold">{date.getDate()}</span>
         <span className="mt-0.5 text-[11px] font-bold uppercase">
           {date.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '')}

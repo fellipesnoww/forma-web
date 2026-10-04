@@ -25,12 +25,14 @@ interface Props {
   open: boolean
   onClose: () => void
   activity: Activity | null
+  /** Prefills the date when creating (e.g. from a calendar day). Defaults to now. */
+  defaultPerformedAt?: Date
 }
 
 const fieldClass =
   'h-11 w-full rounded-lg border border-border bg-white px-3.5 text-sm text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100'
 
-export function ActivityFormModal({ open, onClose, activity }: Props) {
+export function ActivityFormModal({ open, onClose, activity, defaultPerformedAt }: Props) {
   const toast = useToast()
   const queryClient = useQueryClient()
   const isEditing = !!activity
@@ -61,7 +63,7 @@ export function ActivityFormModal({ open, onClose, activity }: Props) {
 
   useEffect(() => {
     if (!open) return
-    const performedAt = toLocalDateTimeInput(activity ? new Date(activity.performedAt) : new Date())
+    const performedAt = toLocalDateTimeInput(activity ? new Date(activity.performedAt) : (defaultPerformedAt ?? new Date()))
     setInitialPerformedAt(performedAt)
     setMaxPerformedAt(toLocalDateTimeInput(new Date()))
     reset({
@@ -73,11 +75,14 @@ export function ActivityFormModal({ open, onClose, activity }: Props) {
     setPhoto(null)
     setRemoveExistingPhoto(false)
     setConfirmDelete(false)
-  }, [open, activity, reset])
+  }, [open, activity, defaultPerformedAt, reset])
 
   const comment = watch('comment') ?? ''
 
-  const invalidate = () => queryClient.invalidateQueries({ queryKey: ['activities'] })
+  const invalidate = () => {
+    queryClient.invalidateQueries({ queryKey: ['activities'] })
+    queryClient.invalidateQueries({ queryKey: ['calendar'] })
+  }
 
   const save = useMutation({
     mutationFn: async (data: ActivityFormInput) => {

@@ -29,3 +29,15 @@ export interface Measurement {
   chestCm: number | null
   createdAt: string
 }
+
+/** `GET /profile`. */
+export interface ProfileDetails {
+  displayName: string | null
+  avatarUrl: string | null
+  weightKg: number | null
+  heightCm: number | null
+  waistCm: number | null
+  chestCm: number | null
+  onboardingCompletedAt: string | null
+  timezone: string
+}

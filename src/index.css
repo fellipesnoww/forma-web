@@ -22,6 +22,11 @@
   --color-danger-500: #ff5a2c;
   --color-danger-600: #e5451c;
 
+  /* Free activities (design: orange, distinct from workouts in blue). Same hue as danger, separate role. */
+  --color-activity-50: #ffe9e1;
+  --color-activity-500: #ff5a2c;
+  --color-activity-600: #e5451c;
+
   --color-ink-900: #12141a;
   --color-ink-800: #181b22;
   --color-ink-700: #3a4252;

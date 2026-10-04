@@ -1,8 +1,11 @@
 import { apiFetch } from '@/shared/api/client'
 import type { Profile } from '@/shared/auth/types'
-import type { Measurement, MeasurementInput } from '@/features/profile/schemas'
+import type { Measurement, MeasurementInput, ProfileDetails } from '@/features/profile/schemas'
 
 export const profileApi = {
+  /** Current body values are the latest of each field across measurements. */
+  get: () => apiFetch<ProfileDetails>('/profile'),
+
   update: (body: { displayName?: string }) =>
     apiFetch<Profile>('/profile', { method: 'PATCH', json: body }),
 

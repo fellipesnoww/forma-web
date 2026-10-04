@@ -2,19 +2,20 @@
 
 ## Escopo entregue
 
-Suíte Playwright cobrindo tudo o que está implementado (Fase 0, 1.1–1.5 e 2.1), rodando em dois projetos, `desktop` (Chrome 1280×800) e `mobile` (Pixel 7, touch), contra a **API real**.
+Suíte Playwright cobrindo tudo o que está implementado (Fase 0, 1.1–1.5, 2.1 e 2.2), rodando em dois projetos, `desktop` (Chrome 1280×800) e `mobile` (Pixel 7, touch), contra a **API real**.
 
 | Spec | Cobre |
 |---|---|
 | `e2e/navigation.spec.ts` | Fase 0: sidebar (desktop) vs. tab bar/header (mobile), navegação entre seções, atalhos da home, 404, `/` → `/app`, hit target ≥ 44px |
 | `e2e/auth.spec.ts` | 1.1: cadastro, validações do cadastro, e-mail duplicado, login, senha errada, redirect de rota protegida com retorno, hidratação via `/auth/me`, refresh automático do access token, refresh inválido → login, logout, onboarding + gate |
-| `e2e/profile.spec.ts` | 1.2: dados do usuário, editar nome, nome vazio, upload de avatar, medidas + histórico + gráfico, validação > 0 |
+| `e2e/profile.spec.ts` | 1.2: dados do usuário, botão de edição (cabeçalho no desktop, lápis no mobile), editar nome em modal, nome vazio, upload de avatar, estado vazio, medidas em modal → dados físicos + histórico (mais recente primeiro) + gráfico, validação > 0, sem rolagem horizontal |
 | `e2e/exercises.spec.ts` | 1.3: catálogo, busca, estado vazio, filtro por grupo, criar/editar/excluir personalizado, nome obrigatório, catálogo não editável |
 | `e2e/sheets.spec.ts` | 1.4: estado vazio, criar com 2 dias, dia sem exercício, nome obrigatório, desmarcar dia, remover exercício, editar, excluir, drag and drop com `PATCH /reorder` persistido, botão Iniciar |
 | `e2e/sessions.spec.ts` | 1.5: dia de hoje + alvos, troca de dia, criação da sessão na 1ª série, herança de carga, vírgula decimal, sync via `PATCH`, desfazer, adicionar/remover série, navegação (rail desktop, barra mobile), reload retoma, offline → "salvo no aparelho" → sincroniza ao voltar, finalizar sem série, finalizar com foto + comentário, arquivo inválido, "Voltar ao treino" sem rascunho local, histórico (status, ordem, filtros por planilha/período, filtros na URL, paginação, detalhe) |
 | `e2e/activities.spec.ts` | 2.1: estado vazio, registro (tipo padrão, duração, comentário), validações (tipo, duração 0/1441, data futura), `max` do input de data, retroativo, tipo personalizado inline (criado e selecionado, repetido → 409, vazio), edição (tipo, duração, comentário → `null`, data preservada), exclusão com confirmação, foto (upload, remoção, arquivo inválido), ordem, filtros por período na URL, paginação |
+| `e2e/calendar.spec.ts` | 2.2: grade em todos os tamanhos (células altas no desktop, compactas no mobile), indicadores de treino/atividade e miniatura, detalhe do dia, dia vazio, link direto `?month=&day=`, "Lançar atividade livre" com a data do dia, navegação entre meses, edição de atividade pelo dia, agrupamento no dia local, sync do fuso do navegador (`Asia/Tokyo`), sem rolagem horizontal |
 
-Resultado atual: **156 passed, 2 skipped** (≈50 s). Os skips são intencionais e só no `mobile`: logout (o botão Sair só existe na sidebar desktop) e drag and drop (arrasto por toque do `TouchSensor` não é simulável de forma confiável; a lógica é a mesma coberta pelo mouse no desktop). `sessions` + `sheets` com `--repeat-each=3`: 183/183.
+Resultado atual: **184 passed, 2 skipped** (≈1 min). Os skips são intencionais: no `mobile`, logout (o botão Sair só existe na sidebar desktop) e drag and drop (arrasto por toque do `TouchSensor` não é simulável de forma confiável; a lógica é a mesma coberta pelo mouse no desktop). `sessions` + `sheets` com `--repeat-each=3`: 183/183.
 
 ## Como rodar
 
@@ -47,7 +48,7 @@ e2e/
   support/fixtures.ts           # fixtures api/user/authedPage, signIn, helpers (dia de hoje, PNG)
   navigation.spec.ts  auth.spec.ts  profile.spec.ts
   exercises.spec.ts   sheets.spec.ts  sessions.spec.ts
-  activities.spec.ts
+  activities.spec.ts  calendar.spec.ts
 ```
 
 `.gitignore`: `test-results`, `playwright-report`, `playwright/.cache`.

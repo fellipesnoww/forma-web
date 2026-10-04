@@ -16,7 +16,7 @@
 |---|---|
 | 0 — Fundação técnica | ✅ |
 | 1 — MVP Core | 🟡 (1.1–1.5 feitos) |
-| 2 — Completude do usuário | 🟡 (2.1 feito) |
+| 2 — Completude do usuário | 🟡 (2.1–2.2 feitos) |
 | 3 — Painel administrativo | ⬜ |
 | 4 — Gamificação | ⬜ |
 | 5 — Experiência avançada | ⬜ |
@@ -211,13 +211,13 @@ sdd/
 
 ### 2.2 Calendário
 
-- [ ] Calendário mensal com indicação visual de dias com treino/atividade + miniaturas de fotos
-- [ ] Visualização detalhada do dia ao clicar/tocar na data
-- [ ] **Responsivo:** grade mensal completa em desktop; lista/agenda por dia em telas < `sm` (evitar 42 células apertadas em mobile)
-- [ ] `GET /calendar?year=&month=`, `GET /calendar/:date`
-- [ ] Timezone do browser enviado nas queries
-- [ ] Testes E2E (Playwright, desktop + mobile): `e2e/calendar.spec.ts` — incluir grade desktop vs. agenda mobile
-- [ ] `sdd/2.2-calendario.md`
+- [x] Calendário mensal com indicação visual de dias com treino/atividade + miniaturas de fotos
+- [x] Visualização detalhada do dia ao clicar/tocar na data
+- [x] **Responsivo:** grade mensal completa em desktop; grade compacta + cartão do dia em telas < `sm` (o design substituiu a lista/agenda prevista aqui — ver `sdd/2.2-calendario.md`)
+- [x] `GET /calendar?year=&month=`, `GET /calendar/:date`
+- [x] Timezone do browser enviado ao backend (gravado no perfil via `PATCH /profile`, que é onde o backend agrupa os dias)
+- [x] Testes E2E (Playwright, desktop + mobile): `e2e/calendar.spec.ts` — incluir grade desktop vs. grade compacta mobile
+- [x] `sdd/2.2-calendario.md`
 
 ---
 
