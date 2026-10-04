@@ -2,7 +2,7 @@ import { type ButtonHTMLAttributes, forwardRef } from 'react'
 import { cn } from '@/shared/lib/cn'
 import { Spinner } from '@/shared/ui/Spinner'
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
+type Variant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'dark'
 type Size = 'sm' | 'md'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -18,6 +18,7 @@ const variants: Record<Variant, string> = {
   secondary: 'bg-white text-ink-700 border border-border hover:bg-surface-soft',
   ghost: 'bg-transparent text-ink-700 hover:bg-surface-soft',
   danger: 'bg-danger-500 text-white hover:bg-danger-600 disabled:opacity-60',
+  dark: 'bg-ink-900 text-white hover:bg-ink-800 disabled:opacity-60',
 }
 
 const sizes: Record<Size, string> = {
@@ -40,7 +41,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {...rest}
       >
-        {loading && <Spinner size="sm" className={variant === 'primary' || variant === 'danger' ? 'border-white/30 border-t-white' : undefined} />}
+        {loading && <Spinner size="sm" className={variant === 'primary' || variant === 'danger' || variant === 'dark' ? 'border-white/30 border-t-white' : undefined} />}
         {children}
       </button>
     )

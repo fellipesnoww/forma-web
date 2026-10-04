@@ -9,6 +9,7 @@ import { HomePage } from '@/app/pages/HomePage'
 import { ProfilePage } from '@/features/profile/pages/ProfilePage'
 import { ExercisesPage } from '@/features/exercises'
 import { WorkoutSheetsListPage, WorkoutSheetFormPage } from '@/features/workout-sheets'
+import { WorkoutRunPage, SessionDetailPage, SessionHistoryPage } from '@/features/workout-sessions'
 import { ComingSoon } from '@/app/pages/ComingSoon'
 import { NotFoundPage } from '@/app/pages/NotFoundPage'
 
@@ -30,8 +31,9 @@ export function App() {
             <Route path="sheets" element={<WorkoutSheetsListPage />} />
             <Route path="sheets/new" element={<WorkoutSheetFormPage />} />
             <Route path="sheets/:id" element={<WorkoutSheetFormPage />} />
-            <Route path="sheets/:id/run" element={<ComingSoon title="Execução de treino" />} />
-            <Route path="sessions" element={<ComingSoon title="Histórico de sessões" />} />
+            <Route path="sheets/:id/run" element={<WorkoutRunPage />} />
+            <Route path="sessions" element={<SessionHistoryPage />} />
+            <Route path="sessions/:id" element={<SessionDetailPage />} />
           </Route>
         </Route>
       </Route>

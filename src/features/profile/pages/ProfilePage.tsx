@@ -59,8 +59,7 @@ function AvatarAndName() {
     setUploading(true)
     try {
       const base64 = await fileToBase64(file)
-      const media = await profileApi.uploadAvatar(base64, file.type, file.name)
-      await profileApi.update({ avatarUrl: media.url })
+      await profileApi.uploadAvatar(base64, file.type, file.name)
       await refreshMe()
       toast('Foto atualizada.', 'success')
     } catch (err) {
@@ -170,8 +169,8 @@ function Measurements() {
           <ul className="flex flex-col divide-y divide-border">
             {data.map((m) => (
               <li key={m.id} className="flex items-center justify-between py-2 text-sm">
-                <span className="text-ink-500">{new Date(m.recordedAt).toLocaleDateString('pt-BR')}</span>
-                <span className="font-semibold text-ink-900">{m.weightKg} kg</span>
+                <span className="text-ink-500">{new Date(m.createdAt).toLocaleDateString('pt-BR')}</span>
+                <span className="font-semibold text-ink-900">{m.weightKg != null ? `${m.weightKg} kg` : '—'}</span>
               </li>
             ))}
           </ul>

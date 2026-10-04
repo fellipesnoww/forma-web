@@ -1,2 +1,5 @@
 export { WorkoutSheetsListPage } from '@/features/workout-sheets/pages/WorkoutSheetsListPage'
 export { WorkoutSheetFormPage } from '@/features/workout-sheets/pages/WorkoutSheetFormPage'
+export { workoutSheetsApi } from '@/features/workout-sheets/api'
+export type { WorkoutSheet, WorkoutSheetSummary, SheetDay } from '@/features/workout-sheets/api'
+export { WEEKDAY_LABELS, WEEKDAY_DISPLAY_ORDER } from '@/features/workout-sheets/lib/weekday'

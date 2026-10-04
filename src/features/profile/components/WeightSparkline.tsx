@@ -1,11 +1,15 @@
 import type { Measurement } from '@/features/profile/schemas'
 
 export function WeightSparkline({ measurements }: { measurements: Measurement[] }) {
-  if (measurements.length < 2) {
+  const weights = measurements
+    .filter((m): m is Measurement & { weightKg: number } => m.weightKg != null)
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+    .map((m) => m.weightKg)
+
+  if (weights.length < 2) {
     return <p className="text-sm text-ink-400">Registre pelo menos 2 medidas para ver o gráfico.</p>
   }
 
-  const weights = measurements.map((m) => m.weightKg)
   const min = Math.min(...weights)
   const max = Math.max(...weights)
   const range = max - min || 1

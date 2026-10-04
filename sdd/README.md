@@ -9,12 +9,12 @@ Registro de implementação por etapa, seguindo `roadmap-frontend.md`.
 - [1.2 — Perfil do usuário](1.2-perfil.md)
 - [1.3 — Exercícios](1.3-exercicios.md)
 - [1.4 — Planilha de treino](1.4-planilhas.md)
+- [1.5 — Execução de treino](1.5-sessoes-treino.md)
+- [Testes E2E (Playwright)](testes-e2e.md)
 
-## Pausado
+## Corrigido: CORS no backend
 
-**1.5 (Sessões de treino)** — nenhum endpoint dessa etapa existe no backend ainda. Rotas `/app/sheets/:id/run`, `/app/sessions` seguem mapeadas em `app/App.tsx` apontando para o placeholder (`app/pages/ComingSoon.tsx`).
-
-> Nota: este arquivo antes listava 1.3 e 1.4 como pausadas pelo mesmo motivo ("só Auth e Media estão implementados"). Isso ficou desatualizado — o backend evoluiu, o artifact de referência da API já documenta `/exercises` e `/workout-sheets` completos (tag "Fase 1.4"), e ambos foram confirmados funcionando ao vivo antes de fechar as etapas. Só 1.5 continua de fato bloqueada.
+`forma-server/src/app.ts` registrava `@fastify/cors` sem `methods` (default `GET,HEAD,POST`), o que bloqueava `PATCH`/`DELETE` vindos do browser. Corrigido no backend com `methods` explícito, e a suíte E2E cobre esses fluxos. Ver [testes-e2e.md](testes-e2e.md#bugs-encontrados-e-corrigidos).
 
 ## Pendência transversal
 
