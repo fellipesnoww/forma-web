@@ -7,6 +7,7 @@ import { useToast } from '@/shared/ui/Toast'
 import { ApiError } from '@/shared/api/client'
 import { dietsApi } from '@/features/diets/api'
 import { DietCard } from '@/features/diets/components/DietCard'
+import { ProfessionalAdvice } from '@/features/diets/components/ProfessionalAdvice'
 
 export function DietsListPage() {
   const toast = useToast()
@@ -51,6 +52,8 @@ export function DietsListPage() {
           Nova dieta
         </Link>
       </div>
+
+      <ProfessionalAdvice />
 
       {isLoading && (
         <div className="flex justify-center py-16">
