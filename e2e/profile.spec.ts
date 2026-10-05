@@ -67,9 +67,9 @@ test.describe('1.2 Perfil', () => {
     await page.locator('input[type=file]').setInputFiles({ name: 'avatar.png', mimeType: 'image/png', buffer: pngBuffer() })
 
     await expect(page.getByText('Foto atualizada.')).toBeVisible()
-    expect((await api.me()).profile.avatarUrl).toMatch(/^\/media\//)
-    // AuthedImage fetches the bytes with the bearer token and renders a blob: URL.
-    await expect(page.getByAltText('Sua foto')).toHaveAttribute('src', /^blob:/)
+    // Compressed to JPEG client-side; the API answers with a presigned S3 link rendered as-is.
+    expect((await api.me()).profile.avatarUrl).toMatch(/^https:\/\/.+\.jpg\?.*X-Amz-Signature=/)
+    await expect(page.getByAltText('Sua foto')).toHaveAttribute('src', /X-Amz-Signature=/)
   })
 
   test('sem medidas: dados físicos vazios e histórico com convite', async ({ authedPage: page }) => {

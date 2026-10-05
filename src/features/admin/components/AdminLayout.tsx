@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { ChevronLeft, Dumbbell, ListChecks, LogOut, Medal, MessageSquareText, ShieldCheck, Users } from 'lucide-react'
+import { ChevronLeft, Dumbbell, ListChecks, LogOut, Medal, MessageSquareText, ShieldCheck, UserRound, Users } from 'lucide-react'
 import { useAuth } from '@/shared/auth/AuthContext'
 import { useForbiddenNotice } from '@/shared/auth/useForbiddenNotice'
 import { cn } from '@/shared/lib/cn'
+import { AuthedImage } from '@/shared/ui/AuthedImage'
 import { ROLE_LABEL } from '@/features/admin/lib/format'
 
 const navItems = [
@@ -67,7 +68,18 @@ export function AdminLayout() {
           Voltar ao app
         </NavLink>
         <div className="flex items-center gap-2.5 border-t border-sidebar-border pt-3.5">
-          <div className="h-9 w-9 shrink-0 rounded-full border border-sidebar-hover bg-sidebar-hover" />
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-sidebar-hover bg-sidebar-hover text-ink-500">
+            {profile?.avatarUrl ? (
+              <AuthedImage
+                src={profile.avatarUrl}
+                alt=""
+                className="h-full w-full object-cover"
+                fallback={<UserRound size={18} />}
+              />
+            ) : (
+              <UserRound size={18} />
+            )}
+          </div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-[13.5px] font-bold">{profile?.displayName ?? user?.email}</p>
             <p className="truncate text-[11.5px] text-ink-500">{user ? ROLE_LABEL[user.role] : ''}</p>

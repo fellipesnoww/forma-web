@@ -201,7 +201,7 @@ test.describe('2.1 Atividades livres', () => {
     await expect(page.getByText('Atividade registrada.')).toBeVisible()
     await expect(row(page, 'Trilha').locator('img')).toBeVisible()
     const [activity] = (await api.listActivities()).items
-    expect(activity.photoUrl).toMatch(/^\/media\//)
+    expect(activity.photoUrl).toMatch(/^https:\/\/.+\.jpg\?.*X-Amz-Signature=/)
   })
 
   test('remove a foto de uma atividade existente', async ({ authedPage: page, api }) => {

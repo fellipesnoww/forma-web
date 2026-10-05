@@ -6,7 +6,7 @@ import { Camera, Pencil, Plus } from 'lucide-react'
 import { useAuth } from '@/shared/auth/AuthContext'
 import { ApiError } from '@/shared/api/client'
 import { cn } from '@/shared/lib/cn'
-import { fileToBase64 } from '@/shared/lib/file'
+import { ACCEPTED_IMAGE_TYPES, compressImage } from '@/shared/lib/image'
 import { AuthedImage } from '@/shared/ui/AuthedImage'
 import { Input } from '@/shared/ui/Input'
 import { Button } from '@/shared/ui/Button'
@@ -64,10 +64,12 @@ function IdentityCard({ onEdit }: { onEdit: () => void }) {
   const [uploading, setUploading] = useState(false)
 
   const onPickAvatar = async (file: File) => {
+    if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) return toast('Use uma imagem JPG, PNG ou WebP.', 'error')
     setUploading(true)
     try {
-      const base64 = await fileToBase64(file)
-      await profileApi.uploadAvatar(base64, file.type, file.name)
+      // The server doesn't resize avatars, so send a small JPEG instead of the raw phone photo.
+      const { data, mimeType, filename } = await compressImage(file, { maxEdge: 512 })
+      await profileApi.uploadAvatar(data, mimeType, filename)
       await refreshMe()
       toast('Foto atualizada.', 'success')
     } catch (err) {
@@ -101,7 +103,7 @@ function IdentityCard({ onEdit }: { onEdit: () => void }) {
         <input
           ref={fileRef}
           type="file"
-          accept="image/*"
+          accept={ACCEPTED_IMAGE_TYPES.join(',')}
           capture="environment"
           className="hidden"
           onChange={(e) => {

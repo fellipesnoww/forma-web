@@ -216,7 +216,7 @@ test.describe('1.5 Execução de treino', () => {
     const session = await api.getSession(id)
     expect(session.completedAt).not.toBeNull()
     expect(session.comment).toBe('Subi a carga, última série no limite.')
-    expect(session.photoUrl).toMatch(/^\/media\//)
+    expect(session.photoUrl).toMatch(/^https:\/\/.+\.jpg\?.*X-Amz-Signature=/)
 
     // The local draft is gone: starting the sheet again is a fresh workout.
     await page.goto(`/app/sheets/${sheet.id}/run`)

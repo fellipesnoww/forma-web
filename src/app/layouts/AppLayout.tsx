@@ -19,6 +19,7 @@ import {
 import { useAuth } from '@/shared/auth/AuthContext'
 import { useForbiddenNotice } from '@/shared/auth/useForbiddenNotice'
 import { cn } from '@/shared/lib/cn'
+import { AuthedImage } from '@/shared/ui/AuthedImage'
 
 const navItems = [
   { to: '/app', label: 'Início', icon: Home, end: true },
@@ -64,7 +65,18 @@ function SidebarFooter({ onNavigate }: { onNavigate?: () => void }) {
         onClick={onNavigate}
         className="flex min-w-0 flex-1 items-center gap-2.5 rounded-lg p-1 hover:bg-sidebar-hover"
       >
-        <div className="h-9 w-9 shrink-0 rounded-full bg-sidebar-hover" />
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-sidebar-hover text-ink-500">
+          {profile?.avatarUrl ? (
+            <AuthedImage
+              src={profile.avatarUrl}
+              alt=""
+              className="h-full w-full object-cover"
+              fallback={<UserRound size={18} />}
+            />
+          ) : (
+            <UserRound size={18} />
+          )}
+        </div>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-bold text-white">{profile?.displayName ?? 'Minha conta'}</p>
           <p className="truncate text-xs text-ink-500">{user?.email}</p>
