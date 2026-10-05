@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, ChevronLeft, ChevronRight, ImageIcon, Minus, Plus } from 'lucide-react'
+import { ArrowLeft, CalendarClock, ChevronLeft, ChevronRight, ImageIcon, Minus, Plus } from 'lucide-react'
 import { Button } from '@/shared/ui/Button'
 import { Card } from '@/shared/ui/Card'
 import { Spinner } from '@/shared/ui/Spinner'
@@ -10,11 +10,20 @@ import { useToast } from '@/shared/ui/Toast'
 import { cn } from '@/shared/lib/cn'
 import { exercisesApi } from '@/features/exercises'
 import { WEEKDAY_LABELS, workoutSheetsApi, type WorkoutSheet } from '@/features/workout-sheets'
-import { buildDraft, draftStorage, hasProgress } from '@/features/workout-sessions/lib/draft'
+import { buildDraft, draftStorage, hasProgress, type SessionDraft } from '@/features/workout-sessions/lib/draft'
 import { formatLongDate, formatTime } from '@/features/workout-sessions/lib/format'
+import { suggestLoad } from '@/features/workout-sessions/lib/progression'
 import { useSessionRunner } from '@/features/workout-sessions/hooks/useSessionRunner'
+import { DEFAULT_REST_SECONDS, useRestTimer } from '@/features/workout-sessions/hooks/useRestTimer'
 import { SetRow } from '@/features/workout-sessions/components/SetRow'
-import { ElapsedTimer, ExerciseRail, SyncBadge } from '@/features/workout-sessions/components/RunWidgets'
+import {
+  ElapsedTimer,
+  ExerciseRail,
+  RestPill,
+  RestTimerCard,
+  SuggestionPill,
+  SyncBadge,
+} from '@/features/workout-sessions/components/RunWidgets'
 
 export function WorkoutRunPage() {
   const { id } = useParams<{ id: string }>()
@@ -47,6 +56,34 @@ export function WorkoutRunPage() {
   return <WorkoutRunner key={sheet.id} sheet={sheet} />
 }
 
+/** Backdated entry: see `retroRunPath`. `?retro=1` alone resumes the backdated draft saved on this device. */
+function initialDraft(sheet: WorkoutSheet, params: URLSearchParams): SessionDraft {
+  if (!params.has('retro')) {
+    const stored = draftStorage.load(sheet.id)
+    return stored && hasProgress(stored) ? stored : buildDraft(sheet.id, sheet.name, pickDay(sheet))
+  }
+
+  const stored = draftStorage.load(sheet.id, true)
+  const at = params.get('at')
+  const durationMinutes = Number(params.get('duration'))
+  const startedAt = at ? new Date(at) : null
+  if (!startedAt || Number.isNaN(startedAt.getTime()) || !(durationMinutes > 0)) {
+    // Resuming: whatever backdated draft this device has (the form only links here with full params).
+    if (stored) return stored
+  } else if (stored && hasProgress(stored) && stored.startedAt === startedAt.toISOString()) {
+    return stored
+  }
+
+  const weekday = Number(params.get('weekday'))
+  const days = sheet.days.slice().sort((a, b) => a.order - b.order)
+  const day = days.find((d) => d.weekday === weekday) ?? days[0]
+  return {
+    ...buildDraft(sheet.id, sheet.name, day),
+    startedAt: (startedAt && !Number.isNaN(startedAt.getTime()) ? startedAt : new Date()).toISOString(),
+    retroactive: { durationMinutes: durationMinutes > 0 ? durationMinutes : 60 },
+  }
+}
+
 /** Today's day of the sheet if it has one, else the first day in display order. */
 function pickDay(sheet: WorkoutSheet) {
   const days = sheet.days.slice().sort((a, b) => a.order - b.order)
@@ -56,12 +93,12 @@ function pickDay(sheet: WorkoutSheet) {
 function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
   const navigate = useNavigate()
   const toast = useToast()
-  const [initial] = useState(() => {
-    const stored = draftStorage.load(sheet.id)
-    return stored && hasProgress(stored) ? stored : buildDraft(sheet.id, sheet.name, pickDay(sheet))
-  })
+  const [params] = useSearchParams()
+  const [initial] = useState(() => initialDraft(sheet, params))
   const { draft, status, syncError, syncNow, actions } = useSessionRunner(initial)
   const [finishing, setFinishing] = useState(false)
+  const rest = useRestTimer()
+  const retro = !!draft.retroactive
 
   // Catalog GIFs live on the exercise, not on the sheet/session payloads.
   const { data: library } = useQuery({ queryKey: ['exercises', ''], queryFn: () => exercisesApi.list() })
@@ -77,6 +114,31 @@ function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
   const isLast = exIdx === draft.exercises.length - 1
   const started = hasProgress(draft)
   const days = sheet.days.slice().sort((a, b) => a.order - b.order)
+  const restSeconds = exercise.restSeconds ?? DEFAULT_REST_SECONDS
+
+  // Last time this exercise was done (not counting this session), for the load suggestion.
+  const exerciseRef = exercise.exerciseId ?? exercise.customExerciseId
+  const { data: lastSession } = useQuery({
+    queryKey: ['exercises', exerciseRef, 'last-session', draft.sessionId ?? null],
+    queryFn: () => exercisesApi.lastSession(exerciseRef!, draft.sessionId),
+    enabled: !!exerciseRef,
+    staleTime: 5 * 60 * 1000,
+  })
+  const suggestion = suggestLoad(lastSession, exercise.targetReps)
+
+  const { prefill } = actions
+  const suggestedKg = suggestion?.weightKg
+  useEffect(() => {
+    if (suggestedKg != null && suggestedKg > 0 && !exercise.prefilled) prefill(exIdx, suggestedKg)
+  }, [suggestedKg, exIdx, exercise.prefilled, prefill])
+
+  const toggleSet = (setIdx: number) => {
+    const completing = !exercise.sets[setIdx].completed
+    actions.toggleSet(exIdx, setIdx)
+    // Rest starts on finishing a set, unless it was the exercise's last one (or this is a backdated log).
+    const remaining = exercise.sets.filter((s, i) => !s.completed && i !== setIdx).length
+    if (completing && !retro && remaining > 0) rest.start(restSeconds)
+  }
 
   const finish = async () => {
     if (!started) {
@@ -109,22 +171,30 @@ function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
               <h1 className="truncate text-xl font-extrabold tracking-tight text-ink-900">
                 {draft.sheetName} · {WEEKDAY_LABELS[draft.weekday]}
               </h1>
-              {started && (
-                <span className="rounded-full bg-success-50 px-2.5 py-1 text-xs font-extrabold text-success-600">
-                  Em andamento
+              {retro ? (
+                <span className="flex items-center gap-1 rounded-full bg-warning-50 px-2.5 py-1 text-xs font-extrabold text-warning-600">
+                  <CalendarClock size={13} />
+                  Registro retroativo
                 </span>
+              ) : (
+                started && (
+                  <span className="rounded-full bg-success-50 px-2.5 py-1 text-xs font-extrabold text-success-600">
+                    Em andamento
+                  </span>
+                )
               )}
             </div>
             <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1">
               <span className="text-[12.5px] font-semibold text-ink-400">
-                {formatLongDate(draft.startedAt)} · iniciado às {formatTime(draft.startedAt)}
+                {formatLongDate(draft.startedAt)} · {retro ? 'início' : 'iniciado'} às {formatTime(draft.startedAt)}
+                {draft.retroactive && ` · ${draft.retroactive.durationMinutes} min`}
               </span>
               <SyncBadge status={status} error={syncError} />
             </div>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <ElapsedTimer startedAt={draft.startedAt} />
+          {!retro && <ElapsedTimer startedAt={draft.startedAt} />}
           <Button variant="dark" onClick={finish} loading={finishing} className="h-11">
             Finalizar treino
           </Button>
@@ -180,6 +250,11 @@ function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
                 Exercício {exIdx + 1} de {draft.exercises.length}
               </span>
             </div>
+            {suggestion && (
+              <div className="mt-3">
+                <SuggestionPill suggestion={suggestion} onApply={() => actions.applyLoad(exIdx, suggestion.weightKg)} />
+              </div>
+            )}
 
             <div className="mt-[18px] flex gap-2.5 px-3 pb-2.5 text-[11.5px] font-bold tracking-wide text-ink-200 sm:gap-3 sm:px-4">
               <div className="w-14 shrink-0 sm:w-16">SÉRIE</div>
@@ -195,7 +270,7 @@ function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
                   set={set}
                   state={set.completed ? 'done' : i === activeSetIdx ? 'active' : 'pending'}
                   onChange={(patch) => actions.updateSet(exIdx, i, patch)}
-                  onToggle={() => actions.toggleSet(exIdx, i)}
+                  onToggle={() => toggleSet(i)}
                 />
               ))}
             </div>
@@ -234,12 +309,17 @@ function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
 
         <aside className="flex flex-col gap-[18px]">
           <ExerciseRail exercises={draft.exercises} activeIndex={exIdx} onSelect={actions.setActive} />
+          {!retro && (
+            <div className="hidden lg:block">
+              <RestTimerCard timer={rest} restSeconds={restSeconds} configured={exercise.restSeconds != null} />
+            </div>
+          )}
         </aside>
       </div>
 
-      {/* Mobile action bar, docked above the tab bar (main scrolls with the page, so it's fixed, not sticky). */}
+      {/* Mobile action bar, docked to the bottom (main scrolls with the page, so it's fixed, not sticky). */}
       <div className="h-16 lg:hidden" aria-hidden />
-      <div className="fixed inset-x-0 bottom-[61px] z-30 flex md:bottom-0 md:left-60 items-center gap-2.5 border-t border-border bg-white px-4 py-3 lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-30 flex pb-[max(12px,env(safe-area-inset-bottom))] md:left-60 items-center gap-2.5 border-t border-border bg-white px-4 py-3 lg:hidden">
         <button
           type="button"
           onClick={() => actions.setActive(exIdx - 1)}
@@ -249,6 +329,7 @@ function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
         >
           <ChevronLeft size={20} />
         </button>
+        <RestPill timer={rest} />
         {isLast ? (
           <Button onClick={finish} loading={finishing} fullWidth className="h-12 rounded-[13px] text-[15px]">
             Finalizar treino

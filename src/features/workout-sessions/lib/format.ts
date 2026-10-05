@@ -50,6 +50,8 @@ export function computeStats(
   exercises: Pick<SessionExercise, 'sets'>[],
   performedAt: string,
   endedAt: string | null,
+  /** Server value wins: a backdated session completed days later would otherwise show days. */
+  durationMinutes?: number | null,
 ): SessionStats {
   let setsDone = 0
   let volumeKg = 0
@@ -61,6 +63,6 @@ export function computeStats(
     volumeKg += done.reduce((sum, s) => sum + s.reps * s.weightKg, 0)
   }
   const end = endedAt ? new Date(endedAt).getTime() : Date.now()
-  const durationMin = Math.max(0, Math.round((end - new Date(performedAt).getTime()) / 60000))
+  const durationMin = durationMinutes ?? Math.max(0, Math.round((end - new Date(performedAt).getTime()) / 60000))
   return { durationMin, exercisesDone, exercisesTotal: exercises.length, setsDone, volumeKg }
 }

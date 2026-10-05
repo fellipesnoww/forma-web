@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ApiError } from '@/shared/api/client'
+import { performedAtErrorMessage } from '@/shared/api/performedAtError'
 import type { SheetDay } from '@/features/workout-sheets'
 import { workoutSessionsApi } from '@/features/workout-sessions/api'
 import {
@@ -66,6 +67,7 @@ export function useSessionRunner(initial: SessionDraft) {
           const session = await workoutSessionsApi.create({
             sheetId: current.sheetId,
             performedAt: current.startedAt,
+            durationMinutes: current.retroactive?.durationMinutes,
             exercises: draftToInput(current),
           })
           commit({ ...draftRef.current, sessionId: session.id }, false)
@@ -76,7 +78,7 @@ export function useSessionRunner(initial: SessionDraft) {
         // 4xx (other than auth/rate limit) won't fix itself on retry — surface it.
         if (err instanceof ApiError && err.status >= 400 && err.status < 500 && ![401, 429].includes(err.status)) {
           setStatus('error')
-          setSyncError(err.message)
+          setSyncError(performedAtErrorMessage(err) ?? err.message)
         } else {
           setStatus('offline')
         }
@@ -123,6 +125,25 @@ export function useSessionRunner(initial: SessionDraft) {
     }))
 
   const actions = {
+    /** Offers the last-session load once per exercise: only sets still at 0 kg and not done get it. */
+    prefill: (exIdx: number, weightKg: number) =>
+      update((d) => ({
+        ...d,
+        exercises: d.exercises.map((ex, i) =>
+          i === exIdx && !ex.prefilled
+            ? {
+                ...ex,
+                prefilled: true,
+                sets: ex.sets.map((s) => (!s.completed && s.weightKg === 0 ? { ...s, weightKg } : s)),
+              }
+            : ex,
+        ),
+      })),
+
+    /** "Usar sugestão": sets the load on every set not done yet. */
+    applyLoad: (exIdx: number, weightKg: number) =>
+      mapSets(exIdx, (sets) => sets.map((s) => (s.completed ? s : { ...s, weightKg }))),
+
     setActive: (index: number) => update((d) => ({ ...d, activeIndex: index })),
 
     updateSet: (exIdx: number, setIdx: number, patch: Partial<DraftSet>) =>

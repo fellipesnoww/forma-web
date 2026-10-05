@@ -2,8 +2,7 @@ import { randomUUID } from 'node:crypto'
 import type { Page } from '@playwright/test'
 import { test, expect, WEEKDAY_LABELS } from './support/fixtures'
 
-const sheetCard = (page: Page, name: string) =>
-  page.locator('div.rounded-3xl').filter({ has: page.getByText(name, { exact: true }) })
+const sheetCard = (page: Page, name: string) => page.getByRole('article', { name, exact: true })
 
 const rowNames = (page: Page) => page.getByRole('button', { name: 'Reordenar' }).locator('xpath=..').locator('p.font-bold')
 

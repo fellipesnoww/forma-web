@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { cn } from '@/shared/lib/cn'
 import { Button } from '@/shared/ui/Button'
 import { Spinner } from '@/shared/ui/Spinner'
 import { ActivityFormModal, type Activity } from '@/features/activities'
 import { calendarApi, type CalendarDay } from '@/features/calendar/api'
 import { DayDetail } from '@/features/calendar/components/DayDetail'
+import { RetroLogModal, type RetroKind } from '@/features/calendar/components/RetroLogModal'
 import { Legend, MonthGrid } from '@/features/calendar/components/MonthGrid'
 import {
   browserTimezone,
@@ -41,6 +42,9 @@ export function CalendarPage() {
   // The design always shows a day: today while on the current month, otherwise whatever was picked.
   const requestedDay = params.get('day')
   const selected = requestedDay && requestedDay <= today ? requestedDay : isCurrentMonth ? today : null
+  // "Lançar registro" lives in the URL (?log=workout|activity), so it survives a reload and can be linked to.
+  const logParam = params.get('log')
+  const logKind: RetroKind | null = logParam === 'workout' || logParam === 'activity' ? logParam : null
 
   const update = (changes: Record<string, string | null>) =>
     setParams(
@@ -113,8 +117,12 @@ export function CalendarPage() {
             </button>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           <Legend className="hidden sm:flex" />
+          <Button size="sm" className="h-11 sm:h-10" onClick={() => update({ log: 'workout' })}>
+            <Plus size={16} />
+            Lançar registro
+          </Button>
           {!isCurrentMonth && (
             <Button variant="secondary" size="sm" className="h-11 sm:h-10" onClick={() => update({ month: null, day: null })}>
               Hoje
@@ -149,6 +157,7 @@ export function CalendarPage() {
             date={selected}
             onEditActivity={(activity) => setActivityModal({ activity })}
             onAddActivity={() => setActivityModal({ activity: null, defaultPerformedAt: defaultTimeFor(selected, today) })}
+            onAddWorkout={() => update({ log: 'workout' })}
           />
         ) : (
           <p className="rounded-[22px] border border-dashed border-border p-6 text-center text-sm font-medium text-ink-400">
@@ -156,6 +165,15 @@ export function CalendarPage() {
           </p>
         )}
       </div>
+
+      <RetroLogModal
+        key={`${logKind}-${selected}`}
+        open={!!logKind}
+        onClose={() => update({ log: null })}
+        initialDate={selected ?? today}
+        initialKind={logKind ?? 'workout'}
+        onContinueActivity={(performedAt) => setActivityModal({ activity: null, defaultPerformedAt: performedAt })}
+      />
 
       <ActivityFormModal
         open={!!activityModal}

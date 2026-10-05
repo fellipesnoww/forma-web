@@ -6,9 +6,10 @@ interface ModalProps {
   onClose: () => void
   title: string
   children: ReactNode
+  size?: 'md' | 'lg'
 }
 
-export function Modal({ open, onClose, title, children }: ModalProps) {
+export function Modal({ open, onClose, title, children, size = 'md' }: ModalProps) {
   const ref = useRef<HTMLDialogElement>(null)
   const titleId = useId()
 
@@ -33,7 +34,7 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
       onClick={(e) => {
         if (e.target === ref.current) onClose()
       }}
-      className="w-[min(480px,calc(100vw-32px))] rounded-2xl border border-border p-0 shadow-2xl backdrop:backdrop-blur-sm"
+      className={`${size === 'lg' ? 'w-[min(780px,calc(100vw-32px))]' : 'w-[min(480px,calc(100vw-32px))]'} m-auto rounded-2xl border border-border p-0 shadow-2xl backdrop:backdrop-blur-sm`}
     >
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
         <h2 id={titleId} className="text-base font-extrabold text-ink-900">

@@ -6,13 +6,15 @@ import { LoginPage } from '@/features/auth/pages/LoginPage'
 import { RegisterPage } from '@/features/auth/pages/RegisterPage'
 import { OnboardingPage } from '@/features/auth/pages/OnboardingPage'
 import { OnboardingGate } from '@/features/auth/components/OnboardingGate'
-import { HomePage } from '@/app/pages/HomePage'
+import { DashboardPage } from '@/features/dashboard'
 import { ProfilePage } from '@/features/profile/pages/ProfilePage'
 import { ExercisesPage } from '@/features/exercises'
 import { WorkoutSheetsListPage, WorkoutSheetFormPage } from '@/features/workout-sheets'
 import { WorkoutRunPage, SessionDetailPage, SessionHistoryPage } from '@/features/workout-sessions'
 import { ActivitiesPage } from '@/features/activities'
 import { CalendarPage } from '@/features/calendar'
+import { ProgressPage } from '@/features/progress'
+import { DietsListPage, DietEditorPage } from '@/features/diets'
 import {
   AdminLayout,
   AdminExercisesPage,
@@ -36,7 +38,7 @@ export function App() {
 
         <Route element={<OnboardingGate />}>
           <Route path="/app" element={<AppLayout />}>
-            <Route index element={<HomePage />} />
+            <Route index element={<DashboardPage />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="exercises" element={<ExercisesPage />} />
             <Route path="sheets" element={<WorkoutSheetsListPage />} />
@@ -47,6 +49,10 @@ export function App() {
             <Route path="sessions/:id" element={<SessionDetailPage />} />
             <Route path="activities" element={<ActivitiesPage />} />
             <Route path="calendar" element={<CalendarPage />} />
+            <Route path="progress" element={<ProgressPage />} />
+            <Route path="diets" element={<DietsListPage />} />
+            <Route path="diets/new" element={<DietEditorPage />} />
+            <Route path="diets/:id" element={<DietEditorPage />} />
           </Route>
         </Route>
 

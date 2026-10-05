@@ -16,10 +16,10 @@
 |---|---|
 | 0 — Fundação técnica | ✅ |
 | 1 — MVP Core | 🟡 (1.1–1.5 feitos) |
-| 2 — Completude do usuário | 🟡 (2.1–2.2 feitos) |
+| 2 — Completude do usuário | 🟡 (2.1–2.4 feitos; falta a entrega 2.5) |
 | 3 — Painel administrativo | 🟡 (3.1–3.5 feitos; falta o teste manual da 3.6) |
 | 4 — Gamificação | ⬜ |
-| 5 — Experiência avançada | ⬜ |
+| 5 — Experiência avançada | 🟡 (5.1 feita) |
 | 6 — Integrações e expansão | ⬜ |
 
 ---
@@ -69,14 +69,16 @@ src/
 
 | Feature | Rota |
 |---|---|
+| `dashboard` | `/app` (início) |
 | `auth` | `/login`, `/register` |
 | `profile` | `/profile` |
 | `exercises` | `/exercises` |
 | `workout-sheets` | `/sheets` |
+| `diets` | `/diets` (fora das fases; ver `sdd/dietas.md`) |
 | `workout-sessions` | `/sheets/:id/run` |
 | `activities` | `/activities` |
 | `calendar` | `/calendar` |
-| `progress` | `/progress` |
+| `progress` | `/progress` (Evolução) |
 | `admin` | `/admin/*` |
 | `achievements` | `/achievements` |
 | `challenges` | `/challenges` |
@@ -223,21 +225,21 @@ sdd/
 
 ### 2.3 Registro retroativo
 
-- [ ] Seleção de data passada via calendário no fluxo de registro; `<input type="date" max={hoje}>` bloqueia futuro no próprio input, sem JS extra
-- [ ] Mensagem de erro amigável se backend rejeitar (fallback de validação)
-- [ ] Testes E2E (Playwright, desktop + mobile): `e2e/retroactive.spec.ts` — data futura bloqueada, erro amigável do backend
-- [ ] `sdd/2.3-registro-retroativo.md`
+- [x] Seleção de data passada via calendário no fluxo de registro; `<input type="date" max={hoje}>` bloqueia futuro no próprio input, sem JS extra ("Lançar registro" no calendário; treino segue para a execução em modo retroativo)
+- [x] Mensagem de erro amigável se backend rejeitar (fallback de validação)
+- [x] Testes E2E (Playwright, desktop + mobile): `e2e/retroactive.spec.ts` — data futura bloqueada, erro amigável do backend
+- [x] `sdd/2.3-registro-retroativo.md`
 
 ---
 
 ### 2.4 Gráficos de progressão
 
-- [ ] Gráfico de evolução de carga por exercício e de medidas corporais (peso, cintura, peitoral)
-- [ ] Filtros de período (30, 60, 90 dias e customizado)
-- [ ] **Responsivo:** gráfico redimensiona por container (`ResponsiveContainer` do Recharts), sem overflow horizontal em mobile
-- [ ] `GET /progress/load?exercise_id=&from=&to=`, `GET /progress/measurements?metric=&from=&to=`
-- [ ] Testes E2E (Playwright, desktop + mobile): `e2e/progress.spec.ts` — filtros de período; gráfico sem overflow em mobile
-- [ ] `sdd/2.4-progressao.md`
+- [x] Gráfico de evolução de carga por exercício e de medidas corporais (peso, cintura, peitoral) — tela "Evolução"
+- [x] Filtros de período (30, 60, 90 dias e customizado)
+- [x] **Responsivo:** gráfico redimensiona por container, sem overflow horizontal em mobile (SVG próprio com `ResizeObserver` em vez do Recharts — ver `sdd/2.4-progressao.md`)
+- [x] `GET /progress/load?exerciseId=&period=|from=&to=`, `GET /progress/measurements?metric=&period=|from=&to=`
+- [x] Testes E2E (Playwright, desktop + mobile): `e2e/progress.spec.ts` — filtros de período; gráfico sem overflow em mobile
+- [x] `sdd/2.4-progressao.md`
 
 ---
 
@@ -245,6 +247,12 @@ sdd/
 
 - [ ] Smoke test: atividade retroativa aparece no calendário e nos gráficos
 - [ ] Atualizar `sdd/README.md` com links das etapas 2.1–2.4
+
+---
+
+### Alinhamento com o design web
+
+Fora das etapas acima, mas entregue junto: dashboard em `/app` (`GET /stats/overview`), menu em drawer no mobile, listagem de planilhas com "Sua semana" e alvos editáveis por exercício. **Dietas** (listagem, editor com calorias por IA e cartão no início) também, documentadas em [`sdd/dietas.md`](sdd/dietas.md). Detalhes e o que ficou de fora por falta de backend em [`sdd/design-web-alinhamento.md`](sdd/design-web-alinhamento.md).
 
 ---
 
@@ -337,12 +345,12 @@ sdd/
 
 ### 5.1 Qualidade de vida no treino
 
-- [ ] Cronômetro de descanso entre séries (configurável por exercício)
-- [ ] Sugestão automática de carga (última sessão) exibida no input
-- [ ] Duplicar planilha existente
-- [ ] `GET /exercises/:id/last-session`, `POST /workout-sheets/:id/duplicate`
-- [ ] Testes E2E (Playwright, desktop + mobile): `e2e/workout-qol.spec.ts` — cronômetro de descanso (`page.clock`), sugestão de carga, duplicar planilha
-- [ ] `sdd/5.1-qualidade-vida-treino.md`
+- [x] Cronômetro de descanso entre séries (configurável por exercício)
+- [x] Sugestão automática de carga (última sessão) exibida no input
+- [x] Duplicar planilha existente
+- [x] `GET /exercises/:id/last-session`, `POST /workout-sheets/:id/duplicate`
+- [x] Testes E2E (Playwright, desktop + mobile): `e2e/workout-qol.spec.ts` — cronômetro de descanso (`page.clock`), sugestão de carga, duplicar planilha
+- [x] `sdd/5.1-qualidade-vida-treino.md`
 
 ### 5.2 Notificações
 
@@ -412,8 +420,8 @@ sdd/
 5. [x] **1.5** — Sessões de treino
 6. [ ] **1.2** — Perfil e medidas
 7. [x] **2.1** — Atividades livres
-8. [ ] **2.2–2.3** — Calendário + retroativo
-9. [ ] **2.4** — Progressão (gráficos)
+8. [x] **2.2–2.3** — Calendário + retroativo
+9. [x] **2.4** — Progressão (gráficos)
 10. [ ] **Fase 3** — Admin
 11. [ ] **Fase 4** — Conquistas, desafios, streaks
 12. [ ] **Fase 5** — Qualidade de vida, push, modo escuro

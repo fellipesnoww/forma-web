@@ -44,7 +44,7 @@ export function SessionDetailPage() {
   }
 
   const ended = session.completedAt ?? null
-  const stats = computeStats(session.exercises, session.performedAt, ended)
+  const stats = computeStats(session.exercises, session.performedAt, ended, session.durationMinutes)
 
   return (
     <div className="flex flex-col gap-5">
@@ -68,7 +68,9 @@ export function SessionDetailPage() {
         </div>
         <span className="text-[13px] font-semibold text-ink-400">
           {formatLongDate(session.performedAt)} · {formatTime(session.performedAt)}
-          {ended && ` – ${formatTime(ended)}`}
+          {session.durationMinutes != null
+            ? ` – ${formatTime(new Date(Date.parse(session.performedAt) + session.durationMinutes * 60000).toISOString())}`
+            : ended && ` – ${formatTime(ended)}`}
         </span>
       </div>
 
@@ -101,7 +103,10 @@ function FinishForm({ session }: { session: WorkoutSession }) {
       return workoutSessionsApi.complete(session.id)
     },
     onSuccess: (completed) => {
-      draftStorage.clear(completed.sheetId)
+      // Only the draft this session came from: a live workout and a backdated one keep separate drafts.
+      for (const retro of [false, true]) {
+        if (draftStorage.load(completed.sheetId, retro)?.sessionId === completed.id) draftStorage.clear(completed.sheetId, retro)
+      }
       queryClient.setQueryData(['workout-sessions', session.id], completed)
       queryClient.invalidateQueries({ queryKey: ['workout-sessions'] })
       toast('Treino salvo!', 'success')
@@ -110,6 +115,8 @@ function FinishForm({ session }: { session: WorkoutSession }) {
   })
 
   const backToWorkout = () => {
+    const retro = draftStorage.load(session.sheetId, true)?.sessionId === session.id
+    if (retro) return navigate(`/app/sheets/${session.sheetId}/run?retro=1`)
     const local = draftStorage.load(session.sheetId)
     if (local?.sessionId !== session.id) draftStorage.save(sessionToDraft(session))
     navigate(`/app/sheets/${session.sheetId}/run`)

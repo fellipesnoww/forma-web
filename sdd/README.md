@@ -12,11 +12,16 @@ Registro de implementação por etapa, seguindo `roadmap-frontend.md`.
 - [1.5 — Execução de treino](1.5-sessoes-treino.md)
 - [2.1 — Atividades livres](2.1-atividades-livres.md)
 - [2.2 — Calendário](2.2-calendario.md)
+- [2.3 — Registro retroativo](2.3-registro-retroativo.md)
+- [2.4 — Gráficos de progressão](2.4-progressao.md)
 - [3.1 — Infra admin](3.1-infra-admin.md)
 - [3.2 — Gestão de exercícios (admin)](3.2-admin-exercicios.md)
 - [3.3 — Gestão de usuários (admin)](3.3-admin-usuarios.md)
 - [3.4 — Administradores e auditoria (super user)](3.4-admin-super-user.md)
 - [3.5 — Conquistas e desafios (admin)](3.5-admin-conquistas-desafios.md)
+- [5.1 — Qualidade de vida no treino](5.1-qualidade-vida-treino.md)
+- [Dietas](dietas.md)
+- [Alinhamento com o design web](design-web-alinhamento.md)
 - [Testes E2E (Playwright)](testes-e2e.md)
 
 ## Corrigido: CORS no backend

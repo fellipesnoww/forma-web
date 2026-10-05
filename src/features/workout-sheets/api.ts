@@ -8,6 +8,8 @@ export interface SheetExercise {
   sortOrder: number
   targetSets: number | null
   targetReps: number | null
+  /** Rest between sets for the run screen's timer. `null` = not set. */
+  defaultRestSeconds: number | null
 }
 
 export interface SheetDay {
@@ -38,6 +40,7 @@ export interface SheetExerciseInput {
   sortOrder: number
   targetSets?: number
   targetReps?: number
+  defaultRestSeconds?: number
 }
 
 export interface SheetDayInput {
@@ -65,4 +68,8 @@ export const workoutSheetsApi = {
 
   reorder: (id: string, body: { dayId: string; exercises: { id: string; sortOrder: number }[] }) =>
     apiFetch<WorkoutSheet>(`/workout-sheets/${id}/reorder`, { method: 'PATCH', json: body }),
+
+  /** Server names the copy "<name> (copia)" when no name is sent. */
+  duplicate: (id: string, name?: string) =>
+    apiFetch<WorkoutSheet>(`/workout-sheets/${id}/duplicate`, { method: 'POST', json: name ? { name } : {} }),
 }

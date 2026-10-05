@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { Activity as ActivityIcon, ChevronRight, Plus } from 'lucide-react'
+import { Activity as ActivityIcon, ChevronRight, Dumbbell, Plus } from 'lucide-react'
 import { cn } from '@/shared/lib/cn'
 import { AuthedImage } from '@/shared/ui/AuthedImage'
 import { Spinner } from '@/shared/ui/Spinner'
@@ -14,10 +14,12 @@ interface Props {
   date: string
   onEditActivity: (activity: Activity) => void
   onAddActivity: () => void
+  /** Opens "Lançar registro" for a backdated workout on this day. */
+  onAddWorkout: () => void
 }
 
 /** "Detalhe do dia": side panel on `lg`, card under the grid below that. */
-export function DayDetail({ date, onEditActivity, onAddActivity }: Props) {
+export function DayDetail({ date, onEditActivity, onAddActivity, onAddWorkout }: Props) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['calendar', 'day', date],
     queryFn: () => calendarApi.day(date),
@@ -62,8 +64,16 @@ export function DayDetail({ date, onEditActivity, onAddActivity }: Props) {
 
       <button
         type="button"
+        onClick={onAddWorkout}
+        className="mt-1 flex h-11 items-center justify-center gap-1.5 rounded-[13px] bg-primary-50 text-sm font-extrabold text-primary-500 hover:bg-primary-100"
+      >
+        <Dumbbell size={15} strokeWidth={2.6} />
+        Lançar treino neste dia
+      </button>
+      <button
+        type="button"
         onClick={onAddActivity}
-        className="mt-1 flex h-11 items-center justify-center gap-1.5 rounded-[13px] bg-activity-50 text-sm font-extrabold text-activity-500 hover:bg-activity-500/15"
+        className="flex h-11 items-center justify-center gap-1.5 rounded-[13px] bg-activity-50 text-sm font-extrabold text-activity-500 hover:bg-activity-500/15"
       >
         <Plus size={15} strokeWidth={2.6} />
         Lançar atividade livre
@@ -73,9 +83,10 @@ export function DayDetail({ date, onEditActivity, onAddActivity }: Props) {
 }
 
 function WorkoutCard({ session }: { session: WorkoutSessionSummary }) {
-  const durationMin = session.completedAt
-    ? Math.round((Date.parse(session.completedAt) - Date.parse(session.performedAt)) / 60000)
-    : null
+  // Older sessions predate `durationMinutes`; fall back to the completion gap.
+  const durationMin =
+    session.durationMinutes ??
+    (session.completedAt ? Math.round((Date.parse(session.completedAt) - Date.parse(session.performedAt)) / 60000) : null)
 
   return (
     <Link
@@ -97,10 +108,16 @@ function WorkoutCard({ session }: { session: WorkoutSessionSummary }) {
           <span className="shrink-0 text-xs font-bold text-ink-400">{formatTime(session.performedAt)}</span>
         </div>
         <p className="mt-1.5 flex items-center gap-1.5 text-[12.5px] font-semibold text-ink-400">
-          {durationMin != null && <span>{formatDuration(Math.max(durationMin, 0))} ·</span>}
-          <span className={session.completedAt ? 'text-success-600' : 'text-warning-600'}>
-            {session.completedAt ? 'Concluído' : 'Em andamento'}
+          <span>
+            {[
+              durationMin != null && formatDuration(Math.max(durationMin, 0)),
+              plural(session.exerciseCount, 'exercício', 'exercícios'),
+              plural(session.setCount, 'série', 'séries'),
+            ]
+              .filter(Boolean)
+              .join(' · ')}
           </span>
+          {!session.completedAt && <span className="text-warning-600">· Em andamento</span>}
         </p>
         {session.comment && (
           <p className="mt-2.5 rounded-[10px] bg-surface-muted px-3 py-2.5 text-[13px] leading-normal font-medium text-ink-700">

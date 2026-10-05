@@ -1,21 +1,39 @@
-import { NavLink, Outlet } from 'react-router-dom'
-import { Home, Dumbbell, ClipboardList, History, Activity, CalendarDays, LogOut, ShieldCheck } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { NavLink, Outlet, useLocation, useMatch } from 'react-router-dom'
+import {
+  Activity,
+  Apple,
+  CalendarDays,
+  ClipboardList,
+  Dumbbell,
+  History,
+  Home,
+  LineChart,
+  LogOut,
+  Menu,
+  Plus,
+  ShieldCheck,
+  UserRound,
+  X,
+} from 'lucide-react'
 import { useAuth } from '@/shared/auth/AuthContext'
 import { useForbiddenNotice } from '@/shared/auth/useForbiddenNotice'
 import { cn } from '@/shared/lib/cn'
 
 const navItems = [
   { to: '/app', label: 'Início', icon: Home, end: true },
-  { to: '/app/exercises', label: 'Biblioteca', icon: Dumbbell },
   { to: '/app/sheets', label: 'Planilhas', icon: ClipboardList },
+  { to: '/app/diets', label: 'Dietas', icon: Apple },
+  { to: '/app/exercises', label: 'Biblioteca', icon: Dumbbell },
   { to: '/app/calendar', label: 'Calendário', icon: CalendarDays },
-  { to: '/app/sessions', label: 'Histórico', icon: History },
   { to: '/app/activities', label: 'Atividades', icon: Activity },
+  { to: '/app/progress', label: 'Evolução', icon: LineChart },
+  { to: '/app/sessions', label: 'Histórico', icon: History },
 ]
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <nav className="flex flex-col gap-1">
+    <nav aria-label="Menu principal" className="flex flex-col gap-[3px]">
       {navItems.map(({ to, label, icon: Icon, end }) => (
         <NavLink
           key={to}
@@ -24,8 +42,8 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
           onClick={onNavigate}
           className={({ isActive }) =>
             cn(
-              'flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-ink-300',
-              isActive && 'bg-primary-500/20 text-primary-100',
+              'flex min-h-11 items-center gap-3 rounded-[11px] px-3 py-2.5 text-[14.5px] font-semibold text-ink-300 hover:bg-sidebar-hover',
+              isActive && 'bg-primary-500/18 font-bold text-[#8DA8FF] hover:bg-primary-500/18',
             )
           }
         >
@@ -37,12 +55,13 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   )
 }
 
-function SidebarFooter() {
+function SidebarFooter({ onNavigate }: { onNavigate?: () => void }) {
   const { user, profile, logout } = useAuth()
   return (
     <div className="flex items-center gap-2.5 border-t border-sidebar-border pt-3.5">
       <NavLink
         to="/app/profile"
+        onClick={onNavigate}
         className="flex min-w-0 flex-1 items-center gap-2.5 rounded-lg p-1 hover:bg-sidebar-hover"
       >
         <div className="h-9 w-9 shrink-0 rounded-full bg-sidebar-hover" />
@@ -68,55 +87,106 @@ function useIsAdmin() {
   return user?.role === 'admin' || user?.role === 'super_user'
 }
 
-export function AppLayout() {
-  const isAdmin = useIsAdmin()
-  useForbiddenNotice()
-
+function AdminLink({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <div className="flex min-h-screen">
-      <aside className="hidden w-60 shrink-0 flex-col bg-sidebar p-4 text-white md:flex">
-        <div className="flex items-center gap-2.5 px-2 pb-6">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-500 text-lg font-extrabold">
-            F
-          </div>
-          <span className="text-lg font-extrabold tracking-tight">Forma</span>
-        </div>
-        <NavLinks />
-        <div className="flex-1" />
-        {isAdmin && (
-          <NavLink
-            to="/admin"
-            className="mb-2.5 flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-warning-500 hover:bg-sidebar-hover"
-          >
-            <ShieldCheck size={20} />
-            Painel admin
-          </NavLink>
-        )}
-        <SidebarFooter />
-      </aside>
+    <NavLink
+      to="/admin"
+      onClick={onNavigate}
+      className="mb-2.5 flex min-h-11 items-center gap-3 rounded-[11px] px-3 py-2.5 text-sm font-semibold text-warning-500 hover:bg-sidebar-hover"
+    >
+      <ShieldCheck size={20} />
+      Painel admin
+    </NavLink>
+  )
+}
 
-      <div className="flex min-w-0 flex-1 flex-col bg-surface-muted">
-        <MobileHeader />
-        <main className="flex-1 overflow-y-auto p-5 pb-24 md:p-7 md:pb-7">
-          <Outlet />
-        </main>
-        <MobileTabBar />
+function Brand() {
+  return (
+    <div className="flex items-center gap-2.5 px-2 pt-1">
+      <div className="flex h-[38px] w-[38px] items-center justify-center rounded-[11px] bg-primary-500 text-[21px] font-extrabold text-white">
+        F
       </div>
+      <span className="text-xl font-extrabold tracking-[-0.4px]">Forma</span>
     </div>
   )
 }
 
-function MobileHeader() {
+/** Shared by the desktop sidebar and the mobile drawer — same items, same order (design: "Menu · drawer responsivo"). */
+function MenuContent({ onNavigate }: { onNavigate?: () => void }) {
+  const isAdmin = useIsAdmin()
+  // Design shows the "Criar planilha" shortcut on the dashboard and the sheets list.
+  const onHome = useMatch({ path: '/app', end: true })
+  const onSheets = useMatch({ path: '/app/sheets', end: true })
+  const showCta = !!onHome || !!onSheets
+
+  return (
+    <>
+      <div className="mt-7">
+        <NavLinks onNavigate={onNavigate} />
+      </div>
+      <div className="min-h-6 flex-1" />
+      {showCta && (
+        <NavLink
+          to="/app/sheets/new"
+          onClick={onNavigate}
+          className="mb-3 flex h-12 items-center justify-center gap-2 rounded-[13px] bg-[linear-gradient(150deg,#2D5BFF,#4E78FF)] text-sm font-extrabold text-white shadow-[0_8px_18px_rgba(45,91,255,0.35)]"
+        >
+          <Plus size={18} strokeWidth={2.4} />
+          Criar planilha
+        </NavLink>
+      )}
+      {isAdmin && <AdminLink onNavigate={onNavigate} />}
+      <SidebarFooter onNavigate={onNavigate} />
+    </>
+  )
+}
+
+export function AppLayout() {
+  useForbiddenNotice()
+  // Remembers where the drawer was opened: any navigation (a menu tap, Back) closes it.
+  const { pathname } = useLocation()
+  const [drawerPath, setDrawerPath] = useState<string | null>(null)
+
+  return (
+    <div className="flex min-h-screen">
+      <aside className="hidden w-60 shrink-0 flex-col bg-sidebar px-4 py-[22px] text-white md:flex">
+        <Brand />
+        <MenuContent />
+      </aside>
+
+      <div className="flex min-w-0 flex-1 flex-col bg-surface-muted">
+        <MobileHeader onOpenMenu={() => setDrawerPath(pathname)} />
+        <main className="flex-1 overflow-y-auto p-4 pb-8 sm:p-5 md:p-7">
+          <Outlet />
+        </main>
+      </div>
+
+      <MobileDrawer open={drawerPath === pathname} onClose={() => setDrawerPath(null)} />
+    </div>
+  )
+}
+
+function MobileHeader({ onOpenMenu }: { onOpenMenu: () => void }) {
   const isAdmin = useIsAdmin()
   return (
-    <header className="flex h-14 items-center justify-between border-b border-border bg-white px-4 md:hidden">
-      <div className="flex items-center gap-2">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-500 text-sm font-extrabold text-white">
+    <header className="sticky top-0 z-30 flex h-[54px] items-center justify-between border-b border-border bg-white px-2 md:hidden">
+      <div className="flex w-24">
+        <button
+          type="button"
+          onClick={onOpenMenu}
+          aria-label="Abrir menu"
+          className="flex h-11 w-11 items-center justify-center rounded-lg text-ink-700"
+        >
+          <Menu size={24} />
+        </button>
+      </div>
+      <NavLink to="/app" className="flex items-center gap-2" aria-label="Forma — início">
+        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary-500 text-base font-extrabold text-white">
           F
         </div>
-        <span className="text-base font-extrabold">Forma</span>
-      </div>
-      <div className="flex items-center">
+        <span className="text-[17px] font-extrabold tracking-[-0.4px]">Forma</span>
+      </NavLink>
+      <div className="flex w-24 items-center justify-end">
         {isAdmin && (
           <NavLink
             to="/admin"
@@ -127,32 +197,47 @@ function MobileHeader() {
           </NavLink>
         )}
         <NavLink to="/app/profile" aria-label="Perfil" className="flex h-11 w-11 items-center justify-center">
-          <div className="h-8 w-8 rounded-full bg-surface-soft" />
+          <UserRound size={18} className="box-content rounded-full bg-surface-soft p-[7px] text-ink-400" />
         </NavLink>
       </div>
     </header>
   )
 }
 
-function MobileTabBar() {
+/** Left drawer on phones. A modal <dialog>: focus trap, Esc and backdrop close come with it. */
+function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const ref = useRef<HTMLDialogElement>(null)
+
+  useEffect(() => {
+    const dialog = ref.current
+    if (!dialog) return
+    if (open && !dialog.open) dialog.showModal()
+    if (!open && dialog.open) dialog.close()
+  }, [open])
+
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 flex border-t border-border bg-white md:hidden">
-      {navItems.map(({ to, label, icon: Icon, end }) => (
-        <NavLink
-          key={to}
-          to={to}
-          end={end}
-          className={({ isActive }) =>
-            cn(
-              'flex flex-1 flex-col items-center gap-1 py-2.5 text-[11px] font-bold text-ink-300',
-              isActive && 'text-primary-500',
-            )
-          }
-        >
-          <Icon size={20} />
-          {label}
-        </NavLink>
-      ))}
-    </nav>
+    <dialog
+      ref={ref}
+      aria-label="Menu"
+      onClose={onClose}
+      onCancel={onClose}
+      onClick={(e) => e.target === ref.current && onClose()}
+      className="m-0 h-dvh max-h-none w-[min(300px,85vw)] max-w-none bg-sidebar p-0 text-white backdrop:bg-black/45 md:hidden"
+    >
+      <div className="flex h-full flex-col px-4 py-[22px]">
+        <div className="flex items-center justify-between">
+          <Brand />
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar menu"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-ink-300 hover:bg-sidebar-hover"
+          >
+            <X size={20} />
+          </button>
+        </div>
+        <MenuContent onNavigate={onClose} />
+      </div>
+    </dialog>
   )
 }

@@ -1,4 +1,5 @@
 export { WorkoutRunPage } from '@/features/workout-sessions/pages/WorkoutRunPage'
+export { retroRunPath } from '@/features/workout-sessions/lib/retro'
 export { SessionDetailPage } from '@/features/workout-sessions/pages/SessionDetailPage'
 export { SessionHistoryPage } from '@/features/workout-sessions/pages/SessionHistoryPage'
 export { workoutSessionsApi } from '@/features/workout-sessions/api'

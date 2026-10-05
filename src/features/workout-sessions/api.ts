@@ -23,6 +23,10 @@ export interface WorkoutSessionSummary {
   sheetName: string
   performedAt: string
   completedAt: string | null
+  /** Typed in for backdated sessions, or filled by `complete` for live ones (within 24 h). */
+  durationMinutes: number | null
+  exerciseCount: number
+  setCount: number
   photoUrl: string | null
   comment: string | null
   createdAt: string
@@ -50,6 +54,8 @@ export interface SessionExerciseInput {
 export interface CreateSessionInput {
   sheetId: string
   performedAt?: string
+  /** 1–1440. Send it when backdating; a live session gets it from `complete`. */
+  durationMinutes?: number
   comment?: string
   exercises: SessionExerciseInput[]
 }

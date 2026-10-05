@@ -27,6 +27,7 @@ export interface SeedSheetExercise {
   customExerciseId?: string
   targetSets?: number
   targetReps?: number
+  defaultRestSeconds?: number
 }
 
 export interface SeedSheet {
@@ -165,6 +166,34 @@ export class Api {
       'GET',
       '/workout-sessions',
     )
+  }
+
+  addMeasurement(body: { weightKg?: number; waistCm?: number; chestCm?: number; heightCm?: number }) {
+    return this.call<unknown>('POST', '/profile/measurements', body)
+  }
+
+  listSheets() {
+    return this.call<{ items: { id: string; name: string }[] }>('GET', '/workout-sheets')
+  }
+
+  createDiet(body: {
+    name: string
+    goal?: string
+    meals?: { name: string; time: string; foods?: { name: string; quantity: number; unit: 'G' | 'KG' | 'ML' | 'L'; kcal: number }[] }[]
+  }) {
+    return this.call<SeedDiet>('POST', '/diets', body)
+  }
+
+  activateDiet(id: string) {
+    return this.call<SeedDiet>('POST', `/diets/${id}/activate`)
+  }
+
+  getDiet(id: string) {
+    return this.call<SeedDiet>('GET', `/diets/${id}`)
+  }
+
+  listDiets() {
+    return this.call<{ items: SeedDiet[] }>('GET', '/diets')
   }
 
   listMeasurements() {
@@ -308,4 +337,13 @@ export interface SeedAchievement {
   isActive: boolean
   iconUrl: string | null
   criteria: Record<string, unknown>
+}
+
+export interface SeedDiet {
+  id: string
+  name: string
+  goal: string | null
+  isActive: boolean
+  totalKcal: number
+  meals: { name: string; time: string; totalKcal: number; foods?: { name: string; quantity: number; unit: string; kcal: number }[] }[]
 }

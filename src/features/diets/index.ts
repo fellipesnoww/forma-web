@@ -1,0 +1,5 @@
+export { DietsListPage } from '@/features/diets/pages/DietsListPage'
+export { DietEditorPage } from '@/features/diets/pages/DietEditorPage'
+export { dietsApi } from '@/features/diets/api'
+export type { DietSummary } from '@/features/diets/api'
+export { describeCounts, formatKcal, nextMeal } from '@/features/diets/lib/format'

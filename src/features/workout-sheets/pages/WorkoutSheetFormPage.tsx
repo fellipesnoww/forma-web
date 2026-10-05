@@ -24,7 +24,11 @@ import { workoutSheetsApi, type SheetDayInput, type WorkoutSheet } from '@/featu
 import { WEEKDAY_LABELS } from '@/features/workout-sheets/lib/weekday'
 import { sheetNameSchema, type SheetNameInput } from '@/features/workout-sheets/schemas'
 import { WeekdayPicker } from '@/features/workout-sheets/components/WeekdayPicker'
-import { SortableExerciseRow, type ExerciseDraft } from '@/features/workout-sheets/components/SortableExerciseRow'
+import {
+  SortableExerciseRow,
+  type ExerciseDraft,
+  type ExerciseTargets,
+} from '@/features/workout-sheets/components/SortableExerciseRow'
 import { ExercisePickerPanel } from '@/features/workout-sheets/components/ExercisePickerPanel'
 
 interface DayDraft {
@@ -51,6 +55,7 @@ function sheetToDrafts(sheet: WorkoutSheet): DayDraft[] {
           name: ex.name,
           targetSets: ex.targetSets ?? undefined,
           targetReps: ex.targetReps ?? undefined,
+          defaultRestSeconds: ex.defaultRestSeconds ?? undefined,
         })),
     }))
 }
@@ -65,6 +70,7 @@ function draftsToInput(days: DayDraft[]): SheetDayInput[] {
       sortOrder,
       targetSets: ex.targetSets,
       targetReps: ex.targetReps,
+      defaultRestSeconds: ex.defaultRestSeconds,
     })),
   }))
 }
@@ -168,6 +174,16 @@ export function WorkoutSheetFormPage() {
     setDays((prev) =>
       prev.map((d) =>
         d.weekday === activeWeekday ? { ...d, exercises: d.exercises.filter((e) => e.localId !== localId) } : d,
+      ),
+    )
+  }
+
+  const updateTargets = (localId: string, patch: ExerciseTargets) => {
+    setDays((prev) =>
+      prev.map((d) =>
+        d.weekday === activeWeekday
+          ? { ...d, exercises: d.exercises.map((e) => (e.localId === localId ? { ...e, ...patch } : e)) }
+          : d,
       ),
     )
   }
@@ -291,6 +307,7 @@ export function WorkoutSheetFormPage() {
                           item={ex}
                           index={index}
                           onRemove={() => removeExercise(ex.localId)}
+                          onChange={(patch) => updateTargets(ex.localId, patch)}
                         />
                       ))}
                     </div>

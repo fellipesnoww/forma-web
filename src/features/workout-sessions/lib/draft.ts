@@ -17,6 +17,10 @@ export interface DraftExercise {
   customExerciseId?: string
   name: string
   targetReps?: number
+  /** From the sheet; drives the rest timer. */
+  restSeconds?: number
+  /** The last-session load was already offered once, so a later edit to 0 kg isn't overwritten. */
+  prefilled?: boolean
   sets: DraftSet[]
 }
 
@@ -27,17 +31,21 @@ export interface SessionDraft {
   startedAt: string
   /** Set once the first sync (`POST /workout-sessions`) succeeds. */
   sessionId?: string
+  /** Backdated entry ("Lançar treino"): `startedAt` is in the past and the duration is typed in. */
+  retroactive?: { durationMinutes: number }
   activeIndex: number
   exercises: DraftExercise[]
 }
 
 const DEFAULT_SETS = 3
-const storageKey = (sheetId: string) => `forma:session-draft:${sheetId}`
+/** Backdated drafts live under their own key, so logging a past workout never touches a live one. */
+const storageKey = (sheetId: string, retroactive = false) =>
+  `forma:session-draft:${sheetId}${retroactive ? ':retro' : ''}`
 
 export const draftStorage = {
-  load(sheetId: string): SessionDraft | null {
+  load(sheetId: string, retroactive = false): SessionDraft | null {
     try {
-      const raw = localStorage.getItem(storageKey(sheetId))
+      const raw = localStorage.getItem(storageKey(sheetId, retroactive))
       return raw ? (JSON.parse(raw) as SessionDraft) : null
     } catch {
       return null
@@ -45,14 +53,14 @@ export const draftStorage = {
   },
   save(draft: SessionDraft) {
     try {
-      localStorage.setItem(storageKey(draft.sheetId), JSON.stringify(draft))
+      localStorage.setItem(storageKey(draft.sheetId, !!draft.retroactive), JSON.stringify(draft))
     } catch {
       // Storage full/blocked: the server sync still runs, we just lose the offline copy.
     }
   },
-  clear(sheetId: string) {
+  clear(sheetId: string, retroactive = false) {
     try {
-      localStorage.removeItem(storageKey(sheetId))
+      localStorage.removeItem(storageKey(sheetId, retroactive))
     } catch {
       // ignore
     }
@@ -83,6 +91,7 @@ export function buildDraft(sheetId: string, sheetName: string, day: SheetDay): S
         customExerciseId: ex.customExerciseId ?? undefined,
         name: ex.name,
         targetReps: ex.targetReps ?? undefined,
+        restSeconds: ex.defaultRestSeconds ?? undefined,
         sets: Array.from({ length: ex.targetSets ?? DEFAULT_SETS }, () => ({
           reps: ex.targetReps ?? 0,
           weightKg: 0,

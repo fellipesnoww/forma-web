@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react'
-import { Check, Clock, Cloud, CloudOff, AlertTriangle } from 'lucide-react'
+import { useEffect, useState, type ReactNode } from 'react'
+import { Check, Clock, Cloud, CloudOff, AlertTriangle, Pause, Play, Timer, X } from 'lucide-react'
 import { cn } from '@/shared/lib/cn'
 import { Spinner } from '@/shared/ui/Spinner'
 import { isExerciseDone, type DraftExercise } from '@/features/workout-sessions/lib/draft'
 import type { SyncStatus } from '@/features/workout-sessions/hooks/useSessionRunner'
-import { formatClock } from '@/features/workout-sessions/lib/format'
+import { formatClock, formatKg } from '@/features/workout-sessions/lib/format'
+import type { RestTimer } from '@/features/workout-sessions/hooks/useRestTimer'
+import type { LoadSuggestion } from '@/features/workout-sessions/lib/progression'
+import { formatRest } from '@/features/workout-sheets/lib/rest'
 
 export function ElapsedTimer({ startedAt, className }: { startedAt: string; className?: string }) {
   const [now, setNow] = useState(() => Date.now())
@@ -110,5 +113,125 @@ export function ExerciseRail({
         })}
       </ol>
     </div>
+  )
+}
+
+/** "Sugestão: 62,5 kg · última 60 × 8". Tapping it puts the load on every set not done yet. */
+export function SuggestionPill({ suggestion, onApply }: { suggestion: LoadSuggestion; onApply: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onApply}
+      title="Usar esta carga nas séries restantes"
+      className="flex min-h-11 items-center gap-2 rounded-[11px] bg-primary-50 px-3.5 py-2 text-left text-[12.5px] font-bold text-primary-600 hover:bg-primary-100"
+    >
+      <Clock size={16} className="shrink-0 text-primary-500" />
+      <span>
+        Sugestão: {formatKg(suggestion.weightKg)} kg · última {formatKg(suggestion.last.weightKg)} × {suggestion.last.reps}
+      </span>
+    </button>
+  )
+}
+
+/** Desktop rail: big countdown with −15/+15. Idle, it offers to start a rest manually. */
+export function RestTimerCard({
+  timer,
+  restSeconds,
+  configured,
+}: {
+  timer: RestTimer
+  restSeconds: number
+  configured: boolean
+}) {
+  const active = timer.status !== 'idle'
+  const shown = active ? timer.remaining : restSeconds
+
+  return (
+    <section
+      aria-label="Descanso"
+      className="rounded-[20px] bg-[linear-gradient(160deg,#1C2C6B,#2D5BFF)] p-[22px] text-center text-white shadow-[0_14px_26px_rgba(45,91,255,0.3)]"
+    >
+      <p className="text-xs font-extrabold tracking-[1px] text-white/75">DESCANSO</p>
+      <p role="timer" aria-live="off" className="mt-1 text-[46px] leading-tight font-extrabold tracking-[-1.5px] tabular-nums">
+        {formatRest(shown)}
+      </p>
+      <p className="mt-0.5 text-xs font-semibold text-white/75">
+        {timer.finished && !active
+          ? 'Descanso concluído · bora pra próxima série'
+          : `de ${formatRest(active ? timer.total : restSeconds)} · ${configured ? 'configurado para este exercício' : 'padrão'}`}
+      </p>
+      <div className="mt-3.5 flex items-center justify-center gap-3">
+        {active ? (
+          <>
+            <RoundButton label="Menos 15 segundos" onClick={() => timer.adjust(-15)}>
+              −15
+            </RoundButton>
+            <RoundButton label={timer.status === 'paused' ? 'Retomar descanso' : 'Pausar descanso'} onClick={timer.togglePause} big>
+              {timer.status === 'paused' ? <Play size={18} fill="currentColor" /> : <Pause size={18} fill="currentColor" />}
+            </RoundButton>
+            <RoundButton label="Mais 15 segundos" onClick={() => timer.adjust(15)}>
+              +15
+            </RoundButton>
+            <RoundButton label="Pular descanso" onClick={timer.stop}>
+              <X size={16} />
+            </RoundButton>
+          </>
+        ) : (
+          <button
+            type="button"
+            onClick={() => timer.start(restSeconds)}
+            className="flex h-11 items-center gap-2 rounded-full bg-white/16 px-4 text-[13px] font-extrabold hover:bg-white/25"
+          >
+            <Timer size={16} />
+            Iniciar descanso
+          </button>
+        )}
+      </div>
+    </section>
+  )
+}
+
+function RoundButton({
+  label,
+  onClick,
+  big,
+  children,
+}: {
+  label: string
+  onClick: () => void
+  big?: boolean
+  children: ReactNode
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      className={cn(
+        'flex items-center justify-center rounded-full text-xs font-extrabold',
+        big ? 'h-[52px] w-[52px] bg-white text-primary-500' : 'h-11 w-11 bg-white/16 hover:bg-white/25',
+      )}
+    >
+      {children}
+    </button>
+  )
+}
+
+/** Mobile action bar: compact countdown; tap pauses/resumes. */
+export function RestPill({ timer }: { timer: RestTimer }) {
+  if (timer.status === 'idle') return null
+  return (
+    <button
+      type="button"
+      onClick={timer.togglePause}
+      aria-label={`Descanso ${formatRest(timer.remaining)}${timer.status === 'paused' ? ' (pausado)' : ''}`}
+      className={cn(
+        'flex h-12 shrink-0 items-center gap-1.5 rounded-[13px] bg-activity-50 px-3.5 text-[15px] font-extrabold text-activity-500 tabular-nums',
+        timer.status === 'paused' && 'opacity-60',
+      )}
+    >
+      <Timer size={16} strokeWidth={2.2} />
+      {formatRest(timer.remaining)}
+    </button>
   )
 }

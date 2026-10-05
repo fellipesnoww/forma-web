@@ -10,6 +10,7 @@ import { AuthedImage } from '@/shared/ui/AuthedImage'
 import { PhotoDropzone } from '@/shared/ui/PhotoDropzone'
 import { useToast } from '@/shared/ui/Toast'
 import { ApiError } from '@/shared/api/client'
+import { performedAtErrorMessage } from '@/shared/api/performedAtError'
 import { compressImage } from '@/shared/lib/image'
 import { activitiesApi, type Activity, type UpdateActivityInput } from '@/features/activities/api'
 import {
@@ -121,7 +122,8 @@ export function ActivityFormModal({ open, onClose, activity, defaultPerformedAt 
       else toast(isEditing ? 'Atividade atualizada.' : 'Atividade registrada.', 'success')
       onClose()
     },
-    onError: (err) => toast(err instanceof ApiError ? err.message : 'Não foi possível salvar.', 'error'),
+    onError: (err) =>
+      toast(performedAtErrorMessage(err) ?? (err instanceof ApiError ? err.message : 'Não foi possível salvar.'), 'error'),
   })
 
   const remove = useMutation({
