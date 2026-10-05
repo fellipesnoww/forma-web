@@ -19,6 +19,7 @@ test.describe('Dietas', () => {
   test('cria dieta com refeições e alimentos; totais ao vivo', async ({ authedPage: page, api }) => {
     await page.goto('/app/diets')
     await expect(page.getByText('Nenhuma dieta ainda')).toBeVisible()
+    await expect(page.getByRole('note', { name: 'Dica: conte sempre com um profissional' })).toContainText('nutricionista')
     await page.getByRole('link', { name: 'Nova dieta' }).click()
     await expect(page.getByRole('heading', { name: 'Nova dieta' })).toBeVisible()
 
