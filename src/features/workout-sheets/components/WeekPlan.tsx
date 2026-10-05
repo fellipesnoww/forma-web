@@ -9,7 +9,7 @@ export function WeekPlan({ sheets }: { sheets: WorkoutSheet[] }) {
   const today = new Date().getDay()
 
   return (
-    <section aria-label="Sua semana" className="rounded-[22px] border border-border bg-white p-5 sm:p-[22px]">
+    <section aria-label="Sua semana" className="rounded-[22px] border border-border bg-surface p-5 sm:p-[22px]">
       <h2 className="text-base font-extrabold text-ink-900">Sua semana</h2>
       <ul className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4 lg:grid-cols-7">
         {WEEKDAY_DISPLAY_ORDER.map((weekday) => {
@@ -22,7 +22,7 @@ export function WeekPlan({ sheets }: { sheets: WorkoutSheet[] }) {
                 'rounded-[14px] px-3 py-3.5',
                 isToday && 'bg-primary-500 text-white',
                 !isToday && names && 'bg-surface-muted',
-                !isToday && !names && 'border-[1.5px] border-dashed border-[#E2E6EF]',
+                !isToday && !names && 'border-[1.5px] border-dashed border-border-strong',
               )}
             >
               <p className={cn('text-xs font-bold', isToday ? 'text-white/80' : 'text-ink-400')}>

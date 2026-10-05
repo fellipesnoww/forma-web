@@ -162,7 +162,7 @@ function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
           <Link
             to="/app/sheets"
             aria-label="Voltar para planilhas"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-ink-600 ring-1 ring-border"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-surface text-ink-600 ring-1 ring-border"
           >
             <ArrowLeft size={18} />
           </Link>
@@ -213,7 +213,7 @@ function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
                 aria-pressed={day.weekday === draft.weekday}
                 className={cn(
                   'flex h-11 min-w-14 items-center justify-center rounded-xl px-3 text-xs font-extrabold',
-                  day.weekday === draft.weekday ? 'bg-primary-500 text-white' : 'bg-white text-ink-400 ring-1 ring-border',
+                  day.weekday === draft.weekday ? 'bg-primary-500 text-white' : 'bg-surface text-ink-400 ring-1 ring-border',
                 )}
               >
                 {WEEKDAY_LABELS[day.weekday]}
@@ -235,7 +235,7 @@ function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
             </div>
           )}
 
-          <section className="rounded-[20px] border border-border bg-white p-4 sm:p-[22px]" aria-label={exercise.name}>
+          <section className="rounded-[20px] border border-border bg-surface p-4 sm:p-[22px]" aria-label={exercise.name}>
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <h2 className="text-[19px] font-extrabold tracking-tight text-ink-900 sm:text-[21px]">{exercise.name}</h2>
@@ -319,7 +319,7 @@ function WorkoutRunner({ sheet }: { sheet: WorkoutSheet }) {
 
       {/* Mobile action bar, docked to the bottom (main scrolls with the page, so it's fixed, not sticky). */}
       <div className="h-16 lg:hidden" aria-hidden />
-      <div className="fixed inset-x-0 bottom-0 z-30 flex pb-[max(12px,env(safe-area-inset-bottom))] md:left-60 items-center gap-2.5 border-t border-border bg-white px-4 py-3 lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-30 flex pb-[max(12px,env(safe-area-inset-bottom))] md:left-60 items-center gap-2.5 border-t border-border bg-surface px-4 py-3 lg:hidden">
         <button
           type="button"
           onClick={() => actions.setActive(exIdx - 1)}

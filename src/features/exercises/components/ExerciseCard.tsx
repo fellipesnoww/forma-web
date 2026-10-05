@@ -4,7 +4,7 @@ import type { Exercise } from '@/features/exercises/api'
 export function ExerciseCard({ exercise, onEdit }: { exercise: Exercise; onEdit?: () => void }) {
   const isCustom = exercise.source === 'custom'
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-border bg-white p-3 sm:flex-col sm:items-stretch sm:gap-2.5">
+    <div className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-3 sm:flex-col sm:items-stretch sm:gap-2.5">
       <div className="h-12 w-12 shrink-0 rounded-xl bg-surface-soft sm:h-24 sm:w-full" />
       <div className="min-w-0 flex-1">
         <p className="truncate font-bold text-ink-900">{exercise.name}</p>

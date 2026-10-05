@@ -142,7 +142,7 @@ export function LineChart({ points, from, to, unit, label, height = 260 }: Props
         >
           {gridValues.map((v) => (
             <g key={v}>
-              <line x1={PAD.left} x2={width - PAD.right} y1={y(v)} y2={y(v)} stroke="#F0F2F6" strokeWidth={1} />
+              <line x1={PAD.left} x2={width - PAD.right} y1={y(v)} y2={y(v)} stroke="var(--color-surface-sunken)" strokeWidth={1} />
               <text x={PAD.left - 8} y={y(v)} dy="0.32em" textAnchor="end" className="fill-ink-200 text-[11px] font-semibold">
                 {formatNumber(v)}
               </text>
@@ -166,7 +166,7 @@ export function LineChart({ points, from, to, unit, label, height = 260 }: Props
               x2={activeCoord.x}
               y1={PAD.top}
               y2={PAD.top + innerH}
-              stroke="#C7CCD6"
+              stroke="var(--color-ink-100)"
               strokeWidth={1}
             />
           )}
@@ -186,7 +186,7 @@ export function LineChart({ points, from, to, unit, label, height = 260 }: Props
               cy={c.y}
               r={i === active ? 6 : 4}
               fill="#2D5BFF"
-              stroke="#fff"
+              stroke="var(--color-surface)"
               strokeWidth={2}
             />
           ))}

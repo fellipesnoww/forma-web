@@ -63,7 +63,7 @@ export function MonthGrid({ year, month, days, selected, today, onSelect }: Prop
               className={cn(
                 'flex h-[58px] min-w-0 flex-col items-center justify-between rounded-[10px] border p-1 transition-colors sm:h-[106px] sm:items-stretch sm:rounded-xl sm:p-2',
                 'focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500',
-                isFuture ? 'border-transparent bg-transparent' : 'border-border bg-white hover:border-primary-100',
+                isFuture ? 'border-transparent bg-transparent' : 'border-border bg-surface hover:border-primary-100',
                 isSelected && 'border-[1.5px] border-primary-500 bg-primary-50 hover:border-primary-500',
               )}
             >

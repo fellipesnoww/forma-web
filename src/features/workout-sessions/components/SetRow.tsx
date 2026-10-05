@@ -43,7 +43,7 @@ function NumberField({
       onBlur={commit}
       onFocus={(e) => e.target.select()}
       onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
-      className="h-11 w-full max-w-24 rounded-[9px] border border-[#E1E7F2] bg-[#F4F6FB] px-3 text-center text-lg font-extrabold text-primary-500 tabular-nums focus:border-primary-500 focus:outline-2 focus:outline-primary-100 sm:text-left"
+      className="h-11 w-full max-w-24 rounded-[9px] border border-primary-200 bg-surface-muted px-3 text-center text-lg font-extrabold text-primary-500 tabular-nums focus:border-primary-500 focus:outline-2 focus:outline-primary-100 sm:text-left"
     />
   )
 }
@@ -68,8 +68,8 @@ export function SetRow({
       className={cn(
         'flex items-center gap-2.5 rounded-xl px-3 sm:gap-3 sm:px-4',
         state === 'done' && 'border border-success-100 bg-success-50 py-2.5',
-        state === 'active' && 'border-2 border-primary-500 bg-white py-2 shadow-[0_6px_16px_rgba(45,91,255,0.12)]',
-        state === 'pending' && 'border border-border bg-white py-2.5 opacity-60',
+        state === 'active' && 'border-2 border-primary-500 bg-surface py-2 shadow-[0_6px_16px_rgba(45,91,255,0.12)]',
+        state === 'pending' && 'border border-border bg-surface py-2.5 opacity-60',
       )}
     >
       <div
@@ -143,7 +143,7 @@ export function SetRow({
             <span
               className={cn(
                 'flex h-8 w-8 items-center justify-center rounded-[9px]',
-                state === 'done' ? 'bg-success-500' : 'bg-[#F0F2F6]',
+                state === 'done' ? 'bg-success-500' : 'bg-surface-sunken',
               )}
             >
               <Check size={16} strokeWidth={3} />

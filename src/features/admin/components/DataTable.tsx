@@ -70,12 +70,12 @@ export function DataTable<T>({
 
   return (
     <div className={cn('flex flex-col gap-3', className)}>
-      <div role="table" aria-label={label} className="overflow-hidden rounded-[20px] border border-border bg-white">
+      <div role="table" aria-label={label} className="overflow-hidden rounded-[20px] border border-border bg-surface">
         {title}
         {isDesktop && (
           <div
             role="row"
-            className="grid items-center gap-3 border-b border-[#F0F2F6] px-[18px] py-3 text-[11.5px] font-bold tracking-[0.4px] text-ink-200 uppercase"
+            className="grid items-center gap-3 border-b border-surface-sunken px-[18px] py-3 text-[11.5px] font-bold tracking-[0.4px] text-ink-200 uppercase"
             style={{ gridTemplateColumns: template }}
           >
             {columns.map((c) => (
@@ -122,7 +122,7 @@ export function DataTable<T>({
                     : undefined
                 }
                 className={cn(
-                  'border-b border-[#F4F5F8] last:border-b-0',
+                  'border-b border-surface-soft last:border-b-0',
                   clickable && 'cursor-pointer hover:bg-surface-soft/60 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-500',
                   selectedKey === key && 'bg-primary-50/60 hover:bg-primary-50/60',
                   rowClassName?.(row),
@@ -177,7 +177,7 @@ export function PaginationBar({ page, total, limit, onPageChange }: Pagination) 
         type="button"
         disabled={page <= 1}
         onClick={() => onPageChange(page - 1)}
-        className="flex h-11 items-center gap-1.5 rounded-xl border border-border bg-white px-3.5 text-sm font-bold text-ink-700 disabled:opacity-40"
+        className="flex h-11 items-center gap-1.5 rounded-xl border border-border bg-surface px-3.5 text-sm font-bold text-ink-700 disabled:opacity-40"
       >
         <ChevronLeft size={16} />
         Anterior
@@ -189,7 +189,7 @@ export function PaginationBar({ page, total, limit, onPageChange }: Pagination) 
         type="button"
         disabled={page >= totalPages}
         onClick={() => onPageChange(page + 1)}
-        className="flex h-11 items-center gap-1.5 rounded-xl border border-border bg-white px-3.5 text-sm font-bold text-ink-700 disabled:opacity-40"
+        className="flex h-11 items-center gap-1.5 rounded-xl border border-border bg-surface px-3.5 text-sm font-bold text-ink-700 disabled:opacity-40"
       >
         Próxima
         <ChevronRight size={16} />

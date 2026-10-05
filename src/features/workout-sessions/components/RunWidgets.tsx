@@ -62,14 +62,14 @@ export function ExerciseRail({
   const pct = exercises.length ? Math.round((doneCount / exercises.length) * 100) : 0
 
   return (
-    <div className="rounded-[20px] border border-border bg-white p-[18px]">
+    <div className="rounded-[20px] border border-border bg-surface p-[18px]">
       <div className="mb-1.5 flex items-center justify-between">
         <p className="text-[15px] font-extrabold text-ink-900">Exercícios</p>
         <span className="text-xs font-bold text-ink-400">
           {doneCount}/{exercises.length}
         </span>
       </div>
-      <div className="mb-3.5 h-1.5 overflow-hidden rounded-full bg-[#F0F2F6]">
+      <div className="mb-3.5 h-1.5 overflow-hidden rounded-full bg-surface-sunken">
         <div className="h-full rounded-full bg-primary-500 transition-[width]" style={{ width: `${pct}%` }} />
       </div>
       <ol className="flex flex-col gap-1.5">
@@ -92,7 +92,7 @@ export function ExerciseRail({
                     'flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-lg text-xs font-extrabold',
                     done && !active && 'bg-success-500 text-white',
                     active && 'bg-primary-500 text-white',
-                    !done && !active && 'bg-[#F0F2F6] text-ink-200',
+                    !done && !active && 'bg-surface-sunken text-ink-200',
                   )}
                 >
                   {done && !active ? <Check size={14} strokeWidth={3} /> : i + 1}

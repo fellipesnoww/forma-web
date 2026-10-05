@@ -20,7 +20,7 @@ export function ExercisePickerPanel({
   const items = data?.items ?? []
 
   return (
-    <div className="flex flex-col gap-3 rounded-3xl border border-border bg-white p-4">
+    <div className="flex flex-col gap-3 rounded-3xl border border-border bg-surface p-4">
       <div>
         <p className="font-extrabold text-ink-900">Adicionar da biblioteca</p>
         <p className="text-xs font-semibold text-ink-400">para {dayLabel}</p>

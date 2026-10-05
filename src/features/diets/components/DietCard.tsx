@@ -18,7 +18,7 @@ export function DietCard({ diet, onActivate, onDelete, activating }: Props) {
     <article
       aria-label={diet.name}
       className={cn(
-        'flex flex-col rounded-[22px] bg-white p-5 sm:p-[22px]',
+        'flex flex-col rounded-[22px] bg-surface p-5 sm:p-[22px]',
         diet.isActive ? 'border-2 border-primary-500 shadow-[0_10px_24px_rgba(45,91,255,0.10)]' : 'border border-border',
       )}
     >
@@ -29,7 +29,7 @@ export function DietCard({ diet, onActivate, onDelete, activating }: Props) {
             Ativa agora
           </span>
         ) : (
-          <span className="rounded-full bg-[#F0F2F6] px-2.5 py-1 text-[11.5px] font-extrabold text-ink-600">Inativa</span>
+          <span className="rounded-full bg-surface-sunken px-2.5 py-1 text-[11.5px] font-extrabold text-ink-600">Inativa</span>
         )}
         {diet.goal && <span className="truncate text-xs font-bold text-ink-400">{diet.goal}</span>}
       </div>
@@ -42,7 +42,7 @@ export function DietCard({ diet, onActivate, onDelete, activating }: Props) {
       </p>
 
       {meals.length > 0 && (
-        <ul className="mt-3.5 flex flex-col border-t border-[#F0F2F6] pt-2.5" aria-label="Refeições">
+        <ul className="mt-3.5 flex flex-col border-t border-surface-sunken pt-2.5" aria-label="Refeições">
           {meals.map((meal) => (
             <li key={meal.id} className="flex items-center gap-2.5 py-[5px] text-[13px]">
               <span className="w-[42px] font-extrabold text-ink-600 tabular-nums">{meal.time}</span>
@@ -54,7 +54,7 @@ export function DietCard({ diet, onActivate, onDelete, activating }: Props) {
       )}
 
       <div className="mt-auto pt-4">
-        <div className="flex gap-2 border-t border-[#F0F2F6] pt-4">
+        <div className="flex gap-2 border-t border-surface-sunken pt-4">
           {diet.isActive ? (
             <Link
               to={`/app/diets/${diet.id}`}
@@ -87,7 +87,7 @@ export function DietCard({ diet, onActivate, onDelete, activating }: Props) {
             type="button"
             onClick={onDelete}
             aria-label="Excluir dieta"
-            className="flex h-11 w-11 items-center justify-center rounded-[11px] bg-[#FFF1EC] text-danger-500 sm:h-10 sm:w-10"
+            className="flex h-11 w-11 items-center justify-center rounded-[11px] bg-danger-50 text-danger-500 sm:h-10 sm:w-10"
           >
             <Trash2 size={16} />
           </button>

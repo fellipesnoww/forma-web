@@ -93,7 +93,7 @@ export function MuscleGroupsModal({ open, onClose, groups }: { open: boolean; on
 
       <ul aria-label="Grupos cadastrados" className="mt-5 flex max-h-[45vh] flex-col overflow-y-auto border-t border-border">
         {groups.map((g) => (
-          <li key={g.id} className="flex items-center gap-3 border-b border-[#F4F5F8] py-1.5">
+          <li key={g.id} className="flex items-center gap-3 border-b border-surface-soft py-1.5">
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-bold text-ink-900">{g.name}</p>
               <p className="truncate text-xs text-ink-400">

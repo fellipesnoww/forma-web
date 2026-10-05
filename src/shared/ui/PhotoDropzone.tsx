@@ -74,10 +74,10 @@ export function PhotoDropzone({
         }}
         className={cn(
           'mt-3.5 flex h-[200px] w-full flex-col items-center justify-center gap-2.5 rounded-2xl border-[1.5px] border-dashed text-primary-500 transition-colors',
-          dragging ? 'border-primary-500 bg-primary-50' : 'border-[#C2CCEA] bg-[#F4F7FF]',
+          dragging ? 'border-primary-500 bg-primary-50' : 'border-primary-200 bg-primary-50',
         )}
       >
-        <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-white shadow-[0_4px_12px_rgba(45,91,255,0.12)]">
+        <span className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-surface shadow-[0_4px_12px_rgba(45,91,255,0.12)]">
           <ImagePlus size={22} />
         </span>
         <span className="text-sm font-extrabold">

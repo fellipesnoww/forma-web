@@ -51,7 +51,7 @@ export function DietEditorPage() {
 }
 
 const fieldClass =
-  'h-[46px] w-full rounded-xl border-[1.5px] border-[#E6E8EF] bg-white px-3.5 text-ink-900 placeholder:text-ink-200 focus:border-primary-500 focus:outline-none aria-[invalid=true]:border-danger-500'
+  'h-[46px] w-full rounded-xl border-[1.5px] border-border-strong bg-surface px-3.5 text-ink-900 placeholder:text-ink-200 focus:border-primary-500 focus:outline-none aria-[invalid=true]:border-danger-500'
 
 function DietEditor({ diet }: { diet: Diet | null }) {
   const navigate = useNavigate()
@@ -158,7 +158,7 @@ function DietEditor({ diet }: { diet: Diet | null }) {
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="flex min-w-0 flex-col gap-4">
-          <div className="grid gap-4 rounded-[20px] border border-border bg-white p-4 sm:grid-cols-[minmax(0,1fr)_220px] sm:p-5">
+          <div className="grid gap-4 rounded-[20px] border border-border bg-surface p-4 sm:grid-cols-[minmax(0,1fr)_220px] sm:p-5">
             <label className="flex flex-col gap-[7px]">
               <span className="text-[12.5px] font-bold text-ink-600">Nome da dieta</span>
               <input
@@ -202,7 +202,7 @@ function DietEditor({ diet }: { diet: Diet | null }) {
             <button
               type="button"
               onClick={() => edit((d) => ({ ...d, meals: [...d.meals, emptyMeal(d.meals[d.meals.length - 1])] }))}
-              className="flex h-[54px] items-center justify-center gap-2 rounded-[18px] border-[1.5px] border-dashed border-[#C9D3EE] text-sm font-extrabold text-primary-500 hover:bg-[#F0F4FF]"
+              className="flex h-[54px] items-center justify-center gap-2 rounded-[18px] border-[1.5px] border-dashed border-primary-200 text-sm font-extrabold text-primary-500 hover:bg-primary-50"
             >
               <Plus size={18} strokeWidth={2.4} />
               Adicionar refeição

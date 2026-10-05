@@ -26,7 +26,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             aria-invalid={!!error}
             aria-describedby={error ? `${inputId}-error` : undefined}
             className={cn(
-              'h-11 w-full rounded-lg border border-border bg-white px-3.5 pr-10 text-sm text-ink-900 placeholder:text-ink-200 focus:border-primary-500 focus:outline-2 focus:outline-primary-100',
+              'h-11 w-full rounded-lg border border-border bg-surface px-3.5 pr-10 text-sm text-ink-900 placeholder:text-ink-200 focus:border-primary-500 focus:outline-2 focus:outline-primary-100',
               error && 'border-danger-500 focus:outline-danger-500/20',
               className,
             )}

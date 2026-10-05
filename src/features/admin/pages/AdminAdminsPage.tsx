@@ -187,7 +187,7 @@ export function AdminAdminsPage() {
           />
         </div>
 
-        <section aria-label="Log de auditoria recente" className="self-start rounded-[20px] border border-border bg-white p-5">
+        <section aria-label="Log de auditoria recente" className="self-start rounded-[20px] border border-border bg-surface p-5">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-extrabold text-ink-900">Log de auditoria</h2>
             <Link to="/admin/audit" className="flex min-h-11 items-center text-[12.5px] font-bold text-primary-500">

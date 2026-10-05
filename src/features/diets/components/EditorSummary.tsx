@@ -44,14 +44,14 @@ export function EditorSummary({ draft, active, onToggleActive, replacesActive }:
         role="switch"
         aria-checked={active}
         onClick={onToggleActive}
-        className="flex items-center gap-3 rounded-2xl border border-border bg-white p-3.5 text-left"
+        className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-3.5 text-left"
       >
         <span className="flex-1">
           <span className="block text-sm font-extrabold text-ink-900">Dieta ativa</span>
           <span className="mt-0.5 block text-xs font-semibold text-ink-400">{hint}</span>
         </span>
-        <span className={cn('flex h-6 w-11 shrink-0 items-center rounded-full p-0.5', active ? 'bg-success-500' : 'bg-[#D5D9E2]')}>
-          <span className={cn('h-5 w-5 rounded-full bg-white shadow-sm transition-transform', active && 'translate-x-5')} />
+        <span className={cn('flex h-6 w-11 shrink-0 items-center rounded-full p-0.5', active ? 'bg-success-500' : 'bg-switch-off')}>
+          <span className={cn('h-5 w-5 rounded-full bg-surface shadow-sm transition-transform', active && 'translate-x-5')} />
         </span>
       </button>
 
@@ -66,7 +66,7 @@ export function EditorSummary({ draft, active, onToggleActive, replacesActive }:
                   <span className="min-w-0 flex-1 truncate font-semibold text-ink-900">{m.name}</span>
                   <span className="font-extrabold text-ink-900 tabular-nums">{formatKcal(m.kcal)}</span>
                 </div>
-                <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-[#F0F2F6]">
+                <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-surface-sunken">
                   <div className="h-full rounded-full bg-primary-500" style={{ width: `${(m.kcal / biggest) * 100}%` }} />
                 </div>
               </li>
@@ -75,7 +75,7 @@ export function EditorSummary({ draft, active, onToggleActive, replacesActive }:
         </section>
       )}
 
-      <p className="flex items-start gap-2.5 rounded-[14px] bg-[#F7F3FF] px-3.5 py-3 text-[12.5px] leading-[1.45] font-semibold text-[#5B2BB5]">
+      <p className="flex items-start gap-2.5 rounded-[14px] bg-ai-50 px-3.5 py-3 text-[12.5px] leading-[1.45] font-semibold text-ai-600">
         <Sparkles size={16} className="mt-px shrink-0" fill="currentColor" />
         O botão IA estima as calorias pelo nome e quantidade do alimento. Valores aproximados — revise antes de salvar.
       </p>

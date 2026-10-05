@@ -137,7 +137,7 @@ export function AdminUsersPage() {
         </div>
 
         {isDesktop && (
-          <aside aria-label="Detalhes do usuário" className="flex flex-col overflow-auto border-l border-border bg-white p-[22px]">
+          <aside aria-label="Detalhes do usuário" className="flex flex-col overflow-auto border-l border-border bg-surface p-[22px]">
             {selectedId ? (
               <UserDetailPanel key={selectedId} userId={selectedId} />
             ) : (

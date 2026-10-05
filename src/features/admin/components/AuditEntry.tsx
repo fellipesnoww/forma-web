@@ -19,7 +19,7 @@ export function AuditEntry({ log, compact }: { log: AuditLog; compact?: boolean 
   const reason = auditReason(log)
 
   return (
-    <li className="flex gap-3 border-b border-[#F4F5F8] py-2.5 last:border-b-0">
+    <li className="flex gap-3 border-b border-surface-soft py-2.5 last:border-b-0">
       <span aria-hidden className={cn('mt-[5px] h-[9px] w-[9px] shrink-0 rounded-full', dotTone[auditTone(log.action, log.metadata)])} />
       <div className="min-w-0 flex-1">
         <p className="text-[13px] leading-[1.45] font-medium break-words text-ink-700">

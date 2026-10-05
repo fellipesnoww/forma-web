@@ -215,7 +215,7 @@ export function AdminExercisesPage() {
         {isDesktop && (
           <aside
             aria-label={formTitle}
-            className="flex flex-col gap-3.5 overflow-auto border-l border-border bg-white p-[22px]"
+            className="flex flex-col gap-3.5 overflow-auto border-l border-border bg-surface p-[22px]"
           >
             <h2 className="text-base font-extrabold text-ink-900">{formTitle}</h2>
             {form}

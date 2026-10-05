@@ -69,7 +69,7 @@ export function ExercisesPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Buscar exercício…"
-          className="h-11 w-full rounded-lg border border-border bg-white pl-10 pr-3.5 text-sm focus:border-primary-500 focus:outline-2 focus:outline-primary-100"
+          className="h-11 w-full rounded-lg border border-border bg-surface pl-10 pr-3.5 text-sm focus:border-primary-500 focus:outline-2 focus:outline-primary-100"
         />
       </div>
 
@@ -140,7 +140,7 @@ function FilterChip({
         'shrink-0 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-xs font-bold',
         active && tone === 'primary' && 'border-transparent bg-primary-500 text-white',
         active && tone === 'purple' && 'border-purple-100 bg-purple-50 text-purple-600',
-        !active && 'border-border bg-white text-ink-600',
+        !active && 'border-border bg-surface text-ink-600',
       )}
     >
       {children}

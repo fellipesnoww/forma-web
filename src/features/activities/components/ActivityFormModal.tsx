@@ -31,7 +31,7 @@ interface Props {
 }
 
 const fieldClass =
-  'h-11 w-full rounded-lg border border-border bg-white px-3.5 text-sm text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100'
+  'h-11 w-full rounded-lg border border-border bg-surface px-3.5 text-sm text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100'
 
 export function ActivityFormModal({ open, onClose, activity, defaultPerformedAt }: Props) {
   const toast = useToast()

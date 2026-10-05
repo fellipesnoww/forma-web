@@ -2,7 +2,7 @@ import { formatKg, type SessionStats } from '@/features/workout-sessions/lib/for
 
 function Stat({ label, value, unit }: { label: string; value: string; unit?: string }) {
   return (
-    <div className="rounded-[18px] border border-border bg-white p-4">
+    <div className="rounded-[18px] border border-border bg-surface p-4">
       <p className="text-[12.5px] font-semibold text-ink-400">{label}</p>
       <p className="mt-1 text-2xl font-extrabold tabular-nums text-ink-900">
         {value}

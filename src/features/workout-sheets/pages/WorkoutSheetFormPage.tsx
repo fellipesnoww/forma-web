@@ -257,7 +257,7 @@ export function WorkoutSheetFormPage() {
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="flex flex-col gap-4">
-          <div className="grid gap-4 rounded-3xl border border-border bg-white p-5 sm:grid-cols-[minmax(0,1fr)_auto]">
+          <div className="grid gap-4 rounded-3xl border border-border bg-surface p-5 sm:grid-cols-[minmax(0,1fr)_auto]">
             <Input label="Nome da planilha" error={errors.name?.message} {...register('name')} />
             <div>
               <p className="mb-1.5 text-sm font-semibold text-ink-700">Dias da semana</p>
@@ -266,13 +266,13 @@ export function WorkoutSheetFormPage() {
           </div>
 
           {days.length === 0 && (
-            <p className="rounded-2xl border border-dashed border-border bg-white py-8 text-center text-sm text-ink-400">
+            <p className="rounded-2xl border border-dashed border-border bg-surface py-8 text-center text-sm text-ink-400">
               Escolha ao menos um dia da semana para começar.
             </p>
           )}
 
           {days.length > 0 && (
-            <div className="rounded-3xl border border-border bg-white p-5">
+            <div className="rounded-3xl border border-border bg-surface p-5">
               <div className="flex gap-1.5 overflow-x-auto rounded-xl bg-surface-soft p-1">
                 {days.map((d) => (
                   <button
@@ -281,7 +281,7 @@ export function WorkoutSheetFormPage() {
                     onClick={() => setActiveWeekday(d.weekday)}
                     className={cn(
                       'shrink-0 whitespace-nowrap rounded-lg px-4 py-2 text-xs font-extrabold',
-                      d.weekday === activeWeekday ? 'bg-white text-ink-900 shadow-sm' : 'text-ink-400',
+                      d.weekday === activeWeekday ? 'bg-surface text-ink-900 shadow-sm' : 'text-ink-400',
                     )}
                   >
                     {WEEKDAY_LABELS[d.weekday]} · {d.exercises.length}
@@ -326,7 +326,7 @@ export function WorkoutSheetFormPage() {
               onAdd={addExercise}
             />
           ) : (
-            <p className="rounded-3xl border border-dashed border-border bg-white p-5 text-center text-sm text-ink-400">
+            <p className="rounded-3xl border border-dashed border-border bg-surface p-5 text-center text-sm text-ink-400">
               Selecione um dia para adicionar exercícios.
             </p>
           )}

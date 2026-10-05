@@ -11,7 +11,7 @@ export function WeekVolumeChart({ days, today }: { days: StatsOverview['week']['
   const max = Math.max(...days.map((d) => d.volumeKg), 1)
 
   return (
-    <section aria-label="Volume por dia" className="rounded-[20px] border border-border bg-white px-4 py-5 sm:px-[22px]">
+    <section aria-label="Volume por dia" className="rounded-[20px] border border-border bg-surface px-4 py-5 sm:px-[22px]">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-extrabold text-ink-900">Volume por dia</h2>
         <span className="text-[12.5px] font-bold text-ink-400">Últimos 7 dias</span>
@@ -47,7 +47,7 @@ export function WeekVolumeChart({ days, today }: { days: StatsOverview['week']['
                       ? 'bg-[linear-gradient(180deg,#2D5BFF,#5A7BFF)]'
                       : day.volumeKg > 0
                         ? 'bg-primary-100'
-                        : 'bg-[#EEF1F7]',
+                        : 'bg-surface-sunken',
                     active && active !== day.date && 'opacity-70',
                   )}
                   style={{ height: `${pct}%` }}
