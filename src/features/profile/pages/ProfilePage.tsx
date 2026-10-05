@@ -24,7 +24,7 @@ import {
 import { WeightSparkline } from '@/features/profile/components/WeightSparkline'
 import { formatMeters, formatNumber, formatShortDate } from '@/features/profile/lib/format'
 
-const panel = 'rounded-[20px] border border-border bg-white sm:rounded-[22px]'
+const panel = 'rounded-[20px] border border-border bg-surface sm:rounded-[22px]'
 
 export function ProfilePage() {
   const [editOpen, setEditOpen] = useState(false)
@@ -131,7 +131,7 @@ function IdentityCard({ onEdit }: { onEdit: () => void }) {
 
 function Stat({ label, value, unit }: { label: string; value: string; unit: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-white p-3.5 sm:border-0 sm:bg-surface-muted sm:p-4">
+    <div className="rounded-2xl border border-border bg-surface p-3.5 sm:border-0 sm:bg-surface-muted sm:p-4">
       <p className="text-xs font-semibold text-ink-400 sm:text-[12.5px]">{label}</p>
       <p className="mt-1 text-[22px] font-extrabold tracking-tight text-ink-900 sm:text-[26px]">
         {value}
@@ -156,7 +156,7 @@ function PhysicalData({ onRegister }: { onRegister: () => void }) {
   const latest = measurements && measurements.length > 0 ? sortNewest(measurements)[0] : null
 
   return (
-    <section aria-labelledby="physical-data" className="sm:rounded-[22px] sm:border sm:border-border sm:bg-white sm:p-[22px]">
+    <section aria-labelledby="physical-data" className="sm:rounded-[22px] sm:border sm:border-border sm:bg-surface sm:p-[22px]">
       <div className="flex items-center justify-between gap-3">
         <div>
           <h2 id="physical-data" className="text-base font-extrabold text-ink-900">
@@ -235,7 +235,7 @@ function HistoryRow({ measurement: m, current }: { measurement: Measurement; cur
     <li
       className={cn(
         'flex items-center gap-3 py-3 sm:grid sm:grid-cols-[1.4fr_1fr_1fr_1fr] sm:rounded-xl sm:px-3 sm:py-[13px] sm:text-sm',
-        current ? 'sm:bg-[#F4F7FF]' : 'sm:border sm:border-[#F0F2F6]',
+        current ? 'sm:bg-primary-50' : 'sm:border sm:border-surface-sunken',
       )}
     >
       <div className={cn('flex-1 text-[13.5px] font-bold sm:text-sm', current ? 'font-extrabold text-primary-500' : 'text-ink-900')}>

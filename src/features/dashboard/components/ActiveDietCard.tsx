@@ -14,8 +14,8 @@ export function ActiveDietCard() {
 
   if (!diet) {
     return (
-      <Link to="/app/diets" className="flex items-center gap-2.5 rounded-[20px] border border-border bg-white p-[18px]">
-        <span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-[#F0F2F6] text-ink-200">
+      <Link to="/app/diets" className="flex items-center gap-2.5 rounded-[20px] border border-border bg-surface p-[18px]">
+        <span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-surface-sunken text-ink-200">
           <Apple size={17} />
         </span>
         <span className="flex-1">
@@ -32,7 +32,7 @@ export function ActiveDietCard() {
     <Link
       to={`/app/diets/${diet.id}`}
       aria-label={`Dieta ativa: ${diet.name}`}
-      className="block rounded-[20px] border border-border bg-white p-[18px] transition-shadow hover:shadow-md"
+      className="block rounded-[20px] border border-border bg-surface p-[18px] transition-shadow hover:shadow-md"
     >
       <div className="flex items-center justify-between gap-2.5">
         <div className="flex min-w-0 items-center gap-[9px]">
@@ -54,7 +54,7 @@ export function ActiveDietCard() {
       </div>
       {next && (
         <div className="mt-3 flex items-center gap-2.5 rounded-xl bg-surface-muted px-3 py-[9px]">
-          <span className="rounded-lg border border-border bg-white px-2 py-1 text-xs font-extrabold text-ink-700 tabular-nums">
+          <span className="rounded-lg border border-border bg-surface px-2 py-1 text-xs font-extrabold text-ink-700 tabular-nums">
             {next.time}
           </span>
           <div className="min-w-0 flex-1">

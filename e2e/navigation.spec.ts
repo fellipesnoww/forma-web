@@ -9,6 +9,7 @@ test.describe('Fase 0 · Layout e navegação', () => {
     { link: 'Dietas', url: /\/app\/diets$/, heading: 'Dietas' },
     { link: 'Evolução', url: /\/app\/progress$/, heading: 'Evolução' },
     { link: 'Calendário', url: /\/app\/calendar$/, heading: 'Calendário' },
+    { link: 'Configurações', url: /\/app\/settings$/, heading: 'Configurações' },
     { link: 'Início', url: /\/app$/, heading: /Bom dia|Boa tarde|Boa noite/ },
   ]
 

@@ -85,7 +85,7 @@ export function ImageField({
           }}
           className={cn(
             'flex h-[110px] flex-col items-center justify-center gap-1.5 rounded-[14px] border-[1.5px] border-dashed text-primary-500',
-            dragging ? 'border-primary-500 bg-primary-50' : 'border-[#C2CCEA] bg-[#F4F7FF]',
+            dragging ? 'border-primary-500 bg-primary-50' : 'border-primary-200 bg-primary-50',
           )}
         >
           <Upload size={20} />

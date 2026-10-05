@@ -36,7 +36,7 @@ export function UnlocksModal({ achievement, onClose }: { achievement: Achievemen
       )}
       <ul className="flex flex-col">
         {unlocks.data?.items.map((u) => (
-          <li key={u.userId} className="border-b border-[#F4F5F8] last:border-b-0">
+          <li key={u.userId} className="border-b border-surface-soft last:border-b-0">
             <Link to={`/admin/users?user=${u.userId}`} className="flex min-h-14 items-center gap-3 py-2 hover:bg-surface-soft/60">
               <Avatar />
               <div className="min-w-0 flex-1">

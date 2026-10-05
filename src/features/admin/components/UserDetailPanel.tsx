@@ -108,7 +108,7 @@ export function UserDetailPanel({ userId }: { userId: string }) {
   return (
     <div className="flex flex-1 flex-col gap-4">
       <div className="flex flex-col items-center pt-1.5 text-center">
-        <Avatar src={u.avatarUrl} size={76} className="border border-[#E2E6EF]" />
+        <Avatar src={u.avatarUrl} size={76} className="border border-border-strong" />
         <h2 className="mt-3 text-lg font-extrabold text-ink-900">{name}</h2>
         <p className="max-w-full truncate text-[12.5px] font-medium text-ink-400">{u.email}</p>
         <div className="mt-2.5 flex gap-1.5">

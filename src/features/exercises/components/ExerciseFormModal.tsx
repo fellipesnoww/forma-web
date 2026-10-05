@@ -75,7 +75,7 @@ export function ExerciseFormModal({ open, onClose, exercise, groups }: Props) {
           </label>
           <select
             id="muscleGroupSlug"
-            className="h-11 rounded-lg border border-border bg-white px-3.5 text-sm text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100"
+            className="h-11 rounded-lg border border-border bg-surface px-3.5 text-sm text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100"
             {...register('muscleGroupSlug')}
           >
             <option value="">Sem grupo</option>

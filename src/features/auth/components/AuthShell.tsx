@@ -24,7 +24,7 @@ export function AuthShell({ headline, panel, children }: AuthShellProps) {
         {panel && <div className="relative mt-6 hidden flex-col gap-3.5 lg:flex">{panel}</div>}
       </div>
       <div className="flex flex-1 items-center justify-center bg-surface-muted p-6 lg:p-10">
-        <div className="w-full max-w-[420px] rounded-3xl border border-border bg-white p-7 shadow-[0_20px_40px_rgba(18,20,26,0.06)] lg:p-9">
+        <div className="w-full max-w-[420px] rounded-3xl border border-border bg-surface p-7 shadow-[0_20px_40px_rgba(18,20,26,0.06)] lg:p-9">
           {children}
         </div>
       </div>

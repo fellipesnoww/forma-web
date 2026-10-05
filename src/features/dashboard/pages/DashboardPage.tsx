@@ -106,7 +106,7 @@ export function DashboardPage() {
                 <Link
                   key={to}
                   to={to}
-                  className="flex items-center gap-3 rounded-[18px] border border-border bg-white p-3.5 transition-shadow hover:shadow-md"
+                  className="flex items-center gap-3 rounded-[18px] border border-border bg-surface p-3.5 transition-shadow hover:shadow-md"
                 >
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-500">
                     <Icon size={20} />
@@ -141,7 +141,7 @@ function StatTile({
   className?: string
 }) {
   return (
-    <div className={cn('rounded-[18px] border border-border bg-white p-4 sm:p-[18px]', className)}>
+    <div className={cn('rounded-[18px] border border-border bg-surface p-4 sm:p-[18px]', className)}>
       <p className="text-[12.5px] font-semibold text-ink-400">{label}</p>
       <p className="mt-1 text-[22px] font-extrabold tracking-[-0.5px] text-ink-900 tabular-nums sm:text-[26px]">
         {value}

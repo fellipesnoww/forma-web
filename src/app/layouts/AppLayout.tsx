@@ -12,6 +12,7 @@ import {
   LogOut,
   Menu,
   Plus,
+  Settings,
   ShieldCheck,
   UserRound,
   X,
@@ -29,6 +30,7 @@ const navItems = [
   { to: '/app/activities', label: 'Atividades', icon: Activity },
   { to: '/app/progress', label: 'Evolução', icon: LineChart },
   { to: '/app/sessions', label: 'Histórico', icon: History },
+  { to: '/app/settings', label: 'Configurações', icon: Settings },
 ]
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
@@ -169,7 +171,7 @@ export function AppLayout() {
 function MobileHeader({ onOpenMenu }: { onOpenMenu: () => void }) {
   const isAdmin = useIsAdmin()
   return (
-    <header className="sticky top-0 z-30 flex h-[54px] items-center justify-between border-b border-border bg-white px-2 md:hidden">
+    <header className="sticky top-0 z-30 flex h-[54px] items-center justify-between border-b border-border bg-surface px-2 md:hidden">
       <div className="flex w-24">
         <button
           type="button"

@@ -31,7 +31,7 @@ export function DayDetail({ date, onEditActivity, onAddActivity, onAddWorkout }:
     <section
       data-testid="day-panel"
       aria-label="Detalhe do dia"
-      className="flex flex-col gap-3.5 rounded-[18px] border border-border bg-white p-3.5 sm:p-5 lg:sticky lg:top-7 lg:rounded-[22px]"
+      className="flex flex-col gap-3.5 rounded-[18px] border border-border bg-surface p-3.5 sm:p-5 lg:sticky lg:top-7 lg:rounded-[22px]"
     >
       <div>
         <p className="text-[11px] font-extrabold tracking-[0.6px] text-ink-200 sm:text-xs">DETALHE DO DIA</p>

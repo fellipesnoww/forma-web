@@ -1,10 +1,14 @@
 @import "tailwindcss";
 
+/* `dark:` follows the app theme (data-theme on <html>), not only the OS preference. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
   --color-primary-50: #eaf0ff;
   --color-primary-100: #dce6ff;
+  --color-primary-200: #c9d3ee;
   --color-primary-400: #4e78ff;
   --color-primary-500: #2d5bff;
   --color-primary-600: #1e40d6;
@@ -17,6 +21,7 @@
   --color-warning-50: #fff3d6;
   --color-warning-500: #ffb020;
   --color-warning-600: #e5a100;
+  --color-warning-700: #c98a00;
 
   --color-danger-50: #ffe9e1;
   --color-danger-500: #ff5a2c;
@@ -26,6 +31,12 @@
   --color-activity-50: #ffe9e1;
   --color-activity-500: #ff5a2c;
   --color-activity-600: #e5451c;
+
+  /* AI-assisted values (calorie estimate). */
+  --color-ai-50: #f7f3ff;
+  --color-ai-100: #f1ebfe;
+  --color-ai-200: #d9ccf5;
+  --color-ai-600: #5b2bb5;
 
   --color-ink-900: #12141a;
   --color-ink-800: #181b22;
@@ -40,7 +51,10 @@
   --color-surface: #ffffff;
   --color-surface-muted: #f6f7fb;
   --color-surface-soft: #f4f5f8;
+  --color-surface-sunken: #f0f2f6;
   --color-border: #eceef3;
+  --color-border-strong: #e6e8ef;
+  --color-switch-off: #d5d9e2;
 
   --color-sidebar: #14161d;
   --color-sidebar-border: #23262f;
@@ -50,6 +64,54 @@
   --radius-xl: 14px;
   --radius-2xl: 18px;
   --radius-3xl: 22px;
+}
+
+/*
+ * Dark theme: `data-theme` on <html> is set by ThemeProvider (and by the inline script in index.html before
+ * first paint). Utilities read the tokens through CSS variables, so overriding them here re-themes the app.
+ * The sidebar is dark in both themes; ink-300 stays as is because it is the sidebar's text color.
+ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-primary-50: #1c2850;
+  --color-primary-100: #24346a;
+  --color-primary-200: #2f3f73;
+
+  --color-success-50: #10301f;
+  --color-success-100: #17452d;
+
+  --color-warning-50: #33280c;
+  --color-warning-700: #ffb020;
+
+  --color-danger-50: #3a1d14;
+  --color-activity-50: #3a1d14;
+
+  --color-ai-50: #241a3d;
+  --color-ai-100: #2e2150;
+  --color-ai-200: #45337a;
+  --color-ai-600: #c2a8ff;
+
+  --color-ink-900: #f1f3f8;
+  --color-ink-800: #e4e7ee;
+  --color-ink-700: #c9cfdb;
+  --color-ink-600: #adb3c0;
+  --color-ink-500: #959cab;
+  --color-ink-400: #818899;
+  --color-ink-200: #5f6676;
+  --color-ink-100: #474d5c;
+
+  --color-surface: #1a1d26;
+  --color-surface-muted: #111319;
+  --color-surface-soft: #222631;
+  --color-surface-sunken: #272b37;
+  --color-border: #262a35;
+  --color-border-strong: #323745;
+  --color-switch-off: #3a3f4d;
+
+  --color-sidebar: #0c0e13;
+  --color-sidebar-border: #1e2129;
+  --color-sidebar-hover: #22252f;
 }
 
 body {

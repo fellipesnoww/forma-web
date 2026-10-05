@@ -17,7 +17,7 @@ import { AUDIT_ACTION_LABEL, AUDIT_TARGET_LABEL } from '@/features/admin/lib/for
 const PAGE_SIZE = 30
 
 const dateInputClass =
-  'h-11 w-full rounded-xl border border-border bg-white px-3 text-sm font-semibold text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100'
+  'h-11 w-full rounded-xl border border-border bg-surface px-3 text-sm font-semibold text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100'
 
 /** `YYYY-MM-DD` from the date input → inclusive ISO bound in the browser's timezone. */
 function dayBoundary(date: string, end: boolean) {
@@ -122,7 +122,7 @@ export function AdminAuditPage() {
             <button
               type="button"
               onClick={() => list.set({ actor: undefined, action: undefined, target: undefined, from: undefined, to: undefined })}
-              className="flex h-11 items-center justify-center gap-1.5 rounded-xl px-3 text-sm font-bold text-ink-600 hover:bg-white"
+              className="flex h-11 items-center justify-center gap-1.5 rounded-xl px-3 text-sm font-bold text-ink-600 hover:bg-surface"
             >
               <X size={15} />
               Limpar
@@ -130,7 +130,7 @@ export function AdminAuditPage() {
           )}
         </div>
 
-        <section aria-label="Registros de auditoria" className="rounded-[20px] border border-border bg-white px-5 py-2">
+        <section aria-label="Registros de auditoria" className="rounded-[20px] border border-border bg-surface px-5 py-2">
           {logs.isLoading && (
             <div className="flex justify-center py-12">
               <Spinner />

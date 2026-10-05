@@ -19,7 +19,7 @@ function dayBoundary(day: string, end: boolean) {
 }
 
 const fieldClass =
-  'h-11 rounded-lg border border-border bg-white px-3 text-sm text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100'
+  'h-11 rounded-lg border border-border bg-surface px-3 text-sm text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100'
 
 export function ActivitiesPage() {
   const [params, setParams] = useSearchParams()
@@ -149,7 +149,7 @@ function ActivityRow({ activity, onOpen }: { activity: Activity; onOpen: () => v
       type="button"
       onClick={onOpen}
       aria-label={`Editar ${activity.activityTypeName} de ${date.toLocaleDateString('pt-BR')}`}
-      className="flex w-full items-center gap-4 rounded-[18px] border border-border bg-white p-3.5 text-left transition-shadow hover:shadow-md sm:p-4"
+      className="flex w-full items-center gap-4 rounded-[18px] border border-border bg-surface p-3.5 text-left transition-shadow hover:shadow-md sm:p-4"
     >
       <div className="flex h-14 w-14 shrink-0 flex-col items-center justify-center rounded-[14px] bg-activity-50 text-activity-500">
         <span className="text-lg leading-none font-extrabold">{date.getDate()}</span>

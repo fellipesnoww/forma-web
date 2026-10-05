@@ -8,19 +8,22 @@ import { queryClient } from '@/shared/api/queryClient'
 import { AuthProvider } from '@/shared/auth/AuthContext'
 import { ToastProvider } from '@/shared/ui/Toast'
 import { ErrorBoundary } from '@/shared/error/ErrorBoundary'
+import { ThemeProvider } from '@/shared/theme/ThemeContext'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <ToastProvider>
-          <BrowserRouter>
-            <AuthProvider>
-              <App />
-            </AuthProvider>
-          </BrowserRouter>
-        </ToastProvider>
-      </QueryClientProvider>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <ToastProvider>
+            <BrowserRouter>
+              <AuthProvider>
+                <App />
+              </AuthProvider>
+            </BrowserRouter>
+          </ToastProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   </StrictMode>,
 )

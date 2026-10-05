@@ -23,7 +23,7 @@ export function SheetCard({ sheet, detail, onDelete, onDuplicate, duplicating }:
     <article
       aria-label={sheet.name}
       className={cn(
-        'flex flex-col rounded-[22px] bg-white p-5 sm:p-[22px]',
+        'flex flex-col rounded-[22px] bg-surface p-5 sm:p-[22px]',
         isToday ? 'border-2 border-primary-500 shadow-[0_10px_24px_rgba(45,91,255,0.10)]' : 'border border-border',
       )}
     >
@@ -32,7 +32,7 @@ export function SheetCard({ sheet, detail, onDelete, onDuplicate, duplicating }:
           <span
             className={cn(
               'rounded-full px-2.5 py-1 text-[11.5px] font-extrabold',
-              isToday ? 'bg-success-50 text-success-600' : 'bg-[#F0F2F6] text-ink-600',
+              isToday ? 'bg-success-50 text-success-600' : 'bg-surface-sunken text-ink-600',
             )}
           >
             {occurrenceLabel(next)}
@@ -56,7 +56,7 @@ export function SheetCard({ sheet, detail, onDelete, onDuplicate, duplicating }:
               aria-label={`${WEEKDAY_LABELS[weekday]}${on ? '' : ' (sem treino)'}`}
               className={cn(
                 'flex h-8 w-8 items-center justify-center rounded-[9px] text-xs font-extrabold',
-                on ? 'bg-primary-500 text-white' : 'bg-[#F0F2F6] text-ink-200',
+                on ? 'bg-primary-500 text-white' : 'bg-surface-sunken text-ink-200',
               )}
             >
               {WEEKDAY_LABELS[weekday][0]}
@@ -65,7 +65,7 @@ export function SheetCard({ sheet, detail, onDelete, onDuplicate, duplicating }:
         })}
       </div>
 
-      <div className="mt-[18px] flex gap-2 border-t border-[#F0F2F6] pt-4">
+      <div className="mt-[18px] flex gap-2 border-t border-surface-sunken pt-4">
         <Link
           to={`/app/sheets/${sheet.id}/run`}
           className={cn(
@@ -96,7 +96,7 @@ export function SheetCard({ sheet, detail, onDelete, onDuplicate, duplicating }:
           type="button"
           onClick={onDelete}
           aria-label="Excluir planilha"
-          className="flex h-11 w-11 items-center justify-center rounded-[11px] bg-[#FFF1EC] text-danger-500 sm:h-10 sm:w-10"
+          className="flex h-11 w-11 items-center justify-center rounded-[11px] bg-danger-50 text-danger-500 sm:h-10 sm:w-10"
         >
           <Trash2 size={16} />
         </button>

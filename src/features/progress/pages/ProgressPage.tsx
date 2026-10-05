@@ -28,7 +28,7 @@ const METRICS: { value: MeasurementMetric; label: string; unit: string }[] = [
 const KPI_METRICS = METRICS.filter((m) => m.value !== 'height')
 
 const fieldClass =
-  'h-11 rounded-[11px] border border-border bg-white px-3 text-sm font-semibold text-ink-700 focus:border-primary-500 focus:outline-2 focus:outline-primary-100 sm:h-10'
+  'h-11 rounded-[11px] border border-border bg-surface px-3 text-sm font-semibold text-ink-700 focus:border-primary-500 focus:outline-2 focus:outline-primary-100 sm:h-10'
 
 /** `?exercise=catalog:<id>` / `custom:<id>` */
 function parseExerciseParam(value: string | null) {
@@ -139,7 +139,7 @@ export function ProgressPage() {
               </option>
             ))}
           </select>
-          <div role="radiogroup" aria-label="Período" className="flex h-11 items-center gap-0.5 rounded-[11px] border border-[#E6E8EF] bg-white p-[3px] sm:h-10">
+          <div role="radiogroup" aria-label="Período" className="flex h-11 items-center gap-0.5 rounded-[11px] border border-border-strong bg-surface p-[3px] sm:h-10">
             {PERIODS.map((p) => (
               <button
                 key={p.value}
@@ -195,7 +195,7 @@ export function ProgressPage() {
         ))}
       </div>
 
-      <section className="rounded-[22px] border border-border bg-white p-4 sm:p-6">
+      <section className="rounded-[22px] border border-border bg-surface p-4 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-[17px] font-extrabold text-ink-900">
             {view === 'load' ? `Progressão de carga${selectedName ? ` — ${selectedName}` : ''}` : metric.label}
@@ -295,7 +295,7 @@ function KpiCard({
   const good = change && change.direction !== 0 && (change.direction > 0) === !!higherIsBetter
 
   return (
-    <div className="rounded-[18px] border border-border bg-white p-4 sm:p-[18px]">
+    <div className="rounded-[18px] border border-border bg-surface p-4 sm:p-[18px]">
       <p className="text-[12.5px] font-semibold text-ink-400">{label}</p>
       <p className="mt-1 text-2xl font-extrabold tracking-[-0.6px] text-ink-900 tabular-nums sm:text-[28px]">
         {last != null ? formatNumber(last) : '—'} <span className="text-[13px] text-ink-200">{unit}</span>

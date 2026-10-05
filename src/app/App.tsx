@@ -15,6 +15,7 @@ import { ActivitiesPage } from '@/features/activities'
 import { CalendarPage } from '@/features/calendar'
 import { ProgressPage } from '@/features/progress'
 import { DietsListPage, DietEditorPage } from '@/features/diets'
+import { SettingsPage } from '@/features/settings'
 import {
   AdminLayout,
   AdminExercisesPage,
@@ -53,6 +54,7 @@ export function App() {
             <Route path="diets" element={<DietsListPage />} />
             <Route path="diets/new" element={<DietEditorPage />} />
             <Route path="diets/:id" element={<DietEditorPage />} />
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Route>
 

@@ -26,7 +26,7 @@ function parseTarget(raw: string, min: number, max: number) {
 }
 
 const targetFieldClass =
-  'h-9 w-full rounded-lg border border-border bg-surface-muted px-2 text-center text-sm font-bold text-ink-900 tabular-nums focus:border-primary-500 focus:bg-white focus:outline-2 focus:outline-primary-100'
+  'h-9 w-full rounded-lg border border-border bg-surface-muted px-2 text-center text-sm font-bold text-ink-900 tabular-nums focus:border-primary-500 focus:bg-surface focus:outline-2 focus:outline-primary-100'
 
 export function SortableExerciseRow({
   item,
@@ -53,7 +53,7 @@ export function SortableExerciseRow({
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
       className={cn(
-        'flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-border bg-white p-3',
+        'flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-border bg-surface p-3',
         isDragging && 'z-10 border-primary-500 shadow-lg',
       )}
     >

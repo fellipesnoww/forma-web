@@ -22,7 +22,7 @@ interface Props {
 }
 
 const inputClass =
-  'h-11 min-w-0 rounded-[10px] border border-[#E6E8EF] bg-white px-3 text-sm font-semibold text-ink-900 placeholder:text-ink-200 focus:border-primary-500 focus:outline-2 focus:outline-primary-100 sm:h-10 aria-[invalid=true]:border-danger-500'
+  'h-11 min-w-0 rounded-[10px] border border-border-strong bg-surface px-3 text-sm font-semibold text-ink-900 placeholder:text-ink-200 focus:border-primary-500 focus:outline-2 focus:outline-primary-100 sm:h-10 aria-[invalid=true]:border-danger-500'
 
 /** Same columns for the header and every row on `sm`+; on phones each food is a two-line card. */
 const gridCols = 'sm:grid-cols-[minmax(0,1fr)_70px_76px_104px_64px_32px]'
@@ -32,7 +32,7 @@ export function MealEditor({ meal, index, errors, estimate, onChange, onFoodChan
   const mealError = errors[`meal:${meal.key}:name`] ?? errors[`meal:${meal.key}:time`]
 
   return (
-    <section aria-label={label} className="rounded-[20px] border border-border bg-white p-4 sm:p-[18px]">
+    <section aria-label={label} className="rounded-[20px] border border-border bg-surface p-4 sm:p-[18px]">
       <div className="flex flex-wrap items-center gap-2.5">
         <div className="flex w-full min-w-0 items-center gap-2.5 sm:w-auto sm:flex-1">
           <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-[12.5px] font-extrabold text-primary-500">
@@ -45,7 +45,7 @@ export function MealEditor({ meal, index, errors, estimate, onChange, onFoodChan
             aria-label={`Nome da refeição ${index + 1}`}
             aria-invalid={!!errors[`meal:${meal.key}:name`]}
             maxLength={80}
-            className="h-11 min-w-0 flex-1 rounded-[10px] border border-transparent bg-transparent px-2 text-base font-extrabold text-ink-900 placeholder:text-ink-200 hover:bg-surface-muted focus:border-primary-500 focus:bg-white focus:outline-none aria-[invalid=true]:border-danger-500 sm:h-[38px]"
+            className="h-11 min-w-0 flex-1 rounded-[10px] border border-transparent bg-transparent px-2 text-base font-extrabold text-ink-900 placeholder:text-ink-200 hover:bg-surface-muted focus:border-primary-500 focus:bg-surface focus:outline-none aria-[invalid=true]:border-danger-500 sm:h-[38px]"
           />
         </div>
         <div className="flex w-full items-center gap-2 pl-[38px] sm:w-auto sm:pl-0">
@@ -55,7 +55,7 @@ export function MealEditor({ meal, index, errors, estimate, onChange, onFoodChan
             onChange={(e) => onChange({ time: e.target.value })}
             aria-label={`Horário de ${label}`}
             aria-invalid={!!errors[`meal:${meal.key}:time`]}
-            className="h-11 w-[112px] rounded-[10px] border border-[#E6E8EF] bg-white px-2.5 text-sm font-bold text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100 aria-[invalid=true]:border-danger-500 sm:h-[38px]"
+            className="h-11 w-[112px] rounded-[10px] border border-border-strong bg-surface px-2.5 text-sm font-bold text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100 aria-[invalid=true]:border-danger-500 sm:h-[38px]"
           />
           <span className="flex-1 rounded-[10px] bg-surface-muted px-3 py-[9px] text-center text-[12.5px] font-extrabold whitespace-nowrap text-ink-700 tabular-nums sm:flex-none">
             {formatKcal(mealKcal(meal))} kcal
@@ -64,7 +64,7 @@ export function MealEditor({ meal, index, errors, estimate, onChange, onFoodChan
             type="button"
             onClick={onRemove}
             aria-label={`Remover ${label}`}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-[#FFF1EC] text-danger-500 sm:h-[38px] sm:w-[38px]"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-danger-50 text-danger-500 sm:h-[38px] sm:w-[38px]"
           >
             <Trash2 size={16} />
           </button>
@@ -179,7 +179,7 @@ function FoodRow({
         <label
           className={cn(
             'flex h-11 items-center gap-1 rounded-[10px] border px-2.5 focus-within:border-primary-500 sm:h-10',
-            fromAi ? 'border-[#D9CCF5] bg-[#F7F3FF]' : 'border-[#E6E8EF] bg-white',
+            fromAi ? 'border-ai-200 bg-ai-50' : 'border-border-strong bg-surface',
             fieldError('kcal') && 'border-danger-500',
           )}
         >
@@ -206,7 +206,7 @@ function FoodRow({
                 : 'Informe o alimento e a quantidade'
           }
           aria-label={`Estimar calorias de ${name} com IA`}
-          className="col-span-2 flex h-11 items-center justify-center gap-1 rounded-[10px] bg-[#F1EBFE] sm:col-span-1 text-[12.5px] font-extrabold text-[#5B2BB5] disabled:opacity-45 sm:h-10"
+          className="col-span-2 flex h-11 items-center justify-center gap-1 rounded-[10px] bg-ai-100 sm:col-span-1 text-[12.5px] font-extrabold text-ai-600 disabled:opacity-45 sm:h-10"
         >
           {ai.status === 'loading' ? <Spinner size="sm" /> : <Sparkles size={14} fill="currentColor" />}
           IA
@@ -221,7 +221,7 @@ function FoodRow({
         </button>
       </div>
       {fromAi && (
-        <p className="mt-1.5 flex items-start gap-1.5 text-xs font-semibold text-[#5B2BB5]">
+        <p className="mt-1.5 flex items-start gap-1.5 text-xs font-semibold text-ai-600">
           <Sparkles size={12} className="mt-0.5 shrink-0" />
           Estimativa da IA: {food.aiNotes}. Revise antes de salvar.
         </p>

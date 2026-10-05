@@ -142,7 +142,7 @@ function ChallengesSection({ onEdit }: { onEdit: (challenge: Challenge) => void 
       header: 'Recompensa',
       cell: (c) =>
         c.reward ? (
-          <span className="text-[12.5px] font-bold text-[#C98A00]">{c.reward}</span>
+          <span className="text-[12.5px] font-bold text-warning-700">{c.reward}</span>
         ) : (
           <span className="hidden text-[12.5px] font-bold text-ink-200 md:inline">—</span>
         ),
@@ -226,7 +226,7 @@ function ChallengesSection({ onEdit }: { onEdit: (challenge: Challenge) => void 
 }
 
 const ICON_TONES = [
-  'bg-warning-50 text-[#C98A00]',
+  'bg-warning-50 text-warning-700',
   'bg-primary-50 text-primary-500',
   'bg-success-50 text-success-600',
   'bg-danger-50 text-danger-500',

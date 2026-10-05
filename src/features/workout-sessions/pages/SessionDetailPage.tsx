@@ -53,7 +53,7 @@ export function SessionDetailPage() {
           <Link
             to="/app/sessions"
             aria-label="Voltar para o histórico"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-ink-600 ring-1 ring-border"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-surface text-ink-600 ring-1 ring-border"
           >
             <ArrowLeft size={18} />
           </Link>
@@ -124,7 +124,7 @@ function FinishForm({ session }: { session: WorkoutSession }) {
 
   return (
     <div className="flex flex-col gap-[18px]">
-      <section className="rounded-[22px] border border-border bg-white p-4 sm:p-[22px]">
+      <section className="rounded-[22px] border border-border bg-surface p-4 sm:p-[22px]">
         <div className="flex items-baseline gap-2">
           <h2 className="text-base font-extrabold text-ink-900">Foto do treino</h2>
           <span className="text-[12.5px] font-semibold text-ink-200">opcional</span>
@@ -132,7 +132,7 @@ function FinishForm({ session }: { session: WorkoutSession }) {
         <PhotoDropzone file={photo} onChange={setPhoto} onReject={(msg) => toast(msg, 'error')} />
       </section>
 
-      <section className="rounded-[22px] border border-border bg-white p-4 sm:p-[22px]">
+      <section className="rounded-[22px] border border-border bg-surface p-4 sm:p-[22px]">
         <div className="flex items-baseline gap-2">
           <label htmlFor="session-comment" className="text-base font-extrabold text-ink-900">
             Comentário
@@ -146,7 +146,7 @@ function FinishForm({ session }: { session: WorkoutSession }) {
           onChange={(e) => setComment(e.target.value)}
           placeholder="Como foi o treino?"
           rows={3}
-          className="mt-3 min-h-20 w-full resize-y rounded-[14px] border border-[#E6E8EF] p-3.5 text-sm leading-relaxed font-medium text-ink-700 placeholder:text-ink-200 focus:border-primary-500 focus:outline-2 focus:outline-primary-100"
+          className="mt-3 min-h-20 w-full resize-y rounded-[14px] border border-border-strong p-3.5 text-sm leading-relaxed font-medium text-ink-700 placeholder:text-ink-200 focus:border-primary-500 focus:outline-2 focus:outline-primary-100"
         />
         <p className="mt-1 text-right text-xs font-semibold text-ink-200">
           {comment.length}/{COMMENT_MAX}
@@ -170,7 +170,7 @@ function CompletedSummary({ session }: { session: WorkoutSession }) {
 
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
-      <section className="rounded-[22px] border border-border bg-white p-4 sm:p-[22px]">
+      <section className="rounded-[22px] border border-border bg-surface p-4 sm:p-[22px]">
         <h2 className="text-base font-extrabold text-ink-900">Exercícios</h2>
         <ul className="mt-3 flex flex-col divide-y divide-border">
           {exercises.map((ex) => (
@@ -201,12 +201,12 @@ function CompletedSummary({ session }: { session: WorkoutSession }) {
 
       <div className="flex flex-col gap-4">
         {session.photoUrl && (
-          <div className="overflow-hidden rounded-[22px] border border-border bg-white">
+          <div className="overflow-hidden rounded-[22px] border border-border bg-surface">
             <AuthedImage src={session.photoUrl} alt="Foto do treino" className="aspect-[4/5] w-full object-cover" />
           </div>
         )}
         {session.comment && (
-          <section className="rounded-[22px] border border-border bg-white p-4 sm:p-[22px]">
+          <section className="rounded-[22px] border border-border bg-surface p-4 sm:p-[22px]">
             <h2 className="text-sm font-extrabold text-ink-900">Comentário</h2>
             <p className="mt-2 text-sm leading-relaxed font-medium whitespace-pre-line text-ink-700">{session.comment}</p>
           </section>

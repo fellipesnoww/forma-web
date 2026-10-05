@@ -31,7 +31,7 @@ interface Props {
 const MAX_DURATION_MINUTES = 24 * 60
 
 const selectClass =
-  'h-11 w-full rounded-lg border border-border bg-white px-3.5 text-sm text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100'
+  'h-11 w-full rounded-lg border border-border bg-surface px-3.5 text-sm text-ink-900 focus:border-primary-500 focus:outline-2 focus:outline-primary-100'
 
 /** "14 jun" */
 function shortDay(isoDay: string) {
@@ -207,7 +207,7 @@ function RetroLogForm({ onClose, initialDate, initialKind = 'workout', onContinu
               }}
               className={cn(
                 'h-10 flex-1 rounded-lg text-sm font-extrabold',
-                kind === value ? 'bg-white text-ink-900 shadow-sm' : 'text-ink-400',
+                kind === value ? 'bg-surface text-ink-900 shadow-sm' : 'text-ink-400',
               )}
             >
               {label}
