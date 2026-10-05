@@ -138,7 +138,7 @@ export function AdminRatingsPage() {
           {r.observation ? (
             <p className="text-[13.5px] leading-[1.45] font-medium text-pretty break-words text-ink-700">{r.observation}</p>
           ) : (
-            <p className="text-[13px] font-medium text-[#B3B8C3] italic">Sem comentário</p>
+            <p className="text-[13px] font-medium text-ink-200 italic">Sem comentário</p>
           )}
           <p className="mt-1 truncate text-[11.5px] font-semibold text-ink-200">
             {formatDateTime(r.date)} · {r.device}
@@ -199,7 +199,7 @@ export function AdminRatingsPage() {
 
       <div className="flex flex-1 flex-col gap-4 overflow-auto p-4 md:px-7 md:py-[22px]">
         <div className="grid gap-3.5 lg:grid-cols-[240px_minmax(0,1fr)_260px]">
-          <div className="flex flex-col justify-between rounded-[18px] border border-border bg-white p-[18px]">
+          <div className="flex flex-col justify-between rounded-[18px] border border-border bg-surface p-[18px]">
             <p className="text-[12.5px] font-semibold text-ink-400">Nota média</p>
             <p className="mt-1.5 flex items-baseline gap-1.5">
               <span className="text-[38px] font-extrabold tracking-[-1px] text-ink-900 tabular-nums">
@@ -212,13 +212,13 @@ export function AdminRatingsPage() {
             </p>
           </div>
 
-          <ul aria-label="Distribuição das notas" className="flex flex-col justify-center gap-1.5 rounded-[18px] border border-border bg-white px-[18px] py-4">
+          <ul aria-label="Distribuição das notas" className="flex flex-col justify-center gap-1.5 rounded-[18px] border border-border bg-surface px-[18px] py-4">
             {[...summary.distribution].reverse().map(({ rank: n, count }) => {
               const pct = summary.total && count ? (count / summary.total) * 100 : 0
               return (
                 <li key={n} className="flex items-center gap-2.5">
                   <span className="w-3 text-xs font-extrabold text-ink-600">{n}</span>
-                  <span className="h-2 flex-1 overflow-hidden rounded-full bg-[#F0F2F6]">
+                  <span className="h-2 flex-1 overflow-hidden rounded-full bg-surface-sunken">
                     <span className={cn('block h-full rounded-full', RANK_TONE[n].bar)} style={{ width: `${pct}%` }} />
                   </span>
                   <span className="w-8 text-right text-xs font-bold text-ink-400 tabular-nums">{count ?? '—'}</span>
@@ -227,7 +227,7 @@ export function AdminRatingsPage() {
             })}
           </ul>
 
-          <div className="flex flex-col justify-center gap-3 rounded-[18px] border border-border bg-white p-[18px]">
+          <div className="flex flex-col justify-center gap-3 rounded-[18px] border border-border bg-surface p-[18px]">
             <PlatformSummary label="Web" dot="bg-primary-500" data={summary.web} />
             <PlatformSummary label="Mobile" dot="bg-activity-500" data={summary.mobile} />
           </div>
@@ -240,7 +240,7 @@ export function AdminRatingsPage() {
             value={platform ?? ''}
             onChange={(value) => list.set({ platform: value })}
           />
-          <div className="flex max-w-full items-center gap-1 overflow-x-auto rounded-xl border border-border bg-white p-1">
+          <div className="flex max-w-full items-center gap-1 overflow-x-auto rounded-xl border border-border bg-surface p-1">
             <span className="shrink-0 pr-2 pl-1.5 text-xs font-bold text-ink-200">Nota</span>
             <div role="radiogroup" aria-label="Filtrar por nota" className="flex gap-1">
               {RANK_TABS.map((tab) => {

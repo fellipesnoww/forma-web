@@ -106,7 +106,7 @@ export function RatingModal({ open, onClose }: Props) {
               type="button"
               onClick={close}
               aria-label="Fechar"
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-surface-soft text-ink-600 hover:bg-[#ECEEF3]"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-surface-soft text-ink-600 hover:bg-border"
             >
               <X size={16} strokeWidth={2.4} />
             </button>
@@ -125,7 +125,7 @@ export function RatingModal({ open, onClose }: Props) {
                   onClick={() => setRank(n)}
                   className={cn(
                     'flex h-[116px] min-w-0 flex-1 flex-col items-center justify-end gap-2.5 rounded-2xl border-[1.5px] px-1 pb-3 transition-[background,border-color,box-shadow] hover:shadow-[0_8px_18px_rgba(45,91,255,0.12)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 sm:h-[136px] sm:gap-3 sm:pb-3.5',
-                    selected ? 'border-primary-500 bg-primary-50 text-primary-500' : 'border-[#E6E8EF] bg-white text-ink-100',
+                    selected ? 'border-primary-500 bg-primary-50 text-primary-500' : 'border-border-strong bg-surface text-ink-100',
                   )}
                 >
                   <Barbell rank={n} className="h-auto w-full max-w-[88px]" />
@@ -168,7 +168,7 @@ export function RatingModal({ open, onClose }: Props) {
               maxLength={OBSERVATION_MAX}
               onChange={(e) => setText(e.target.value)}
               placeholder="O que você mais gosta? O que podemos melhorar?"
-              className="h-[104px] w-full resize-none rounded-[14px] border-[1.5px] border-[#E6E8EF] bg-[#F9FAFC] px-3.5 py-3 text-sm leading-normal font-medium text-ink-900 outline-none placeholder:text-ink-200 focus:border-primary-500 focus:bg-white"
+              className="h-[104px] w-full resize-none rounded-[14px] border-[1.5px] border-border-strong bg-surface-muted px-3.5 py-3 text-sm leading-normal font-medium text-ink-900 outline-none placeholder:text-ink-200 focus:border-primary-500 focus:bg-surface"
             />
           </div>
 

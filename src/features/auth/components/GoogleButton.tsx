@@ -61,7 +61,7 @@ export function GoogleButton({ onIdToken }: { onIdToken: (idToken: string) => vo
     <div className="group relative h-11 w-full">
       <div
         aria-hidden
-        className="flex h-full w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-white text-sm font-bold text-ink-700 transition-colors group-hover:bg-surface-soft"
+        className="flex h-full w-full items-center justify-center gap-2.5 rounded-xl border border-border bg-surface text-sm font-bold text-ink-700 transition-colors group-hover:bg-surface-soft"
       >
         <GoogleIcon />
         Continuar com Google

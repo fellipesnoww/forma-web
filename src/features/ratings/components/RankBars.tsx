@@ -16,7 +16,7 @@ export function RankBars({ rank }: { rank: RatingRank }) {
       </span>
       <span className="flex h-[21px] items-end gap-0.5" aria-hidden>
         {RANKS.map((n, i) => (
-          <span key={n} className={cn('w-[5px] rounded-[2px]', HEIGHTS[i], n <= rank ? tone.bar : 'bg-[#E6E8EF]')} />
+          <span key={n} className={cn('w-[5px] rounded-[2px]', HEIGHTS[i], n <= rank ? tone.bar : 'bg-border-strong')} />
         ))}
       </span>
     </div>

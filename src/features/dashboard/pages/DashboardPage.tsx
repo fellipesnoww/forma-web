@@ -65,7 +65,7 @@ export function DashboardPage() {
         <button
           type="button"
           onClick={() => setRating(true)}
-          className="inline-flex h-11 w-fit shrink-0 items-center gap-[7px] rounded-[11px] border border-[#D6E1FF] bg-primary-50 px-[15px] text-[13px] font-extrabold text-primary-500 hover:bg-primary-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 sm:h-[38px]"
+          className="inline-flex h-11 w-fit shrink-0 items-center gap-[7px] rounded-[11px] border border-primary-100 bg-primary-50 px-[15px] text-[13px] font-extrabold text-primary-500 hover:bg-primary-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 sm:h-[38px]"
         >
           <Dumbbell size={16} strokeWidth={2.2} />
           Avaliar o Forma

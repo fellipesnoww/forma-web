@@ -17,7 +17,7 @@ export const RANK_INFO: Record<RatingRank, { label: string; weight: string }> = 
 export const RANK_TONE: Record<RatingRank, { badge: string; bar: string }> = {
   1: { badge: 'bg-danger-50 text-danger-500', bar: 'bg-danger-500' },
   2: { badge: 'bg-danger-50 text-danger-500', bar: 'bg-danger-500' },
-  3: { badge: 'bg-warning-50 text-[#C98A00]', bar: 'bg-warning-500' },
+  3: { badge: 'bg-warning-50 text-warning-700', bar: 'bg-warning-500' },
   4: { badge: 'bg-success-50 text-success-600', bar: 'bg-success-500' },
   5: { badge: 'bg-success-50 text-success-600', bar: 'bg-success-500' },
 }

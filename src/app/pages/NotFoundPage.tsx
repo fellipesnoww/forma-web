@@ -123,7 +123,7 @@ export function NotFoundPage() {
           </Link>
           <Link
             to="/app/sheets"
-            className="flex h-12 items-center rounded-[13px] border border-[#E6E8EF] bg-white px-[22px] text-[15px] font-bold text-ink-700 transition-colors hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            className="flex h-12 items-center rounded-[13px] border border-border-strong bg-surface px-[22px] text-[15px] font-bold text-ink-700 transition-colors hover:bg-surface-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           >
             Ver meus treinos
           </Link>
