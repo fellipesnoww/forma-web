@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { ChevronLeft, Dumbbell, ListChecks, LogOut, Medal, ShieldCheck, Users } from 'lucide-react'
+import { ChevronLeft, Dumbbell, ListChecks, LogOut, Medal, MessageSquareText, ShieldCheck, Users } from 'lucide-react'
 import { useAuth } from '@/shared/auth/AuthContext'
 import { useForbiddenNotice } from '@/shared/auth/useForbiddenNotice'
 import { cn } from '@/shared/lib/cn'
@@ -11,6 +11,7 @@ const navItems = [
   { to: '/admin/users', label: 'Usuários', icon: Users, superOnly: false },
   { to: '/admin/admins', label: 'Administradores', icon: ShieldCheck, superOnly: true },
   { to: '/admin/gamification', label: 'Conquistas e desafios', icon: Medal, superOnly: false },
+  { to: '/admin/ratings', label: 'Avaliações', icon: MessageSquareText, superOnly: false },
   { to: '/admin/audit', label: 'Auditoria', icon: ListChecks, superOnly: true },
 ]
 

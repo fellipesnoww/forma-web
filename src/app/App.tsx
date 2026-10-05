@@ -22,6 +22,7 @@ import {
   AdminAdminsPage,
   AdminAuditPage,
   AdminGamificationPage,
+  AdminRatingsPage,
 } from '@/features/admin'
 import { ComingSoon } from '@/app/pages/ComingSoon'
 import { NotFoundPage } from '@/app/pages/NotFoundPage'
@@ -62,6 +63,7 @@ export function App() {
             <Route path="exercises" element={<AdminExercisesPage />} />
             <Route path="users" element={<AdminUsersPage />} />
             <Route path="gamification" element={<AdminGamificationPage />} />
+            <Route path="ratings" element={<AdminRatingsPage />} />
             <Route element={<RequireRole allow={['super_user']} redirectTo="/admin/exercises" />}>
               <Route path="admins" element={<AdminAdminsPage />} />
               <Route path="audit" element={<AdminAuditPage />} />

@@ -1,5 +1,6 @@
 import { apiFetch } from '@/shared/api/client'
 import type { AccountStatus, Role } from '@/shared/auth/types'
+import type { Rating, RatingPlatform, RatingRank } from '@/features/ratings/api'
 
 /** Admin list format: `?page=&limit=` (limit max 100, default 20). */
 export interface Paginated<T> {
@@ -233,6 +234,28 @@ export interface ChallengeInput {
   isActive?: boolean
 }
 
+// ---------- 5.4 App ratings ----------
+
+export interface AdminRating extends Rating {
+  user: { id: string; email: string; displayName: string | null }
+}
+
+export interface AdminRatingParams {
+  platform?: RatingPlatform
+  rank?: RatingRank
+  userId?: string
+  /** ISO 8601 datetimes, inclusive, filtering on `date`. */
+  from?: string
+  to?: string
+  page?: number
+  limit?: number
+}
+
+/** `averageRank` covers every rating matching the filters (not just the page); `null` when none match. */
+export interface AdminRatingPage extends Paginated<AdminRating> {
+  averageRank: number | null
+}
+
 export interface ListParams {
   q?: string
   status?: ActiveFilter
@@ -311,5 +334,10 @@ export const adminApi = {
       apiFetch<Challenge>(`/admin/challenges/${id}`, { method: 'PATCH', json: body }),
     /** 409 when it has participants or an achievement depends on it: deactivate instead. */
     remove: (id: string) => apiFetch<void>(`/admin/challenges/${id}`, { method: 'DELETE' }),
+  },
+
+  ratings: {
+    /** Newest `date` first. */
+    list: (params: AdminRatingParams = {}) => apiFetch<AdminRatingPage>(`/admin/ratings${toQuery(params)}`),
   },
 }

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Activity, CalendarDays, ClipboardList, Dumbbell, LineChart, UserRound } from 'lucide-react'
@@ -8,6 +9,7 @@ import { TodayWorkoutCard } from '@/features/dashboard/components/TodayWorkoutCa
 import { useNextWorkout } from '@/features/dashboard/hooks/useNextWorkout'
 import { WeekVolumeChart } from '@/features/dashboard/components/WeekVolumeChart'
 import { ActiveDietCard } from '@/features/dashboard/components/ActiveDietCard'
+import { RatingModal } from '@/features/ratings'
 
 const kg = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 })
 
@@ -38,6 +40,7 @@ export function DashboardPage() {
   const name = profile?.displayName?.split(' ')[0]
   const { workout, hasSheets } = useNextWorkout()
   const { data: stats, isError } = useQuery({ queryKey: ['stats', 'overview'], queryFn: statsApi.overview })
+  const [rating, setRating] = useState(false)
 
   const subtitle = [
     todayTitle(),
@@ -51,13 +54,24 @@ export function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-5 sm:gap-[22px]">
-      <div>
-        <h1 className="text-2xl font-extrabold tracking-[-0.5px] text-ink-900">
-          {greeting()}
-          {name ? `, ${name}` : ''}
-        </h1>
-        <p className="mt-0.5 text-sm font-medium text-ink-500">{subtitle}</p>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-extrabold tracking-[-0.5px] text-ink-900">
+            {greeting()}
+            {name ? `, ${name}` : ''}
+          </h1>
+          <p className="mt-0.5 text-sm font-medium text-ink-500">{subtitle}</p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setRating(true)}
+          className="inline-flex h-11 w-fit shrink-0 items-center gap-[7px] rounded-[11px] border border-[#D6E1FF] bg-primary-50 px-[15px] text-[13px] font-extrabold text-primary-500 hover:bg-primary-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 sm:h-[38px]"
+        >
+          <Dumbbell size={16} strokeWidth={2.2} />
+          Avaliar o Forma
+        </button>
       </div>
+      <RatingModal open={rating} onClose={() => setRating(false)} />
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="flex min-w-0 flex-col gap-5">
